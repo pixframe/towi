@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load static %}
+{% block content %}
+    <section>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="about-container">
+            <br>
+          <div class="col-md-12">
+            {% if request.user.user_type == 'familiar' %}
+              <div class="panel">
+                <div class="panel-body">
+                  <h3> <img src="{% static 'i/logoTowi.svg'%}" style="height:2em" alt="">
+                    es una plataforma interactiva, desarrollada por especialistas en neurociencias <br>
+                    y tecnologías de la información, que ayuda a desarrollar las habilidades <br>
+                    cognitivas de niños entre 4 y 12 años a través del juego.</h3>
+                    <h2><img src="{% static 'i/skills_yellow.png'%}" alt="">
+                    <a href="http://towi.com.mx/index.php/habilidades-cognitivas-desarrollan/">
+                        Conoce más acerca de las habilidades cognitivas</a></h2>
+                </div>
+              </div>
+            {% else %}
+              <div class="panel">
+                <div class="panel-body">
+                  <h3><img src="{% static 'i/logoTowi.svg'%}" style="height:2em" alt="">
+                    es un programa de evaluación y entrenamiento de habilidades cognitivas,<br>
+                    desarrollado por especialistas en neurociencias y tecnologías de la información, <br>
+                    que ayuda a desarrollar las habilidades cognitivas de niños entre 4 y 12 años a través del juego.</h3>
+                  <ul>
+                    <li><img src="{% static 'i/radio_on.png'%}" style="height:2em" alt="">
+                      La evaluación de Towi está basada en pruebas estandarizadas.</li>
+                    <li><img src="{% static 'i/radio_on.png'%}" style="height:2em" alt="">
+                      Neuropsicólogos y psiquiatras han validado la mejora de las
+                      funciones de los niños que utilizan Towi de forma constante.</li>
+                  </ul>
+                  <h4>Conoce más</h4>
+                  <ul>
+                    <!--(Links a los manuales de Towi)-->
+                    <li><img src="{% static 'i/brain.png'%}" style="height:1.5em" alt="">
+                      <a href="https://drive.google.com/file/d/1k95zzA3BP_afeNrkmHQB0udUzQOVoQ7o/view" target="_blank">Fundamentación neuropsicológica</a></li>
+                    <li><img src="{% static 'i/child.png'%}" style="height:1.5em" alt="">
+                      <a href="https://drive.google.com/file/d/1k95zzA3BP_afeNrkmHQB0udUzQOVoQ7o/view" target="_blank">Fundamentación pedagógica</a></li>
+                    <li><img src="{% static 'i/test.png'%}" style="height:1.5em" alt="">
+                      <a href="https://drive.google.com/open?id=1H3Qe-ZW-CDXQZ9gvH7mkPrNm2pMlTU_Y" target="_blank">Manual de evaluación</a></li>
+                    <li><img src="{% static 'i/book.png'%}" style="height:1.5em" alt="">
+                      <a href="https://drive.google.com/open?id=1ErmUgyseopu-qmYM5QgCD9CkaB_-hS1O" target="_blank">Manual de entrenamiento</a></li>
+                    <li><img src="{% static 'i/book.png'%}" style="height:1.5em" alt="">
+                      <a href="https://drive.google.com/open?id=1tD4qtX4PgxdulKTIWFJhpDoaNGbRLJbw" target="_blank">Manual de uso</a></li>
+                    <li><img src="{% static 'i/skills.png'%}" style="height:1.5em" alt="">
+                      <a href="http://towi.com.mx/habilidades-cognitivas-desarrollan/" target="_blank">¿Qué son las habilidades cognitivas y cómo se desarrollan?</a></li>
+                  </ul>
+                </div>
+              </div>
+              {% endif %}
+              <hr>
+              <div class="text-center">
+                <p>¿Tienes dudas? Contáctanos a <a href="mailto:soporte@towi.com.mx">soporte@towi.com.mx</a> o envíanos un whatsapp al +52 1 55 2108 9945</p>
+                <p>Río Duero 48 Col. Cuauhtémoc Del. Cuauhtémoc 06500 Ciudad de México</p>
+                <a href="http://www.towi.com.mx/terminos-y-condiciones/">Términos y condiciones    </a>
+                <a href="http://www.towi.com.mx/aviso-de-privacidad/">Aviso de privacidad</p>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock content %}
+
+  {% block extra_importation %}
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+      <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+      <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+      <script>
+        document.getElementById("top").innerHTML = "Acerca de Towi"
+        document.getElementById("about").className = "active open";
+      </script>
+  {% endblock extra_importation %}

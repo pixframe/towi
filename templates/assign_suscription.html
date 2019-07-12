@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load static %}
+{% block content %}
+<section>
+    <div class="container-fluid">
+        <div class="row">
+        <div class="edit-container">
+            <div class="col-md-12">
+            <div class="panel">
+                <div class="panel-body">
+                    <h3 class="align-middle" style="margin-left:20px">Selecciona una subscripción para {{children.get_full_name}} :</h3>
+                    <form class="clearfix" action="./{{children.id}}" method="post">
+                    {% csrf_token %}
+                    <div class="form-plan clearfix">
+                        <div class="col-md-5">
+                        <label id="mensual" class="active">
+                            <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Subscripciones mensuales</h3>
+                                <br>
+                            </div>
+                            <div class="panel-body">
+                                <p class="precio">{{ monthly_count }} <span>Disponibles</span></p>
+                                {% if monthly is not None %}
+                                <br>
+                                <span>Vence el:</span>
+                                <p class="precio">{{monthly.finished_date.date}}</p>
+                                {% else %}
+                                    <a href="/subscripciones/">Compra una <span>aquí<span></a>
+                                {% endif %}
+                            </div>
+                            </div>
+                            <input type="radio" id="radio1" class="hidden select-input" name="option" value="monthly" checked>
+                        </label>
+                        </div>
+                        <div class="col-md-5">
+                        <label id="trimestral" class="">
+                            <div class="panel">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Subscripciones trimestrales</h3>
+                                    <br>
+                                </div>
+                                <div class="panel-body">
+                                    <p class="precio">{{ quarterly_count }} <span>Disponibles</span></p>
+
+                                    {% if quarterly is not None %}
+                                        <p>Vence el:</p>
+
+                                        <p class="precio">{{quarterly.finished_date.date}}</p>
+                                    {% else %}
+                                        <a href="/subscripciones/">Compra una <span>aquí<span></a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <input type="radio" id="radio2" class="hidden select-input" name="option" value="quarterly">
+                        </label>
+                        </div>
+                        <div class="col-md-12">
+                        <button type="submit" name="button" class="btn-action" style="float:right; margin-top:30px; margin-right:30px">
+                            Continuar
+                        </button>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+{% block extra_importation %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    <script>
+      document.getElementById("top").innerHTML = "Asignar subscripción"
+      document.getElementById("ninos").className = "active open";
+    </script>
+{% endblock extra_importation %}

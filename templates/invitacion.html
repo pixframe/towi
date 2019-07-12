@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load static %}
+{% block content %}
+
+    <section>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="edit-container">
+            <div class="col-md-8 col-md-offset-2">
+              <div class="panel registrar-paciente">
+                <div class="panel-body">
+                  <h4 class="text-center">Invitar a <b>padre o tutor</b></h4>
+                  <p class="first-p">Si tu paciente llevará a cabo el entrenamiento fuera del consultorio, añade el correo de su padre ó tutor para que pueda iniciar sesión en la aplicación</p>
+                  <p>Escribe el mail del padre ó tutor de tu paciente y asígnale una contraseña</p>
+                  <form class="clearfix" action="" method="post">
+                    {% csrf_token %}
+                    <h5 hidden class="email-true " style="color:#EB4674;">El correo ingresado ya esta registrado en Towi, enviale la invitación.</h5>
+                    <p hidden class="email-false">Este usuario no tiene una cuenta TOWI creale una contraseña de accesso.</p>
+                    <p class="form-group col-md-8">
+                      <label for="">E-mail</label>
+                      {{form.email}}
+                    </p>
+                    <p class="password form-group col-md-4">
+                      <label for="">Contraseña</label>
+                      {{form.password}}
+                    </p>
+                    <p class="password form-group col-md-4">
+                      <label for="">Nombre</label>
+                      {{form.first_name}}
+                    </p>
+                    <p class="password form-group col-md-4">
+                      <label for="">Apellidos</label>
+                      {{form.last_name}}
+                    </p>
+                    <p class="password form-group col-md-4">
+                      <label for="">Tipo de usuario</label>
+                      {{form.user_type}}
+                    </p>
+                    <div class="form-btns">
+                        <button type="submit" name="inviteParent" class="btn-action">
+                         Invitar padre ó tutor
+                        </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% if vinculations %}
+        <div class="row">
+          <div class="edit-container">
+            <div class="col-md-8 col-md-offset-2">
+              <div class="panel registrar-paciente">
+                <div class="panel-body">
+                  <h4 class="text-center">Paciente vinculado con:</b></h4>
+                  <form class="clearfix" action="" method="post">
+                    {% csrf_token %}
+                    {% for vin in vinculations  %}
+                        <p class="form-group col-md-8 col-xs-6">
+                          <label for="">E-mail:</label><br>
+                          {{vin.linked_user.related_user.email}}
+                        </p>
+                        <div class="col-md-4 col-xs-6">
+                            <button type="submit" name="desvincular" class="btn-action">
+                                <input type="hidden" name="user" value="{{vin.linked_user.id}}">
+                             Desvincular
+                            </button>
+                        </div>
+                    {% endfor %}
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </section>
+{% endblock content %}
+
+{% block extra_importation %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    <script>
+       $("#id_email").change(function () {
+         var email = $(this).val();
+
+         $.ajax({
+           url: '/validate_email/',
+           data: {
+             'email': email
+           },
+           dataType: 'json',
+           success: function (data) {
+             if (data.is_taken) {
+               $( ".password" ).hide();
+               $( ".email-true" ).show();
+             }
+             if (data.is_taken == null) {
+                 alert("Hubo un error inesperado")
+             }
+           }
+         });
+       });
+     </script>
+{% endblock extra_importation %}

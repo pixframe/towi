@@ -1,0 +1,635 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load static %}
+{% block content %}
+<section>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="info-cuenta">
+        <div class="col-md-12">
+          <div class="panel">
+            <div class="panel-body">
+              <div class="title">
+                <p>Evaluación de {{header.cid.get_full_name}}</p>
+              </div>
+              <div class="col-md-3">
+                <img src="{{header.cid.picture.url}}" alt="" class="img-responsive img-circle">
+                <br>
+              </div>
+              <div class="col-md-4" style="font-size: 15px; padding-top:8px">
+                <ul>
+                  <li><span>Edad: </span>{% if header.cid.age is not None %}{{header.cid.age}} años</li>{% else %}Sin Registro</li>{% endif %}
+                  <li><span>Diagnóstico: </span>{% if header.cid.diagnostic is not None %}{{header.cid.diagnostic}}</li>{% else %}Sin Registro</li>{% endif %}
+                </ul>
+              </div>
+              <div class="col-md-5">
+                <ul>
+                    <li><span>Ciclo escolar: </span> {{header.cid.grade}}</li>
+                  <li><span>Fecha de aplicación: </span>{{header.date}}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- INICIO DE CAMPOS-->
+      <div class="col-md-12">
+        <div class="tab-content">
+          <div role="tabpanel">
+            <div class="panel">
+              <div class="panel-body">
+                <div class='tableContainer'>
+                  <table class='table'>
+                    <h3>Boleto de Avión</h3>
+                    <thead class="thead-eval">
+                      <tr>
+                        <th scope="col">Pregunta</th>
+                        <th scope="col">Respuesta</th>
+                        <th scope="col">Tiempo (segundos)</th>
+                      </tr>
+                    </thead>
+                    <tr class="tr-eval">
+                      <td>Edad</td>
+                      <td>{{level.boarding_age}}</td>
+                      <td rowspan="2">{{level.boarding_time1|floatformat:2}}</td>
+                    </tr>
+                    <tr>
+                      <td>Fecha de Nacimiento</td>
+                      <td>
+                        {% if level.boarding_birthday == 'NA' %}
+                          No Aplica
+                        {% else %}
+                          {{level.boarding_birthday}}
+                        {% endif %}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Nombre</td>
+                      <td>{{level.boarding_name}}</td>
+                      <td rowspan="3">{{level.boarding_time2|floatformat:2}}</td>
+                    </tr>
+                    <tr>
+                      <td>Ciudad</td>
+                      <td>
+                      {% if level.boarding_address == 'NA' %}
+                        No Aplica
+                      {% else %}
+                        {{level.boarding_address}}
+                      {% endif %}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Fecha del día de hoy</td>
+                      <td>
+                      {% if level.boarding_currentdate == 'NA' %}
+                        No Aplica
+                      {% else %}
+                        {{level.boarding_currentdate}}
+                      {% endif %}
+                      </td>
+                    </tr>
+                  </table>
+                  <br>
+                  <table class='table'>
+                      <h3>Empacar</h3>
+                      <thead class="thead-eval">
+                        <tr>
+                          <th>Tipo</th>
+                          <th>Amplitud</th>
+                          <th>Tiempo (segundos)</th>
+                        </tr>
+                      </thead>
+                      <tr>
+                        <td>Progresión(9)</td>
+                        <td>{{level.packforward_score}}</td>
+                        <td>{{level.packforward_time|floatformat:2}}</td>
+                      </tr>
+                      <tr>
+                        <td>Regresión(8)</td>
+                        <td>{{level.packbackward_score}}</td>
+                        <td>{{level.packbackward_time|floatformat:2}}</td>
+                      </tr>
+                  </table>
+                  <br>
+                  <table class='table table-striped'>
+                    <h3>Clima</h3>
+                    <thead class="thead-eval">
+                      <tr>
+                        <th>Tipo de Elección</th>
+                        <th>Estímulo</th>
+                        <th>Respuesta</th>
+                      </tr>
+                    </thead>
+                    <tr>
+                      <td>{{level.weather_election_type}}</td>
+                      <td style="color: green; font-style: bold;">Lluvioso</td>
+                      <td>
+                      {% if level.weather_object_packed_format == '' or level.weather_object_packed_format is None %}
+                      paraguas,guantes
+                      {% else %}
+                        {{level.weather_object_packed_format}}
+                      {% endif %}
+                      </td>
+                    </tr>
+                  </table>
+                  <br>
+                  <table class='table table-striped'>
+                      <h3>Conducir al aeropuerto</h3>
+                      <thead class="thead-eval">
+                        <tr>
+                          <th></th>
+                          <th>Sin salida</th>
+                          <th>Choques</th>
+                          <th>Cruces</th>
+                          <th>Cambio de ruta</th>
+                          <th>Latencia (segundos)</th>
+                          <th>Tiempo (segundos)</th>
+                        </tr>
+                      </thead>
+                      <tr>
+                        <td>Laberinto 1</td>
+                        <td>{{level.lab1_deadends}}</td>
+                        <td>{{level.lab1_hits}}</td>
+                        <td>{{level.lab1_crosses}}</td>
+                        <td>{{level.lab1_changeofroutes}}</td>
+                        <td>{{level.lab1_latency|floatformat:2}}</td>
+                        <td>{{level.lab1_time|floatformat:2}}</td>
+                      </tr>
+                      <tr>
+                        <td>Laberinto 2</td>
+                        <td>{{level.lab2_deadends}}</td>
+                        <td>{{level.lab2_hits}}</td>
+                        <td>{{level.lab2_crosses}}</td>
+                        <td>{{level.lab2_changeofroutes}}</td>
+                        <td>{{level.lab2_latency|floatformat:2}}</td>
+                        <td>{{level.lab2_time|floatformat:2}}</td>
+                      </tr>
+                      <tr>
+                        <td>Laberinto 3</td>
+                        <td>{{level.lab3_deadends}}</td>
+                        <td>{{level.lab3_hits}}</td>
+                        <td>{{level.lab3_crosses}}</td>
+                        <td>{{level.lab3_changeofroutes}}</td>
+                        <td>{{level.lab3_latency|floatformat:2}}</td>
+                        <td>{{level.lab3_time|floatformat:2}}</td>
+                      </tr>
+                      <tr>
+                        <td>Total lab</td>
+                        <td>{{level.lab_deadends_sum}}</td>
+                        <td>{{level.lab_hits_sum}}</td>
+                        <td>{{level.lab_crosses_sum}}</td>
+                        <td>{{level.changeofroutes_sum}}</td>
+                        <td>{{level.lab_latency_sum|floatformat:2}}</td>
+                        <td>{{level.lab_time_sum|floatformat:2}}</td>
+                      </tr>
+                    </table>
+                    <br>
+                    <table class='table table-striped'>
+                      <h3>Sala de espera</h3>
+                      <thead class="thead-eval">
+                        <tr>
+                          <th></th>
+                          <th>Correcta</th>
+                          <th>Incorrecta</th>
+                          <th>Omisión</th>
+                        </tr>
+                      </thead>
+                      <tr>
+                        <td>Detección de vuelo (11)</td>
+                        <td>{{level.waitroom_correct}}</td>
+                        <td>{{level.waitroom_incorrect}}</td>
+                        <td>{{level.waitroom_omision}}</td> 
+                      </tr>
+                    </table>
+                    <br>
+                    <table class='table table-striped'>
+                      <h3>Volar el avión</h3>
+                      <thead class="thead-eval">
+                        <tr>
+                          <th></th>
+                          <th>Correcta</th>
+                          <th>Incorrecta</th>
+                          <th>Omisión</th>
+                          <th>Tiempo (segundos)</th>
+                        </tr>
+                      </thead>
+                      <tr>
+                        <td>Target (Inhibición) (9)</td>
+                        <td>{{level.flyplane_greencorrect}}</td>
+                        <td>{{level.flyplane_greenincorrect}}</td>
+                        <td>{{level.flyplane_greenmissed}}</td>
+                        <td rowspan="2">{{level.flyplane_time|floatformat:2}}</td>
+                      </tr>
+                      <tr>
+                        <td>No Target (21)</td>
+                        <td>{{level.flyplane_correct}}</td>
+                        <td>{{level.flyplane_incorrect}}</td>
+                        <td>{{level.flyplane_missed}}</td>
+                      </tr>
+                    </table>
+                <br>
+                    <table class='table table-striped'>
+                      <h3>Cambiar monedas</h3>
+                      <thead class="thead-eval">
+                        <tr>
+                          <th></th>
+                          <th>Correcta</th>
+                          <th>Incorrecta</th>
+                          <th>Omisión</th>
+                          <th>Tiempo (segundos)</th>
+                        </tr>
+                      </thead>
+                      <tr>
+                        <td>Recolección ({{ level.coins_level }})</td>
+                        <td>{{level.coins_min_correct}}</td>
+                        <td>{{level.coins_min_incorrect}}</td>
+                        <td>{{level.coins_omision}}</td>
+                        <td rowspan='2'>{{level.coins_time|floatformat:2}}</td>
+                      </tr>
+                      <tr>
+                        <td>Recolección extra*</td>
+                        <td>{{level.coins_extra_correct}}</td>
+                        <td>{{level.coins_extra_incorrect}}</td>
+                        <td>{{level.coins_extra_missed}}</td>
+                      </tr>
+                    </table>
+                    <br>
+                    <table class='table table-striped'>
+                      <h3>Desempacar</h3>
+                      <thead class="thead-eval">
+                        <tr>
+                          <th></th>
+                          <th>Correcta</th>
+                          <th>Incorrecta</th>
+                          <th>Tiempo (segundos)</th>
+                        </tr>
+                      </thead>
+                      <tr>
+                        <td>Recuerdo de Objetos (3)</td>
+                        <td>{{level.unpack_correct}}</td>
+                        <td>{{level.unpack_bad_recognition}}</td>
+                        <td>{{level.unpack_time|floatformat:2}}</td>
+                      </tr>
+                    </table>
+                    <br>
+                    <table class='table table-striped'>
+                      <h3>Acomodar cuarto</h3>
+                      <thead class="thead-eval">
+                        <tr>
+                          <th></th>
+                          <th>Correcta</th>
+                          <th>Incorrecta</th>
+                          <th>Repetidos</th>
+                          <th>Tiempo (segundos)</th>
+                        </tr>
+                      </thead>
+                      <tr>
+                        <td>Acomodar 1 ({{ level.arrange_amplitude }})</td>
+                        <td>{{level.arrange1_correct}}</td>
+                        <td>{{level.arrange1_incorrect}}</td>
+                        <td>{{level.arrange1_perseveration}}</td>
+                        <td rowspan='4' class="td-multiple-rows">{{level.arrange_time|floatformat:2}}</td>
+
+                      </tr>
+                      <tr>
+                        <td>Acomodar 2 ({{ level.arrange_amplitude }})</td>
+                        <td>{{level.arrange2_correct}}</td>
+                        <td>{{level.arrange2_incorrect}}</td>
+                        <td>{{level.arrange2_perseveration}}</td>
+                      </tr>
+                      <tr>
+                        <td>Acomodar 3 ({{ level.arrange_amplitude }})</td>
+                        <td>{{level.arrange3_correct}}</td>
+                        <td>{{level.arrange3_incorrect}}</td>
+                        <td>{{level.arrange3_perseveration}}</td>
+                      </tr>
+                      <tr>
+                        <td>Total - Cuarto ({{ level.total_arrange_amplitude }})</td>
+                        <td>{{level.arrange_correct_sum}}</td>
+                        <td>{{level.arrange_incorrect_sum}}</td>
+                        <td>{{level.arrange_perseveration_sum}}</td>
+                      </tr>
+                    </table>
+                    <br>
+                    <p>* Entre paréntisis se indica el puntaje máximo de aciertos posibles.</p>
+                    <p>Recolección extra*: Indica la recolección de monedas realizada tras el minuto de prueba tradicional</p>
+                    <br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- INICIO DE CAMPOS-->
+      <div class="col-md-12">
+        <div class="tab-content">
+          <div role="tabpanel">
+            <div class="panel">
+              <div class="panel-body">
+                <div class='tableContainer'>
+                  <h3 class="text-center">Puntajes por Habilidad</h3>
+                  <br>
+                  <table class='table table-striped'>
+                    <thead class="thead-eval">
+                      <tr>
+                        <th></th>
+                        <th></th>
+                        <th>PUNTAJE</th>
+                        <th>PROMEDIO USUARIOS</th>
+                        <th>CUARTIL</th>
+                        <th>PROMEDIO (Q)</th>
+                      </tr>
+                    </thead>
+                    <tr>
+                      <td rowspan="2">Atención</td>
+                      <td>Cambiar Monedas - Correcto </td>
+                      <td>{{level.coins_min_correct}}</td>
+                      <td>{{ average.coins_min_correct }}</td>
+                      <td>{{ quartile.coins_min_correct }}</td>
+                      <td rowspan="2">{{ avg_quartile.atencion_avg|floatformat:2}}</td>
+                    </tr>
+                    <tr>
+                      <td class="inverso">Cambiar Monedas - Omisiones **</td>
+                      <td>{{level.coins_extra_missed}}</td>
+                      <td>{{ average.coins_extra_missed }}</td>
+                      <td>{{ quartile.coins_extra_missed }}</td>
+                    </tr>
+                    <tr>
+                      <td rowspan="2">Aprendizaje</td>
+                      <td>Acomodar Cuarto - % Total Correcto</td>
+                      <td>{{level.arrange_total_correct}}</td>
+                      <td>{{ average.arrange_total_correct }}</td>
+                      <td>{{ quartile.arrange_total_correct }}</td>
+                      <td rowspan="2">{{ avg_quartile.aprendizaje_avg|floatformat:2 }}</td>
+                    </tr>
+
+                    <tr>
+                      <td>Acomodar Cuarto - tiempo</td>
+                      <td>{{level.arrange_time|floatformat:2}}</td>
+                      <td>{{ average.arrange_time|floatformat:2 }}</td>
+                      <td>{{ quartile.arrange_time}}</td>
+                    </tr>
+                    <tr>
+                      <td rowspan="5">Memoria</td>
+                      <td>Desempacar - Recuerdo de objetos</td>
+                      <td>{{level.unpack_correct}}</td>
+                      <td>{{ average.unpack_correct }}</td>
+                      <td>{{ quartile.unpack_correct }}</td>
+                      <td rowspan="5">{{ avg_quartile.memoria_avg|floatformat:2}}</td>
+                    </tr>
+                    <tr>
+                      <td>Empacar - Progresión</td>
+                      <td>{{level.packforward_score}}</td>
+                      <td>{{ average.packforward_score }}</td>
+                      <td>{{ quartile.packforward_score }}</td>
+                    </tr>
+                    <tr>
+                      <td>Empacar - Regresión</td>
+                      <td>{{level.packbackward_score}}</td>
+                      <td>{{ average.packbackward_score }}</td>
+                      <td>{{ quartile.packbackward_score }}</td>
+                    </tr>
+                    <tr>
+                      <td>Sala de Espera-Correcto</td>
+                      <td>{{level.waitroom_correct}}</td>
+                      <td>{{ average.waitroom_correct }}</td>
+                      <td>{{ quartile.waitroom_correct }}</td>
+                    </tr>
+                    <tr>
+                      <td>Volar avión- Tiempo **</td>
+                      <td>{{level.flyplane_time|floatformat:2}}</td>
+                      <td>{{ average.flyplane_time|floatformat:2 }}</td>
+                      <td>{{ quartile.flyplane_time }}</td>
+                    </tr>
+                    {% if header.cid.age > 6 %}
+                    <tr>
+                      <td rowspan="4">Inhibición</td>
+                      <td>Volar avión-Inhibición correcto</td>
+                      <td>{{level.flyplane_greencorrect}}</td>
+                      <td>{{ average.flyplane_greencorrect }}</td>
+                      <td>{{ quartile.flyplane_greencorrect }}</td>
+                      <td rowspan="4">{{ avg_quartile.inhibicion_avg|floatformat:2 }}</td>
+                    </tr>
+                    <tr>
+                      <td class="inverso">Volar avión-Inhibición incorrecto **</td>
+                      <td>{{level.flyplane_greenincorrect}}</td>
+                      <td>{{ average.flyplane_greenincorrect }}</td>
+                      <td>{{ quartile.flyplane_greenincorrect }}</td>
+                    </tr>
+                    <tr>
+                      <td>Volar avión-No Target correcto</td>
+                      <td>{{level.flyplane_correct}}</td>
+                      <td>{{ average.flyplane_correct }}</td>
+                      <td>{{ quartile.flyplane_correct }}</td>
+                    </tr>
+                    <tr>
+                      <td class="inverso">Volar avión-No Target incorrecto **</td>
+                      <td>{{level.flyplane_incorrect}}</td>
+                      <td>{{ average.flyplane_incorrect }}</td>
+                      <td>{{ quartile.flyplane_incorrect }}</td>
+                    </tr>
+                
+                    <tr>
+                      <td rowspan="3">Planeación</td>
+                      <td class="inverso">Conducir Aeropuerto- Choques</td>
+                      <td>{{level.lab_hits_sum|floatformat:2}}</td>
+                      <td>{{ average.lab_hits_sum|floatformat:2 }}</td>
+                      <td>{{ quartile.lab_hits_sum}}</td>
+                      <td rowspan="3">{{ avg_quartile.planeacion_avg|floatformat:2 }}</td>
+                    </tr>
+                    <tr>
+                      <td class="inverso class="inverso" ">Conducir Aeropuerto- Cruces</td>
+                      <td>{{level.lab_crosses_sum|floatformat:2}}</td>
+                      <td>{{ average.lab_crosses_sum|floatformat:2 }}</td>
+                      <td>{{ quartile.lab_crosses_sum }}</td>
+                    </tr>
+                    <tr>
+                      <td class="inverso">Conducir Aeropuerto-Sin Salida</td>
+                      <td>{{level.lab_deadends_sum|floatformat:2}}</td>
+                      <td>{{ average.lab_deadends_sum|floatformat:2 }}</td>
+                      <td>{{ quartile.lab_deadends_sum }}</td>
+                    </tr>
+                  
+                    <tr>
+                      <td rowspan="3">Velocidad de procesamiento</td>
+                      <td class="inverso">Conducir Aeropuerto-tiempo</td>
+                      <td>{{level.lab_time_sum|floatformat:2}}</td>
+                      <td>{{ average.lab_time_sum|floatformat:2 }}</td>
+                      <td>{{ quartile.lab_time_sum }}</td>
+                      <td rowspan="2">{{ avg_quartile.vel_process_avg|floatformat:2}}</td>
+                    </tr>
+                    <tr>
+                      <td class="inverso">Conducir Aeropuerto-latencia</td>
+                      <td>{{level.lab_latency_sum|floatformat:2}}</td>
+                      <td>{{ average.lab_latency_sum|floatformat:2 }}</td>
+                      <td>{{ quartile.lab_latency_sum}}</td>
+                    </tr>
+                    {% endif %}
+                  </table>
+                  <br>
+                  <canvas id="myChart"></canvas>
+                  <br>
+                    <p>Las variables en azul hacen referencia a errores, por lo que entre menor sea el puntaje del niño, mejor será su rendimiento en esa actividad.</p>
+                    <p>(**) variables que en el análisis resultaron inversas al factor.</p>
+                    <p>En niños fuera del rango de grupo de referencia (6 a 12 años), sus resultados se comparan con el grupo de edad más cercano, a fin de proporcionar un parámetro; no obstante, debe ser considerado con reserva.</p>
+                  <br>
+                    <p><strong>Interpretación de Resultados:</strong></p>
+                    <p>La columna puntaje, indica los resultados obtenidos por el niño en la prueba. La columna cuartil, señala el rendimiento del niño considerando su edad dentro del grupo de referencia.
+                      Puntajes ubicados en los cuartiles 2 y 3 indican un rendimiento promedio, mientras que el cuartil 1 hace referencia a un rendimiento por debajo de lo esperado y el cuartil 4 un rendimiento por arriba del promedio.
+                    </p>
+                    <p><strong>Consideraciones para la interpretación:</strong></p>
+                    <p>
+                      Los valores empleados como referencia consideran el grupo de edad y sexo; sin embargo, no están normalizados. Los datos se obtuvieron de la aplicación de la versión 4.0 de la evaluación.
+                      La muestra estuvo conformada por 1139 niños, en un rango de edad de 6 a 12 años. Todos los participantes pertenecían a escuelas privadas de nivel socioeconómico medio a medio-alto. El 73% de la muestra fueron hombres.
+                    </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MONEDAS -->
+
+{% comment %}
+
+<section>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- INICIO DE CAMPOS-->
+        <div class="col-md-12">
+          <div class="tab-content">
+            <div role="tabpanel">
+              <div class="panel">
+                <div class="panel-body">
+                  <div class="coins text-center">
+                      <h3>Monedas</h3>
+                      <canvas id="coins" width=800 height=700></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+    
+<script>
+  var canvas = document.getElementById('coins'),
+    ctx = canvas.getContext('2d'),
+    img = new Image;
+    img.onload = start;
+    img.src = '/static/i/coins.png';
+    var djangoData = "{{level.coins_selected|escapejs}}"
+    const data = JSON.parse(djangoData)
+    const pos = data.map(c => ({x: ((c - 1) - Math.floor((c - 1) / 16) * 16) * 50, y: Math.floor((c - 1) / 16) * 50}))
+
+    function start() {
+    ctx.drawImage(img, 0, 0, coins.width, coins.height);
+    ctx.beginPath()
+    ctx.lineWidth = 3
+    pos.forEach((c, i) => i === 0 ? ctx.moveTo(c.x + 25, c.y + 25) : ctx.lineTo(c.x + 25, c.y + 25))
+    // ctx.closePath()
+    ctx.strokeStyle = 'blue'
+    ctx.stroke()
+    pos.forEach((c, i) => {
+      ctx.fillStyle = 'rgba(255, 0, 0, .5)'
+      ctx.lineWidth = 1
+      ctx.strokeStyle = 'rgba(255, 0, 0, 1)'
+      ctx.beginPath()
+      ctx.arc(c.x + 25, c.y + 25, 25, 0, 2 * Math.PI)
+      ctx.closePath()
+      ctx.fill()
+      ctx.stroke()
+
+      ctx.font = '20px arial'
+      ctx.fillStyle = '#FFF'
+      ctx.fillText(i + 1, c.x + 25, c.y + 25)
+    })
+    }
+  
+</script>
+{% endcomment %}
+
+{% endblock content %}
+
+{% block extra_importation %}
+<script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
+<script>
+  var ctx = document.getElementById('myChart');
+  var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: ['Promedio'],
+          datasets: [{
+              label: 'Atención',
+              data: [{{avg_quartile.atencion_avg}}],
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)'
+              ],
+              borderWidth: 2
+          },
+            {
+              label:'Aprendizaje',
+              data:[{{ avg_quartile.aprendizaje_avg }},],
+              backgroundColor:['rgba(54, 162, 235, 0.2)'],
+              borderColor:['rgba(54, 162, 235, 1)'],
+              borderWidth:2
+          },
+            {
+              label:'Memoria',
+              data:[{{ avg_quartile.memoria_avg }},],
+              backgroundColor:['rgba(255, 206, 86, 0.2)'],
+              borderColor:['rgba(255, 206, 86, 1)'],
+              borderWidth:2
+            },
+          {% if header.cid.age > 6 %}
+          {
+            label:'Inhibición',
+            data:[{{ avg_quartile.inhibicion_avg }},],
+            backgroundColor:['rgba(75, 192, 192, 0.2)'],
+            borderColor:['rgba(75, 192, 192, 1)'],
+            borderWidth:2
+          },
+          {
+            label:'Planeación',
+            data:[{{ avg_quartile.planeacion_avg }},],
+            backgroundColor:['rgba(153, 102, 255, 0.2)'],
+            borderColor:['rgba(153, 102, 255, 1)'],
+            borderWidth:2
+          },
+          {
+            label:'Velocidad de procesamiento',
+            data:[{{ avg_quartile.vel_process_avg }}],
+            backgroundColor:['rgba(255, 159, 64, 0.2)'],
+            borderColor:['rgba(255, 159, 64, 1)'],
+            borderWidth:2
+          },
+          {% endif %}]
+      },
+      options: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          }
+      }
+  });
+</script>
+{% endblock extra_importation %}
+  

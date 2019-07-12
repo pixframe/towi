@@ -1,0 +1,227 @@
+{% extends "ccl/base-lab.html" %}
+{% load staticfiles %}
+{% load static %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <div class="bg-data"></div>
+        <section class="data">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <h2 class="v-title">Data</h2>
+                  <form action="." method="post">
+                      {% csrf_token %}
+                      <input type="hidden" name="descargar">
+
+              </div>
+            </div>
+              <div class="filter-container">
+                <h3>Download the assessment results from children using Towi. You will find the definition of every variable in the document below.</h3><br>
+                <div class="row">
+                <div class="col-md-12">
+                  <p><span class="fa fa-search"></span>Filter by</p>
+                </div>
+                <p class="form-group col-md-4">
+                  <label for="">Activity: </label>
+                  <select class="selectpicker" name="activity" id="game-key">
+                    <option value="PruebaEcologica">Towi assessment</option>
+                    <option value="ArbolMusical">Birds Game</option>
+                    <option value="ArenaMagica">Sand Game</option>
+                    <option value="DondeQuedoLaBolita">Monkeys Game</option>
+                    <option value="JuegoDeSombras">Shadows Game</option>
+                    <option value="Rio">River Game</option>
+                    <option value="Tesoro">Quest Game</option>
+                  </select>
+                </p>
+                  <p class="form-group col-md-4">
+                    <label for="">Children: </label>
+                    <select class="selectpicker" name="kids" id="children">
+                      <option value="all">All</option>
+                      <option value="my">My children</option>
+                    </select>
+                  </p>
+                  <p class="form-group col-md-4">
+                    <label for="">School: </label>
+                    <select class="selectpicker" name="school" id="school">
+                      <option value="all">All</option>
+                      <option value="public">Public</option>
+                      <option value="private">Private</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </p>
+                  <p class="form-group col-md-4">
+                    <label for="">Sex: </label>
+                    <select class="selectpicker" name="sex" id="sex">
+                      <option value="all">All</option>
+                      <option value="Femenino">Female</option>
+                      <option value="Masculino">Male</option>
+                    </select>
+                  </p>
+                  <p class="form-group col-md-4">
+                    <label for="">School grade: </label>
+                    <select class="selectpicker" name="grade" id="school-grade">
+                      <option value="all">All</option>
+                      <option value="Preschool">Preschool</option>
+                      <option value="1 primaria">1st</option>
+                      <option value="2 primaria">2nd</option>
+                      <option value="3 primaria">3rd</option>
+                      <option value="4 primaria">4th</option>
+                      <option value="5 primaria">5th</option>
+                      <option value="6 primaria">6th</option>
+                    </select>
+                  </p>
+                  <p class="form-group col-md-4" style="margin-bottom:0">
+                    <label for="">Max of results: </label>
+                    <input type="number" name="limit" id="max-results" min="1">
+                  </p>
+                  <div class="col-md-12">
+                      <p><span class="fa fa-calendar"></span>Filter by </p>
+                  </div>
+                  <div class="form-group col-md-5">
+                    <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+                        <label for="">From: </label>
+                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4" name="from"/>
+                        <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-5">
+                    <div class="input-group date" id="datetimepicker5" data-target-input="nearest">
+                        <label for="">To: </label>
+                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker5" name="to"/>
+                        <div class="input-group-append" data-target="#datetimepicker5" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="form-btns col-md-12">
+                    <button type="submit" name="button" class="btn-action">
+                      Download CSV
+                    </button>
+                  </div>
+                  {% if request.user.email == 'admin@towi.com.mx' or request.user.email == 'unicef@towi.com.mx' %}
+                  <br>
+                    <div class="form-btns col-md-12">
+                      <button type="submit" name="all-download" class="btn-action">
+                        Download Full CSV
+                      </button>
+                    </div>
+                  {% endif %}
+                  </form>
+              </div>
+          </div>
+             <div class="col-md-12">
+                <iframe src="https://drive.google.com/file/d/10MFzkM7ZMJ3h1ajISeo8hN6zJBfIqDSy/preview"></iframe>
+            </div>
+            </div>
+      </section>
+    {% else %}
+        <section class="data">
+        <div class="container">
+            <div id="login-form" class="form-container" style="display:block;">
+                <h2>Log in</h2>
+                <form class="row" method="post" action="/ccl/login/">
+                    {% csrf_token %}
+                    <div class="form-group col-md-6">
+                        <label for="">Email address</label>
+                        {{loginForm.email}}
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="">Password</label>
+                        {{loginForm.password}}
+                    </div>
+                    <div class="col-md-6 offset-md-3">
+                        <input type="hidden" name="action" value="login">
+                        <input type="submit" name="action" id="login-submit" tabindex="4"
+                               class="form-control btn btn-login" value="login">
+                    </div>
+                    <p class="col-md-12">Don't have an account? <a href="#" id="register-form-link">Register now</a></p>
+                </form>
+            </div>
+            <div id="register-form" class="form-container" style="display:none;">
+                <div class="alert alert-info">
+                  <strong>Info!</strong> You need to login to access this page.
+                </div>
+                <h2>Create an account</h2>
+                <form class="row" method="post" action="/ccl/login/">
+                    {% csrf_token %}
+                    <div class="form-group col-md-6">
+                        <label for="">Name</label>
+                        {{form.first_name}}
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="">Surname</label>
+                        {{form.last_name}}
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="">Profession</label>
+                        {{form.specialty}}
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="">Institution</label>
+                        <input type="text" class="form-control" name="center">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="">Country</label>
+                        {{form.country}}
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="">Email address</label>
+                        {{form.email}}
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="">Password</label>
+                        {{form.password}}
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="">Phone number</label>
+                        {{form.phone}}
+                    </div>
+                    <div class="col-md-6 offset-md-3">
+                        <input type="hidden" name="action" value="registro">
+                        <input type="submit" name="action" id="login-submit" tabindex="4"
+                               class="form-control btn btn-login" value="registro">
+                    </div>
+                    <p class="col-md-12">Already have an account? <a href="#" id="login-form-link">Log in</a></p>
+                </form>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+{% endblock content %}
+{% block extra_importation %}
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script type="text/javascript" src="{% static 'js-lab/tilt.jquery.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js-lab/classie.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js-lab/clipboard.min.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js-lab/main.js'%}"></script>
+    <script type="text/javascript">
+      $('.js-tilt').tilt({
+        maxTilt:        10,
+        perspective:    800
+      })
+    </script>
+    <script>
+        $(function () {
+            $('#datetimepicker4').datetimepicker({
+                format:'YYYY-MM-DD',
+            });
+        });
+    </script>
+    <script type="text/javascript">
+      $(function () {
+          $('#datetimepicker5').datetimepicker({
+              format: 'YYYY-MM-DD'
+          });
+      });
+    </script>
+    <script>
+    document.getElementById("data").className = "nav-item nav-item--current";
+    </script>
+{% endblock extra_importation %}

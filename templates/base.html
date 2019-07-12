@@ -1,0 +1,151 @@
+
+{% load staticfiles %}
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Portal Towi</title>
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/avatares.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="{% static 'i-lab/favicon.png' %}"/>
+    {% block head %}
+    {% endblock head %}
+  </head>
+  <body>
+      <nav class="navbar navbar-wrapper sidebar" role="navigation">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <!--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-sidebar-navbar-collapse-1">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>-->
+            <h1 class="logo-wrapper">
+              <a class="navbar-brand" style="display: flex; justify-content: center; align-items: center;" href="#">
+                <img src="{% static 'i/logoTowi.svg'%}" style="height:1em" alt="">
+              </a>
+            </h1>
+          </div>
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li id="home">
+                <a href="/portal/">
+                  <span class="menu-icon pull-right hidden-xs showopacity fa fa-home"></span> Inicio
+                </a>
+              </li>
+              <li id="patients">
+                <a href="/ninos/">
+                  <span class="menu-icon pull-right hidden-xs showopacity fa fa-user-circle"></span> Niños
+                </a>
+              </li>
+              <li id="invitaciones">
+                <a href="/vinculaciones/">
+                  <span class="menu-icon pull-right hidden-xs showopacity fa fa-envelope"></span> Invitaciones
+                </a>
+              </li>
+              <li id="groups">
+                <a href="/grupos/">
+                  <span class="menu-icon pull-right hidden-xs showopacity fa fa-users"></span> Grupos
+                </a>
+              </li>
+              <li id="information">
+                <a href="/cuenta/">
+                  <span class="menu-icon pull-right hidden-xs showopacity fa fa-cogs"></span> Administrar cuenta
+                </a>
+              </li>
+              <li id="subscriptions">
+                <a href="/subscripciones/">
+                  <span class="menu-icon pull-right hidden-xs showopacity fa fa-user-plus"></span> Subscripciones
+                </a>
+              </li>
+              <li id="about">
+                <a href="/acerca/">
+                  <span class="menu-icon pull-right hidden-xs showopacity fa fa-vcard"></span> Acerca de Towi
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <div class="container-main">
+        <header>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="breadcrumb-wrapper">
+                <ol class="breadcrumb">
+                  <li><a id="top" class = "active">Inicio</a></li>
+                </ol>
+              </div>
+              <div class="infoMenu-wrapper">
+                <div class="dropdown">
+                  <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="infoDr-text">
+                      <p class= "btn" style="font-size:16px">{{request.user.email}}</p>
+                      <!--
+                      <p >{{request.user.user_type}}</p>
+                    -->
+                    </div>
+                    {% if request.user.picture  %}
+                        <img src="{{request.user.picture.url}} " alt="" class="img-circle" width="50" height="50">
+                    {% else %}
+                        <img src="" alt="" class="img-circle" width="50" height="50">
+                    {% endif %}
+
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu pull-right" aria-labelledby="dLabel">
+                    <li>
+                      <a href="/cuenta/">Administrar cuenta</a>
+                    </li>
+                    <li>
+                      <a href="/logout">Cerrar sesión</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+        {% if messages %}
+        {% for message in messages %}
+          {% if message.level == 25 %}
+              <div id="message" class="alert alert-success">
+              {{ message }}
+              </div>
+          {% endif %}
+          {% if message.level == 40 %}
+              <div id="message" class="alert alert-danger">
+              {{ message }}
+              </div>
+          {% endif %}
+          {% if message.level == 20 %}
+              <div id="message" class="alert alert-info">
+              <p class="text-center">{{ message }}</p>
+              </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+        {% block content %}
+        {% endblock content %}
+      </div>
+      {% block extra_importation %}{% endblock extra_importation %}
+      {% block javascript %}
+      {% endblock javascript %}
+  </body>
+  <script type="text/javascript">
+    setTimeout(function() {
+      $('#message').hide()
+    }, 2000);
+  </script>
+  </html>

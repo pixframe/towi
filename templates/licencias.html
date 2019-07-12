@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load static %}
+{% block content %}
+    <section>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="edit-container">
+            <div class="col-md-12">
+              <div class="panel licencias">
+                <div class="panel-body">
+                  <h4 class="text-center" style="font-size:30px;">Compra <img src="{% static 'i/Towi_SinContornoBlanco.png'%}" style="height:30px; padding-bottom: 6px" alt="">  Premium</h4>
+                  <p class="first-p">Cada licencia de Towi Premium te dará mensualmente los siguientes beneficios para uno de tus niños:</p>
+                  <div class="row clearfix">
+                    <div class="col-md-6 beneficio">
+                      <img src="{% static 'i/Icono_EvaluacionNeuroPsicologica.png' %}" alt="" class="img-responsive">
+                      <div>
+                        <h3>Evaluación neuropsicológica Towi</h3>
+                        <p>Incluye una aplicación con reporte de resultados</p>
+                      </div>
+                    </div>
+                    <div class="col-md-6 beneficio">
+                      <img src="{% static 'i/Icono_Sesiones_Diarias.png' %}" alt="" class="img-responsive">
+                      <div>
+                        <h3>Sesiones diarias de entrenamiento</h3>
+                        <p>Tus niños podrán entrenar su mente con niveles de nuestras 6 actividades</p>
+                      </div>
+                    </div>
+                    <div class="col-md-6 beneficio">
+                      <img src="{% static 'i/Icono_Reportes_De_Progreso_02.png' %}" alt="" class="img-responsive">
+                      <div>
+                        <h3>Reportes de progreso</h3>
+                        <p>En cualquier momento podrás consultar el progreso de su entrenamiento</p>
+                      </div>
+                    </div>
+                    <div class="col-md-6 beneficio">
+                      <img src="{% static 'i/Icono_Soporte_Tecnico.png' %}" alt="" class="img-responsive">
+                      <div>
+                        <h3>Soporte técnico gratuito</h3>
+                        <p>¿Tienes dudas? Recibirás soporte técnico gratuito de nuestros agentes</p>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row clearfix">
+
+                  <div class="col-md-12 offset-md-3 text-center">
+                      <form action="." method="POST">
+                        {% csrf_token %}
+                        <h4>¿Tienes un código prepago?</h4>
+                        <label class="text-center">Ingrésalo ahora:</label>
+                        <input type="text" name="pre-code" value="" class="text-center" size="60">
+                        <button  style=" margin-left:5px"class="btn text-center btn-yellow" type="submit">Canjear</button>
+                      </form>
+                    </div>
+                  </div>
+                  <br>
+                  <form class="clearfix" action="." method="post">
+                    {% csrf_token %}
+                    <h4>o elige el plan que más te conviene:</h4>
+                    <p class="descuento">
+                        Si necesitas 10 cuentas o más, envíanos un correo a <a href="mailto:subscripciones@towi.com.mx">subscripciones@towi.com.mx</a>
+                      </p>
+                    <div class="form-plan clearfix">
+                      <div class="col-md-5">
+                        <label id="mensual" class="active">
+                          <div class="panel">
+                            <div class="panel-heading">
+                              <h3 class="panel-title">Mensual</h3>
+                              <h6>INDIVIDUAL</h6>
+                            </div>
+                            <div class="panel-body">
+                              <p class="precio">${{monthly_price}} <span>MXN</span></p>
+                              <p>Por niño <br> <span>Pago recurrente</span></p>
+                            </div>
+                          </div>
+                          <input type="radio" id="radio1" class="hidden select-input" name="option" value="monthly" checked>
+                        </label>
+                      </div>
+                      <div class="col-md-5">
+                        <label id="trimestral" class="">
+                          <div class="panel">
+                            <div class="panel-heading">
+                              <h3 class="panel-title">Trimestral</h3>
+                              <h6>INDIVIDUAL</h6>
+                            </div>
+                            <div class="panel-body">
+                              <p class="precio">${{quarterly_price}} <span>MXN</span></p>
+                              <p>Por niño <br> Pago único</p>
+                            </div>
+                          </div>
+                          <input type="radio" id="radio2" class="hidden select-input" name="option" value="quarterly">
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-md-8" style="padding-left:200px;">
+                      <label style="margin-right: 10px; margin-left:30px" for="">Número de licencias</label>
+                      <select class="selectpicker" name="kids-number" id="myselect">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                      </select>
+                    </div>
+                      <div class="col-md-12" style=" padding-left: 200px">
+                          <h6 class="coupon-success">Cupón valido</h6>
+                          <p id="coupon-desc"></p>
+                          <p class="coupon-fail">Cupón no válido</p>
+                          <label>¿Cuentas con un cupón?</label>
+                          <input id="coupon-value" type="text" name="promo_code" value="" class="">
+                          <button  style=" margin-left:5px"class="btn" id="coupon" type="submit">Validar cupón</button>
+                          <input type="hidden" name="suscription-choice" value="">
+                        </div>
+                    <div class="col-md-12" id="continuar">
+                      <button style="float: right" type="submit" name="button" class="btn-action">
+                        Continuar la compra
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="text-center">
+                <p>¿Tienes dudas? Contáctanos a <a href="mailto:soporte@towi.com.mx">soporte@towi.com.mx</a> o envíanos un whatsapp al +52 1 55 2108 9945</p>
+                <p>Río Duero 48 Col. Cuauhtémoc Del. Cuauhtémoc 06500 Ciudad de México</p>
+                <a href="http://www.towi.com.mx/terminos-y-condiciones/">Términos y condiciones    </a>
+                <a href="http://www.towi.com.mx/aviso-de-privacidad/">Aviso de privacidad</p>
+              </div>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock content %}
+
+{% block extra_importation %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    <script>
+      document.getElementById("top").innerHTML = "Subscripciones"
+      document.getElementById("subscriptions").className = "active open";
+    </script>
+    <script>
+      $("#coupon").click(function(e) {
+        e.preventDefault();
+        var coupon = $("#coupon-value").val();
+        $.ajax({
+          url: '/validate_coupon/',
+          data: {
+            'coupon': coupon
+          },
+          dataType: 'json',
+          success: function (data) {
+            if (data.active == true) {
+              let type = data.type;
+              let amount = data.amount;
+              let string = `Cupon válido por un descuento de $${amount} en la subscripción ${type}`;
+              console.log(string)
+              $( ".coupon-fail" ).hide();
+              document.getElementById('coupon-desc').innerHTML = string;
+            }
+            if (data.active == false) {
+              $( ".coupon-success" ).hide();
+              $( ".coupon-fail" ).show();
+            }
+          }
+        });
+      });
+    </script>
+{% endblock extra_importation %}

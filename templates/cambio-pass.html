@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load static %}
+{% block content %}
+    <section>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="edit-container">
+            <div class="col-md-8 col-md-offset-2">
+              <div class="panel registrar-paciente">
+                <div class="panel-body">
+                  <h4 class="text-center">Cambiar <b>contraseña</b></h4>
+                  <p class="first-p">Si quieres cambiar tu contraseña por favor proporciona los siguientes datos</p>
+                  <p>Escribe tu antigua contraseña y a continuación una nueva </p>
+                  <form class="clearfix" action="" method="post">
+                    <p class="form-group col-md-6">
+                      <label for="">Contraseña antigua</label>
+                      <input type="text" name="" value="" class="form-control">
+                    </p>
+                    <p class="form-group col-md-6">
+                      <label for="">Nueva Contraseña</label>
+                      <input type="text" name="" value="" class="form-control">
+                    </p>
+                    <div class="form-btns">
+                      <button type="button" name="button" class="btn-action">
+                        Cambiar contraseña
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock content %}
+
+{% block extra_importation %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+{% endblock extra_importation %}

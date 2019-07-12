@@ -1,0 +1,180 @@
+{% extends "ccl/base-lab.html" %}
+{% load staticfiles %}
+{% load static %}
+{% block content %}
+{%if user.is_authenticated %}
+<div class="bg-participate"></div>
+<section class="participation">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="v-title">Participation Process</h2>
+                <p class="mb-5">To participate in a research project using Towi as a tool, follow these steps:</p>
+                <ol>
+                    <li>Register in the portal and send us your proposal through the form that you will find at the
+                        bottom of this page.
+                    </li>
+                    <li>Once your proposal is reviewed and accepted, you will receive an Excel format by email. Fill it
+                        with the general information of the children who will participate in the research and send it
+                        back.
+                    </li>
+                    <li>Approximately one week after sending your form, you will receive the Towi download link, as well
+                        as the user names and passwords of the children you included in the format.
+                    </li>
+                    <li>Download Towi in the devices you will use for research, and test its operation with your account
+                        before using it with children.
+                    </li>
+                    <li>Apply the evaluation and/or Towi training to the children according to the needs of your
+                        research. Check the results and progress of the children in the monitoring portal, available at:
+                        <a href="http://www.towi.com.mx" target="_blank">www.towi.com.mx</a></li>
+                    <li>Once your project is finished, share the results in this portal through the "load Project"
+                        button that you will find on the home page. You can also share your research protocol and
+                        partial progress while your research is ongoing.
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="submission">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="v-title">Submission</h2>
+                <div class="form-container">
+                    <div class="row">
+                        <div class="col-md-8 offset-md-2">
+                            <form class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="">Project Name</label>
+                                    <input type="text" class="form-control" id="">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="">Authors Name</label>
+                                    <input type="text" class="form-control" id="">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="">Area of research</label>
+                                    <input type="text" class="form-control" id="">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="">Date</label>
+                                    <input type="text" class="form-control" id="">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="">Description</label>
+                                    <textarea name="name" rows="8" cols="80" class="form-control"></textarea>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="">Link</label>
+                                    <input type="text" class="form-control" id="">
+                                </div>
+                                <div class="col-md-6 offset-md-3">
+                                    <input type="submit" name="" class="form-control btn btn-upload" value="Upload">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% else %}
+<section class="data">
+    <div class="container">
+        <div id="register-form" class="form-container" style="display:none;">
+            <div class="alert alert-info">
+                <strong>Info!</strong> You need to login to access this page.
+            </div>
+            <h2>Create an account</h2>
+            <form class="row" method="post" action="/ccl/login/">
+                {% csrf_token %}
+                <div class="form-group col-md-6">
+                    <label for="">Name</label>
+                    {{form.first_name}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Surname</label>
+                    {{form.last_name}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Profession</label>
+                    {{form.specialty}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Institution</label>
+                    <input type="text" class="form-control" name="center">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Country</label>
+                    {{form.country}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Email address</label>
+                    {{form.email}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Password</label>
+                    {{form.password}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Phone number</label>
+                    {{form.phone}}
+                </div>
+                <div class="col-md-6 offset-md-3">
+                    <input type="hidden" name="action" value="registro">
+                    <input type="submit" name="action" id="login-submit" tabindex="4"
+                           class="form-control btn btn-login" value="registro">
+                </div>
+                <p class="col-md-12">Already have an account? <a href="#" id="login-form-link">Log in</a></p>
+            </form>
+        </div>
+        <div id="login-form" class="form-container" style="display:block;">
+            <h2>Log in</h2>
+            <form class="row" method="post" action="/ccl/login/">
+                {% csrf_token %}
+                <div class="form-group col-md-6">
+                    <label for="">Email address</label>
+                    {{loginForm.email}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Password</label>
+                    {{loginForm.password}}
+                </div>
+                <div class="col-md-6 offset-md-3">
+                    <input type="hidden" name="action" value="login">
+                    <input type="submit" name="action" id="login-submit" tabindex="4"
+                           class="form-control btn btn-login" value="login">
+                </div>
+                <p class="col-md-12">Don't have an account? <a href="#" id="register-form-link">Register now</a></p>
+            </form>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock content %}
+{% block extra_importation %}
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script type="text/javascript" src="{% static 'js-lab/tilt.jquery.js'%}"></script>
+<script type="text/javascript" src="{% static 'js-lab/classie.js' %}"></script>
+<script type="text/javascript" src="{% static 'js-lab/clipboard.min.js'%}"></script>
+<script type="text/javascript" src="{% static 'js-lab/main.js'%}"></script>
+<script type="text/javascript">
+      $('.js-tilt').tilt({
+        maxTilt:        10,
+        perspective:    800
+      })
+
+</script>
+<script>
+    document.getElementById("participate").className = "nav-item nav-item--current";
+
+</script>
+{% endblock extra_importation %}

@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load static %}
+{% block content %}
+
+    <section>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="navbar" style="position: relative">
+            <div class="pull-left" id="number-suscriptions">
+              <p>Número de niños que puedes agregar: <span>{{ request.user.suscriptions.availables.count }}</span></p>
+            </div>
+            <div class="pull-right">
+              <a href="/registro-nino/">
+                  <button type="button pink-background" class="pull-right">
+                    <i class="fa fa-plus-circle"></i> Agregar niño
+                  </button>
+              </a>
+            </div>
+            </div>
+            <div class="lista-pacientes">
+              <ul class="panel-list">
+                  {% if childrens %}
+                      <h3>Selecciona a los niños que tendran una licencia:</h3>
+                  <form action="." method="POST">
+                    {% csrf_token %}
+                  {% for children in childrens %}
+                  <li>
+                    <div class="panel panel-default">
+                      <div class="panel-body">
+                        <img src="{{children.picture.url}}" alt="" class="img-circle pull-left avatar80">
+                        <p class="pull-left">{{children}}</p>
+                        <div class="dropdown pull-right" style="margin-top:20px; margin-right:10px">
+                          <label style="margin-top:10px">
+                            <label style="color:#34bfca; font-size: 16px; font-weight: normal;">Dar licencia</label>
+                            <input type="checkbox" class="limitCheckbox"style="opacity:0" id="cbox-{{children.id}}" name='kids-selection' value="{{children.id}}"><i class="fa fa-square-o fa-2x"></i><i class="fa fa-check-square-o fa-2x"></i>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  {% endfor %}
+                  <button type="button pink-background" class="pull-right">
+                      <i class="fa fa-plus-arrow"></i> Continuar
+                    </button>
+                    <input type="hidden" name="kids-suscription" value="">
+                    </form>
+                  {% else %}
+                  <p>No tienes niños inactivos.</p>
+                  {% endif %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock content %}
+
+{% block extra_importation %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    <script>
+      document.getElementById("top").innerHTML = "Niños"
+      document.getElementById("patients").className = "active open";
+    </script>
+    <script>
+      $('.limitCheckbox').on('change', function(){
+      var noChecked = 0;
+      $.each($('.limitCheckbox'), function(){
+          if($(this).is(':checked')){
+              noChecked++;
+          }
+      });
+      if(noChecked >= request.user.suscription.availables.count ){
+          $.each($('.limitCheckbox'), function(){
+              if($(this).not(':checked').length == request.user.suscription.availables.count){
+                  $(this).attr('disabled','disabled');
+              }
+          });
+      }else{
+          $('.limitCheckbox').removeAttr('disabled');
+      };
+  });
+    </script>
+{% endblock extra_importation %}

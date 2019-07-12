@@ -1,0 +1,897 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load static %}
+{% block content %}
+    <section>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="info-cuenta">
+            <div class="col-md-12">
+              <div class="panel">
+                <div class="panel-body">
+                  <div class="title">
+                    <p>Información de {{children.get_full_name}}:</p>
+                  </div>
+                    <div class="col-md-3">
+                        <img src="{{children.picture.url}}" alt="" class="img-responsive img-circle">
+                        <br>
+                    </div>
+                    <div class="col-md-4" style="font-size: 15px; padding-top:8px">
+                        <ul>
+                          <li><span>Edad: </span>{% if children.age is not None %}{{children.age}} años</li>{% else %}Sin Registro</li>{% endif %}
+                          <li><span>Diagnóstico: </span>{% if children.diagnostic is not None %}{{children.diagnostic}}</li>{% else %}Sin Registro</li>{% endif %}
+                          <li><span>Ciclo escolar: </span> {{children.grade}}</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-5">
+                     <ul>
+                       <li><span>Clave de seguimiento: </span> {{request.user.link_id}}</li>
+                       <li><span>Correo para entrenamiento: </span>{{children.user.email}}</li>
+                       <li><span>Activo desde: </span>{{children.register_date}}</li>
+                     </ul>
+                    </div>
+                    {% if shared_child is False %}
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                            <a href="/perfil/{{children.id}}" class="btn btn-action">Editar información</a><br>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="/invitar/{{children.id}}" class="btn btn-action">Invitar a Padre o Tutor</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="#" class="btn btn-action" data-toggle="modal" data-target="#deletePatient">Dar de baja</a>
+                        </div>
+                    </div>
+                    {% endif %}
+            </div>
+            </div>
+            </div>
+            <div class="col-md-12">
+                <ul class="nav nav-tabs" role="tablist">
+                  <li role="presentation" class="menu-col active"><a href="#progreso" aria-controls="progreso" role="tab" data-toggle="tab">Progreso</a></li>
+                  <li role="presentation" class="menu-col"><a href="#evaluaciones" aria-controls="evaluaciones" role="tab" data-toggle="tab">Evaluaciones</a></li>
+                </ul>
+
+              <div class="tab-content">
+                <!-- tab progreso -->
+                <div role="tabpanel" class="tab-pane active" id="progreso">
+                  <div class="panel">
+                    <div class="panel-body">
+                        <canvas id="progresoChart"></canvas>
+                        <h3 class="p-title">Métricas Globales</h3>                                                            
+                        <table class="table table-bordered">
+                          <thead class="thead-dark">
+                            <tr>
+                              <th scope="col"></th>
+                              <th scope="col">Sesiones totales</th>
+                              <th scope="col">Porcentaje de aciertos</th>
+                              <th scope="col">Porcentajes de errores</th>
+                              <th scope="col">Nivel actual</th>
+                              <th scope="col">Fecha de última sesión</th>
+                              <th scope="col">Tiempo total</th>
+                              
+                            </tr>
+                          </thead> 
+                          <tbody>                                        
+                            <tr>  
+                              <th scope="row">Árbol Musical</th>
+                              <td>{{am}}</td>
+                              <td>{{pc_am|floatformat:4}}</td>
+                              <td>{{pe_am|floatformat:4}}</td>
+                              <td>
+                              {% for ds in days %}  
+                                {% for game in ds.games %} 
+                                  {% if game.gamekey == 'ArbolMusical' %}                                                                        
+                                    {% if game.arbolMusicalv2.all %}                                        
+                                      {% for level in game.arbolMusicalv2.all %}
+                                        {% if level.current_level is None or level.current_level == '' %}
+                                          0
+                                        {% else %}                                      
+                                          {{level.current_level}}
+                                        {%endif%}
+                                      {% endfor %}
+                                    {%endif%}
+                                  {% endif %}
+                                {%endfor%}
+                              {% endfor %}
+                              </td>
+                              <td>{{session_u.date}}</td>
+                              <td>
+                                {{tam}} seg.
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Arena Mágica</th>
+                              <td>{{amg}}</td>
+                              <td>{{pc_arm|floatformat:4}}</td>
+                              <td>{{pe_arm|floatformat:4}}</td>
+                              <td> 
+                              {% for game in session_u.games %} 
+                                {% if game.gamekey == 'ArenaMagica' %}                                                                        
+                                  {% if game.arenaMagicav2.all %}                                        
+                                    {% for level in game.arenaMagicav2.all %}                                                                       
+                                      {% if level.current_level is None or level.current_level == '' %}
+                                        0
+                                      {% else %}                                      
+                                        {{level.current_level}}
+                                      {%endif%}                                    
+                                    {% endfor %}
+                                  {%endif%}
+                                {% endif %}
+                              {%endfor%}
+                              </td>
+                              <td>{{session_u.date}}</td>
+                              <td>
+                                {{tarm}} seg.
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Monos Traviesos</th>
+                              <td>{{dqlb}}</td>
+                              <td>{{pc_dqlb|floatformat:4}}</td>
+                              <td>{{pe_dqlb|floatformat:4}}</td>
+                              <td>
+                              {% for game in session_u.games %} 
+                                {% if game.gamekey == 'DondeQuedoLaBolita' %}                                                                        
+                                  {% if game.bolitav2.all %}                                        
+                                    {% for level in game.bolitav2.all %}
+                                      {% if level.current_level is None or level.current_level == '' %}
+                                          0
+                                      {% else %}                                      
+                                          {{level.current_level}}
+                                      {%endif%} 
+                                    {% endfor %}
+                                  {%endif%}
+                                {% endif %}
+                              {%endfor%}
+                              </td>
+                              <td>{{session_u.date}}</td>
+                              <td>
+                                {{tdqlb}} seg.
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Recolección del Tesoro</th>
+                              <td>{{te}}</td>
+                              <td>{{pc_tesoro|floatformat:4}}</td>
+                              <td>{{pe_tesoro|floatformat:4}}</td>
+                              <td>
+                              {% for game in session_u.games %} 
+                                {% if game.gamekey == 'Tesoro' %}                                                                        
+                                  {% if game.tesorov2.all %}                                        
+                                    {% for level in game.tesorov2.all %}
+                                      {% if level.current_level is None or level.current_level == '' %}
+                                        0
+                                      {% else %}                                      
+                                        {{level.current_level}}
+                                      {%endif%} 
+                                    {% endfor %}
+                                  {%endif%}
+                                {% endif %}
+                              {%endfor%}
+                              </td>
+                              <td>{{session_u.date}}</td>
+                              <td>
+                                {{ttesoro}} seg.
+                              </td>
+                            </tr>                      
+                            <tr>
+                              <th scope="row">Río Tropical</th>
+                              <td>{{rio}}</td>
+                              <td>{{pc_rio|floatformat:4}}</td>
+                              <td>{{pe_rio|floatformat:4}}</td>
+                              <td>
+                              {% for game in session_u.games %} 
+                                {% if game.gamekey == 'Rio' %}                                                                        
+                                  {% if game.riov2.all %}                                        
+                                    {% for level in game.riov2.all %}
+                                      {% if level.current_level is None or level.current_level == '' %}
+                                        0
+                                      {% else %}                                      
+                                        {{level.current_level}}
+                                      {%endif%} 
+                                    {% endfor %}
+                                  {%endif%}
+                                {% endif %}
+                              {%endfor%}
+                              </td>
+                              <td>{{session_u.date}}</td>
+                              <td>
+                                {{trio}} seg.
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Show de las Sombras</th>
+                              <td>{{js}}</td>
+                              <td>{{porcentage_correct_sombras|floatformat:4}}</td>
+                              <td>{{porcentage_error_sombras|floatformat:4}}</td>
+                              <td>
+                              {% for game in session_u.games %} 
+                                {% if game.gamekey == 'JuegoDeSombras' %}                                                                        
+                                  {% if game.sombrasv2.all %}                                        
+                                  {% for level in game.sombrasv2.all %}
+                                    {% if level.current_level is None or level.current_level == '' %}
+                                      0
+                                    {% else %}                                      
+                                      {{level.current_level}}
+                                    {%endif%}
+                                  {% endfor %}
+                                  {%endif%}
+                                {% endif %}
+                              {%endfor%}
+                              </td>
+                              <td>{{session_u.date}}</td>
+                              <td>
+                                {{tjs}} seg.
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        
+                        <h3 class="p-title">Detalle de las sesiones</h3>
+
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    {% if days %}
+                      {% for ds in days %}
+                      <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingDetail{{ds.count}}">
+                          <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#detail{{ds.count}}" aria-expanded="false" aria-controls="detail{{ds.count}}">
+                              <i class="fa fa-caret-up"></i>  Fecha: {{ds.date}}
+                            </a>
+                          </h4>
+                        </div>
+                        <div id="detail{{ds.count}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingDetail{{ds.count}}">
+                          <div class="panel-body">
+                            {% for game in ds.games %}
+                            {% if game.gamekey == 'ArbolMusical' %}
+                              {% if game.arbolMusicalv2.all %}
+                                <div class="well well-sm arbol">
+                                    {% for level in game.arbolMusicalv2.all%}
+                                    <p class="text-right"><span>No. sesión: Pendiente</span></p>
+                                  {% endfor%}
+                                    <p class="text-center"><span>Árbol Musical</span></p>
+                                    <p class="text-center">% aciertos: {{game.totalcorrect_percentage}} | % errores: {{game.totalerrors_average}}  | Tiempo: {{game.gametime}} seg.</p>
+                                </div>
+                                <div class="table-responsive" id="arbol">
+                                <table class="table">
+                                  <thead>
+                                    <tr>                                  
+                                      <th>Nivel Inicial</th>
+                                      <th>Nivel Final</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                      {% for level in game.arbolMusicalv2.all %}
+                                      <!-- Modal -->
+                                      <div class="modal fade" id="{{level.id}}" tabindex="-1" role="dialog" aria-labelledby="detallesNivel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                          <div class="modal-content">
+                                            <div class="modal-header" style="height: 60px">
+                                              <p class="modal-title" id="detallesNivel">Detalles de la Sesión</p>
+                                            </div>
+                                            <div class="modal-body">
+                                              <ul style="font-size:16px; padding:10px">
+                                                <li>Número de sesión: Pendiente</li>
+                                                <li>Niveles jugados en la sesión: {{level.played_levels}} </li>
+                                                <li>Dificultades jugadas: {{level.played_difficulty}}</li>
+                                                <li>Aciertos por ensayo: {{level.total_correct}}</li>
+                                                <li>Errores por ensayo: {{level.total_errors}}</li>
+                                                <li>Latencia por ensayo: {{level.essay_time}} </li>
+                                                <li>Claves proporcionadas: {{level.total_clues}} </li>
+                                                <li>Aciertos antes de la clave: {{level.correct_before_clue}} </li>
+                                                <li>Errores antes de la clave: {{level.errors_before_clue}} </li>
+                                                <li>Aciertos después de la clave: {{level.correct_after_clue}} </li>
+                                                <li>Errores después de la clave: {{level.errors_after_clue}} </li>                  
+                                              </ul>
+                                            </div>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-modal" data-dismiss="modal">Cerrar</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    <tr>
+                                      <td>{{level.initial_level}}</td>
+                                      <td>{{level.current_level}}</td>
+                                      <td>
+                                        <button type="button" class="btn" data-toggle="modal" data-target="#{{level.id}}" style="background-color: rgba(255, 105, 180, 0.4); border-color: rgba(255, 105, 180, 1);">
+                                          Ver más
+                                        </button>
+                                      </td>
+                                    {% endfor %}
+                                  </tbody>
+                                </table>
+                              </div>
+                              {% endif %}
+                            {% elif game.gamekey == 'ArenaMagica' %}
+                              {% if game.arenaMagicav2.all %}
+                                  <div class="well well-sm arena">
+                                    {% for level in game.arenaMagicav2.all%}
+                                      <p class="text-right"><span>No. sesión: {{ level.session_number}}</span></p>
+                                    {% endfor%}
+                                      <p class="text-center"><span>Arena Mágica</span></p>
+                                      <p class="text-center">% aciertos: {{game.totalcorrect_percentage}} | % errores: {{game.totalerrors_average}}  | Tiempo: {{game.gametime}} seg.</p>
+                                  </div>
+                                  <div class="table-responsive" id="arena">
+                                  <table class="table">
+                                    <thead>
+                                      <tr>
+                                        <th>Eje Motor</th>                                      
+                                        <th>Eje análisis y síntesis visual (superposición)</th>
+                                        <th>Eje análisis y síntesis visual (cierre)</th>                                        
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for level in game.arenaMagicav2.all %}
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="{{level.id}}" tabindex="-1" role="dialog" aria-labelledby="detallesNivel" aria-hidden="true">
+                                      <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                          <div class="modal-header" style="height: 60px">
+                                            <p class="modal-title" id="detallesNivel">Detalles de la Sesión</p>
+                                          </div>
+                                          <div class="modal-body">
+                                            <ul style="font-size:16px; padding:10px">
+                                              <li>Número de sesión: {{level.session_number}}</li>
+                                              <li>Niveles jugados en la sesión: {{level.played_levels}}</li>
+                                              <li>Dificultades jugadas: pendiente</li>
+                                              <li>Tipo de juego (motor, superposición, cierre): {{level.types_levels}}</li>
+                                              <li>Aciertos por ensayo: {{level.accuracy}}</li>
+                                              <li>Errores por ensayo: {{level.overdraw}}</li>
+                                              <li>Tiempo por ensayo: {{level.time_percentage}}</li>                                              
+                                            </ul>
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-modal" data-dismiss="modal">Cerrar</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                      <tr>
+                                        <td>
+                                          Nivel Inicial: {{level.initial_level_motor}} <br>
+                                          Nivel Final: {{level.current_level_motor}}
+                                        </td>
+                                        <td>
+                                          Nivel Inicial: {{level.initial_level_overlapping}} <br>
+                                          Nivel Final: {{level.current_level_overlapping}}
+                                        </td>
+                                        <td>
+                                          Nivel Inicial: {{level.initial_level_clousre}} <br>
+                                          Nivel Final: {{level.current_level_clousre}}
+                                        </td>
+                                        <td>
+                                          <button type="button" class="btn" data-toggle="modal" data-target="#{{level.id}}" style="background: rgba(204, 153, 255, 0.4); border-color: rgba(204, 153, 255,1);">
+                                            Ver más
+                                          </button>
+                                        </td>
+                                      </tr>
+                                    {% endfor %}
+                                  </tbody>
+                                  </table>
+                                </div>
+                                {% endif %}
+                            {% elif game.gamekey == 'DondeQuedoLaBolita' %}
+                              {% if game.bolitav2.all %}
+                                  <div class="well well-sm bolita">
+                                    {% for level in game.bolitav2.all%}
+                                      <p class="text-right"><span>No. sesión: {{ level.session_number}}</span></p>
+                                    {% endfor%}
+                                      <p class="text-center"><span>Monos Traviesos</span></p>
+                                      <p class="text-center">% aciertos: {{game.totalcorrect_percentage}} | % errores: {{game.totalerrors_average}}  | Tiempo: {{game.gametime}} seg.</p>
+                                  </div>
+                                <div class="table-responsive">
+                                  <table class="table">
+                                    <thead>
+                                      <tr>
+                                        <th>Nivel inicial:</th>
+                                        <th>Nivel final:</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for level in game.bolitav2.all %}
+                                    <!--MODAL -->
+                                    <div class="modal fade" id="{{level.id}}" tabindex="-1" role="dialog" aria-labelledby="detallesNivel" aria-hidden="true">
+                                      <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                          <div class="modal-header" style="height: 60px">
+                                            <p class="modal-title" id="detallesNivel">Detalles de la Sesión</p>
+                                          </div>
+                                          <div class="modal-body">
+                                            <ul style="font-size:16px; padding:10px">
+                                              <li>Número de sesión: {{level.session_number}}</li>
+                                              <li>Niveles jugados en la sesión: {{level.played_levels}}</li>
+                                              <li>Dificultades jugadas: {{level.played_difficulty}}</li>
+                                              <li>Aciertos por ensayo: {{level.correct_monkeys}}</li>
+                                              <li>Errores por ensayo: {{level.errors_monkeys}}</li>
+                                              <li>Latencia por ensayo: {{level.latency}}</li>                                              
+                                            </ul>
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-modal" data-dismiss="modal">Cerrar</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                      <tr>
+                                        <td>{{level.initial_level}}</td>
+                                        <td>{{level.current_level}}</td>
+                                        <!--<td>{{level.session_time|floatformat:-2}} seg.</td>-->
+                                        <td>
+                                          <button type="button" class="btn" data-toggle="modal" data-target="#{{level.id}}" style="background: rgba(173, 255, 47, 0.4); border-color: rgba(173, 255, 47, 1);">
+                                            Ver más
+                                          </button>
+                                        </td>
+                                      </tr>
+                                    {% endfor %}
+                                  </tbody>
+                                  </table>
+                                </div>
+                              {% endif %}
+                            {% elif game.gamekey == 'Tesoro' %}
+                              {% if game.tesorov2.all %}
+                                  <div class="well well-sm tesoro">
+                                    {% for level in game.tesorov2.all%}
+                                    <p class="text-right"><span>No. sesión: Pendiente</span></p>
+                                    {% endfor%}
+                                    <p class="text-center"><span>Recolección del Tesoro</span></p>
+                                    <p class="text-center">% aciertos: {{game.totalcorrect_percentage}} | % errores: {{game.totalerrors_average}}  | Tiempo: {{game.gametime}} seg.</p>
+                                  </div>
+                                  <div class="table-responsive">
+                                  <table class="table">
+                                    <thead>
+                                      <tr>
+                                        <th>Nivel Inicial:</th>
+                                        <th>Nivel Final:</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for level in game.tesorov2.all %}
+                                    <!--MODAL -->
+                                    <div class="modal fade" id="{{level.id}}" tabindex="-1" role="dialog" aria-labelledby="detallesNivel" aria-hidden="true">
+                                      <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                          <div class="modal-header" style="height: 60px">
+                                            <p class="modal-title" id="detallesNivel">Detalles de la Sesión</p>
+                                          </div>
+                                          <div class="modal-body">
+                                            <ul style="font-size:16px; padding:10px">
+                                              <li>Número de sesión: Pendiente</li>
+                                              <li>Niveles jugados en la sesión: {{level.played_difficulty}}</li>
+                                              <li>Dificultades jugadas: {{level.played_difficulty}}</li>
+                                              <li>Aciertos por ensayo*: {{level.session_correct_total}}</li>
+                                              <li>Errores por ensayo*: {{level.session_errors_total}}</li>
+                                              <li>Número mínimo de objetos solicitados: {{level.session_minobjects}}</li>
+                                              <li>Numero máximo de objetos solicitado: {{level.session_maxobjects}}</li>                                              
+                                            </ul>
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-modal" data-dismiss="modal">Cerrar</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                      <tr>
+                                        <td>{{level.initial_level}}</td>
+                                        <td>{{level.current_level}}</td>
+                                        <td>
+                                          <button type="button" class="btn" data-toggle="modal" data-target="#{{level.id}}" style="background: rgba(255, 215, 0, 0.4); border-color: rgba(255, 215, 0,1);">
+                                            Ver más
+                                          </button>
+                                        </td>
+                                      </tr>
+                                    {% endfor %}
+                                  </tbody>
+                                  </table>
+                                </div>
+                              {% endif %}
+                            {% elif game.gamekey == 'Rio' %}
+                              {% if game.riov2.all %}
+                                  <div class="well well-sm rio">
+                                      {% for level in game.riov2.all%}
+                                      <p class="text-right"><span>No. sesión: Pendiente</span></p>
+                                      {% endfor%}
+                                      <p class="text-center"><span>Rio Trópical</span></p>
+                                      <p class="text-center">% aciertos: {{game.totalcorrect_percentage}} | % errores: {{game.totalerrors_average}}  | Tiempo: {{game.gametime}} seg.</p>
+                                  </div>
+                                  <div class="table-responsive">
+                                  <table class="table">
+                                    <thead>
+                                      <tr>
+                                        <th>Nivel inicial</th>
+                                        <th>Dificultad inicial</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for level in game.riov2.all %}
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="{{level.id}}" tabindex="-1" role="dialog" aria-labelledby="detallesNivel" aria-hidden="true">
+                                      <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                          <div class="modal-header" style="height: 60px">
+                                            <p class="modal-title" id="detallesNivel">Detalles de la Sesión</p>
+                                          </div>
+                                          <div class="modal-body">
+                                            <ul style="font-size:16px; padding:10px">
+                                              <li>Número de sesión: Pendiente</li>
+                                              <li>Niveles jugados en la sesión: {{level.played_levels}}</li>
+                                              <li>Dificultades jugadas: {{level.played_difficulty}}</li>
+                                              <li>Aciertos por ensayo: {{level.target_correct}}</li>
+                                              <li>Errores por ensayo: {{level.target_errors}}</li>                                              
+                                            </ul>
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-modal" data-dismiss="modal">Cerrar</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                      <tr>
+                                        <td>{{level.initial_level}}</td>
+                                        <td>{{level.current_level}}</td>
+                                        <td>
+                                          <button type="button" class="btn" data-toggle="modal" data-target="#{{level.id}}" style="background: rgba(255, 156, 51, 0.4); border-color: rgba(255, 156, 51, 1);">
+                                            Ver más
+                                          </button>
+                                        </td>
+                                      </tr>
+                                    {% endfor %}
+                                  </tbody>
+                                  </table>
+                                </div>
+                              {% endif %}
+                            {% elif game.gamekey == 'JuegoDeSombras' %}
+                              {% if game.sombrasv2.all %}
+                                  <div class="well well-sm silueta">
+                                      {% for level in game.sombrasv2.all%}
+                                      <p class="text-right"><span>No. sesión: Pendiente</span></p>
+                                      {% endfor%}
+                                      <p class="text-center"><span>Show de la Silueta</span></p>
+                                      <p class="text-center">% aciertos: {{game.totalcorrect_percentage}} | % errores: {{game.totalerrors_average}}  | Tiempo: {{game.gametime}} seg.</p>
+                                  </div>
+                                  <div class="table-responsive">
+                                  <table class="table">
+                                    <thead>
+                                      <tr>
+                                        <th>Nivel Inicial:</th>
+                                        <th>Nivel Final:</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for level in game.sombrasv2.all %}
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="{{level.id}}" tabindex="-1" role="dialog" aria-labelledby="detallesNivel" aria-hidden="true">
+                                      <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                          <div class="modal-header" style="height: 60px">
+                                            <p class="modal-title" id="detallesNivel">Detalles de la Sesión</p>
+                                          </div>
+                                          <div class="modal-body">
+                                            <ul style="font-size:16px; padding:10px">
+                                              <li>Número de sesión: </li>
+                                              <li>Niveles jugados en la sesión: {{level.played_levels}}</li>
+                                              <li>Dificultades jugadas:Pendiente</li>
+                                              <li>Aciertos totales:{{level.session_correct_percentage}}</li>
+                                              <li>Errores totales:{{level.session_errors_percentage}}</li>
+                                              <li>Latencia por ensayo:{{level.latencies}}</li>
+                                            </ul>
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-modal" data-dismiss="modal">Cerrar</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                      <tr>
+                                        <td>{{level.initial_level}}</td>
+                                        <td>{{level.current_level}}</td>
+                                        <td>
+                                          <button type="button" class="btn" data-toggle="modal" data-target="#{{level.id}}" style="background: rgba(0, 191, 255, 0.4); border-color: rgba(0, 191, 255, 1);">
+                                            Ver más
+                                          </button>
+                                        </td>
+                                      </tr>
+                                    {% endfor %}
+                                  </tbody>
+                                  </table>
+                                </div>
+                              {% endif %}
+                            {% endif %}
+                            {% endfor %}
+                          </div>
+                        </div>
+                      </div>
+                      {% endfor %}
+                  {% else %}
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        {{children.first_name.title}} aun no cuenta con reportes ¡Es hora de jugar en la Isla Towi!
+                      </h4>
+                    </div>
+                  </div>
+                  {% endif %}
+                      <div class="pagination">
+                        <span class="step-links">
+                            {% if days %}
+                            {% if days.has_previous %}
+                                <a href="?page=1"  class="btn btn-info" role="button">&laquo; Primera</a>
+                                <a href="?page={{ days.previous_page_number }}" class="btn btn-info" role="button">Anterior</a>
+                            {% endif %}
+                            <span class="current">
+                                Página {{ days.number }} de {{ days.paginator.num_pages }}.
+                            </span>
+                            {% if days.has_next %}
+                                <a href="?page={{ days.next_page_number }}"  class="btn btn-info" role="button">Siguiente</a>
+                                <a href="?page={{ days.paginator.num_pages }}" class="btn btn-info" role="button" >Última &raquo;</a>
+                            {% endif %}
+                            {% endif %}
+                        </span>
+                      </div>
+                  </div>
+                        <!-- collapse -->
+                        <div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+                <!-- tab evaluaciones -->
+                <div role="tabpanel" class="tab-pane" id="evaluaciones">
+                  <div class="panel">
+                    <div class="panel-body">
+                    {% if pruebas %}
+                      {% for s in pruebas %}
+                        {% if children.suscription.can_view_test is True %}
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h4 class="panel-title">
+                              <a href="/evaluacion/{{s.id}}">
+                                <i></i>  Fecha: {{s.date}}
+                              </a>
+                            </h4>
+                          </div>
+                        </div>
+                        {% else %}
+                        <div class="panel panel-default">
+                            <a tabindex="0" class="btn btn-lg btn-danger" role="button" data-toggle="popover" data-trigger="focus" title="Lo sentimos" data-content="Necesitas una subscripción trimestral para ver los reportes.">Fecha: {{s.date}}</a>
+                        </div>
+                        {% endif %}
+                      {% endfor %}
+                    {% else %}
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h4 class="panel-title">
+                          {{children.first_name.title}} aun no cuenta con evaluaciones.
+                        </h4>
+                      </div>
+                    </div>
+                    {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+       </div>
+      </div>
+  </section>
+
+    {{am_ti}}
+    <!-- Modal -->
+    <div class="modal fade" id="deletePatient" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h3>¿Estás seguro que quieres eliminar este paciente?</h3>
+            <p>Si eliminas al paciente no podras recuperar su información.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-danger">Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock content %}
+
+{% block extra_importation %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/zabuto_calendar.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/calendario.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/diagramas.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    <script>
+    $(document).ready(function () {
+      $.ajax({
+        url: '/get_graph/',
+        headers: {
+             'x-csrftoken': $().get_csrf()
+        },
+        data: {
+          'child_id': window.location.pathname.split("/").pop(),
+        },
+        dataType: 'json',
+        success: function (data) {
+            Render(data)
+            console.log(data)
+        }
+      });
+    });
+
+    function Render (data) {
+        let ctx = document.getElementById("progresoChart").getContext('2d');
+        function hoursEarlier(hours) {
+          return  new Date(0).setUTCSeconds(hours)
+        };
+        let speedData = {
+          labels: [hoursEarlier(data.minValue), hoursEarlier(data.maxValue)],
+          datasets: [{
+            label: "Árbol Musical",
+            data: data.am_ti.map(function (v) {
+              v.x = hoursEarlier(v.x)
+              return v
+          }),
+            fill: false,
+            borderColor: 'rgba(255, 105, 180, 1)',
+            backgroundColor: 'transparent',
+            pointBorderColor: 'rgba(190, 21, 207, 1)',
+            pointBackgroundColor: 'rgba(255,150,180,0.5)',
+            pointRadius: 5,
+            pointHoverRadius: 10,
+            pointHitRadius: 30,
+            pointBorderWidth: 2,
+            steppedLine: 'after',
+            pointStyle: 'rectRounded'
+
+        },
+          {
+            label: "Arena Mágica",
+            data: data.arm_ti.map(function (v) {
+                v.x = hoursEarlier(v.x)
+                return v
+            }),
+            lineTension: 0.25,
+            fill: false,
+            borderColor: 'rgba(204, 153, 255,1)',
+            backgroundColor: 'transparent',
+            pointBorderColor: 'purple',
+            pointBackgroundColor: 'rgba(204, 153, 255,0.5)',
+            pointRadius: 5,
+            pointHoverRadius: 10,
+            pointHitRadius: 30,
+            pointBorderWidth: 2,
+            steppedLine: 'after',
+            pointStyle: 'rectRounded'
+        },
+          {
+            label: "Monos traviesos",
+            data: data.dqlb_ti.map(function (v) {
+                v.x = hoursEarlier(v.x)
+                return v
+            }),
+            lineTension: 0.25,
+            fill: false,
+            borderColor: 'rgba(173, 255, 47, 1)',
+            backgroundColor: 'transparent',
+            pointBorderColor: 'green',
+            pointBackgroundColor: 'rgba(173, 255, 47, 0.5)',
+            pointRadius: 5,
+            pointHoverRadius: 10,
+            pointHitRadius: 30,
+            pointBorderWidth: 2,
+            steppedLine: 'after',
+            pointStyle: 'rectRounded'
+        },
+          {
+            label: "Recolección del tesoro",
+            data: data.rdt_ti.map(function (v) {
+                v.x = hoursEarlier(v.x)
+                return v
+            }),
+            lineTension: 0.25,
+            fill: false,
+            borderColor: 'rgba(255, 215, 0,1)',
+            backgroundColor: 'transparent',
+            pointBorderColor: 'orange',
+            pointBackgroundColor: 'rgba(255, 215, 0, 0.5)',
+            pointRadius: 5,
+            pointHoverRadius: 10,
+            pointHitRadius: 30,
+            pointBorderWidth: 2,
+            steppedLine: 'after',
+            pointStyle: 'rectRounded'
+        },
+          {
+            label: "Río Tropical",
+            data: data.rio_ti.map(function (v) {
+                v.x = hoursEarlier(v.x)
+                return v
+            }),
+            lineTension: 0.25,
+            fill: false,
+            borderColor: 'rgba(255, 156, 51, 1)',
+            backgroundColor: 'transparent',
+            pointBorderColor: 'rgba(207, 117, 21, 1)',
+            pointBackgroundColor: 'rgba(255, 156, 51, 0.5)',
+            pointRadius: 5,
+            pointHoverRadius: 10,
+            pointHitRadius: 30,
+            pointBorderWidth: 2,
+            steppedLine: 'after',
+            pointStyle: 'rectRounded'
+        },
+          {
+            label: "Show de las sombras",
+            data: data.sh_ti.map(function (v) {
+                v.x = hoursEarlier(v.x)
+                return v
+            }),
+            lineTension: 0.25,
+            fill: false,
+            borderColor: 'rgba(0, 191, 255, 1)',
+            backgroundColor: 'transparent',
+            pointBorderColor: 'blue',
+            pointBackgroundColor: 'rgba(0, 191, 255, 0.5)',
+            pointRadius: 5,
+            pointHoverRadius: 10,
+            pointHitRadius: 30,
+            pointBorderWidth: 2,
+            steppedLine: 'after',
+            pointStyle: 'rectRounded'
+        }]
+        };
+        let chartOptions = {
+          legend: {
+            display: true,
+            position: 'top',
+            labels: {
+              boxWidth: 80,
+              fontColor: 'black'
+            }
+          },
+          scales: {
+            xAxes: [{
+              type: "time",
+              time: {
+                unit: 'month',
+                unitStepSize: 0.5,
+                round: 'month',
+                tooltipFormat: "ll",
+                displayFormats: {
+                  month: 'MMM YYYY'
+                }
+              }
+            }],
+            yAxes: [{
+              gridLines: {
+                color: "black",
+              },
+              scaleLabel: {
+                display: true,
+                fontColor: "green"
+              }
+            }]
+          }
+        };
+        let myChart = new Chart(ctx, {
+            type: 'line',
+            data: speedData,
+            options: chartOptions
+        });
+    }
+    </script>
+    <script type="text/javascript">
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+      })
+    $('.popover-dismiss').popover({
+        trigger: 'focus'
+    })
+    </script>
+{% endblock extra_importation %}

@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load static %}
+{% block content %}
+
+    <section>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="navbar" style="position: relative">
+                <div class="pull-left" id="number-suscriptions">
+                  <p>Número de niños que puedes agregar: <span>{{ suscriptions_count }}</span></p>
+                </div>
+                <div class="pull-right">
+                  <a href="/agregar-nino">
+                      <button type="button pink-background" class="pull-right">
+                        <i class="fa fa-plus-circle"></i> Agregar niño
+                      </button>
+                  </a>
+                </div>
+                <div>
+                <ul class="dropdown-menu" aria-labelledby="dLabel">
+                    <li>
+                        <a class="selectedGroup" id="0">Todos los niños</a>
+                    </li>
+                    {% for group in groups %}
+                        <li>
+                          <a class="selectedGroup" id="{{group.id}}">{{group.name}}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+              </div>
+            </div>
+            <div class="lista-pacientes">
+              <ul class="panel-list">
+                  {% if childrens %}
+                  {% for children in childrens %}
+                  <li>
+                    <div class="panel panel-default">
+                      <div class="panel-body">
+                        <img src="{{children.picture.url}}" alt="" class="img-circle pull-left avatar80">
+                          {% if children.suscription.trial is True %}
+                            <p class="pull-left">{{children}}<span style="font-size:14px; color:#EE4373; font-weight: bold; padding-left: 15px">Versión de prueba<span></p>
+                          {% elif children.is_active is True %}
+                            <p class="pull-left">{{children}}</p>
+                          {% else %}
+                            <p class="pull-left">{{children}}<span style="font-size:14px; color:#EE4373; font-weight: bold; padding-left: 15px">Desactivado<span></p>
+                          {% endif %}
+                        <div class="dropdown pull-right">
+                            {% if children.is_active is False %}
+                                {% if suscriptions_count > 0 %}
+                                <button class="btn-yellow" style="background:#FFC917;" type="button" href="/subscripciones/">
+                                  <a href="{% url "assign-subscription" id=children.id %}">Activar Cuenta</a>
+                                </button>
+                                {% else %}
+                                <button class="btn-yellow" style="background:#FFC917;" type="button" href="/subscripciones/">
+                                  <a href="/subscripciones/">Activar Cuenta</a>
+                                </button>
+                                {% endif %}
+                            {% endif %}
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Escoge una opción
+                            <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            <li>
+                              <a href="{% url "reports" id=children.id %}">Ver reportes</a>
+                            </li>
+                            <li>
+                              <a href="{% url "edit-info" id=children.id %}">Editar información</a>
+                            </li>
+                            <li>
+                              <a href="{% url "invite-parent" id=children.id %}">Invitar a padre o tutor</a>
+                            </li>
+
+                            {% if suscriptions_count > 0 %}
+                              {% if children.is_active is not True %}
+                              <li>
+                                <a href="{% url "assign-subscription" id=children.id %}">Asignar subscripción</a>
+                              </li>
+                              {% endif %}
+                            {% endif %}
+                            <li>
+                              <a href="#" data-toggle="modal" data-target="#darBaja-{{children.id}}">Dar de baja</a>
+                            </li>
+                        </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  {% endfor %}
+                  {% else %}
+                  <p>No tienes niños registrados.</p>
+                  {% endif %}
+                  {% if shared_childs %}
+                  <h3> Niños Vinculados </h3>
+                  {% for c in shared_childs %}
+                  <li>
+                    <div class="panel panel-default">
+                      <div class="panel-body">
+                        <img src="{{c.cid.picture.url}}" alt="" class="img-circle pull-left avatar80">
+                        <p class="pull-left">{{c.cid.get_full_name}} - Te lo comparte: {{c.linked_account.owner_user.display_name}}</p>
+                        <div class="dropdown pull-right">
+                          <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Escoge una opción
+                            <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            <li>
+                              <a href="{% url "reports" id=c.cid.id %}">Ver reportes</a>
+                            </li>
+                            <li>
+                              <a href="/invitaciones">Desvincular</a>
+                            </li>
+                        </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  {% endfor %}
+                  {% endif %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    {% for child in childrens %}
+        <div class="modal fade deleteChild" id="darBaja-{{child.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                  </button>
+                  <h3>¿Estás seguro que quieres eliminar este niño?</h3>
+                  <p>Si eliminas al niño no podras recuperar su información.</p>
+                </div>
+                <form method="post" class="form-agregar-paciente">
+                        {% csrf_token %}
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                      <button type="submit" name="eliminarPaciente" value="{{child.id}}" class="btn btn-danger eliminarPaciente">Aceptar</button>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+    {% endfor %}
+    <form name="formulario" id="formi" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="groupId" class="groupSelected" value="">
+    </form>
+{% endblock content %}
+
+{% block extra_importation %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    <script>
+      document.getElementById("top").innerHTML = "Niños"
+      document.getElementById("patients").className = "active open";
+    </script>
+{% endblock extra_importation %}

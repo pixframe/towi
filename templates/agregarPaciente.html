@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load static %}
+{% block content %}
+    <section>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="text-center">¿Qué deseas hacer?</h2>
+            <div class="menu-inicio clearfix">
+              <div class="col-md-6 text-center">
+                <figure class="effect">
+                  <img src="{% static 'i/p-activo.jpg' %}" alt="" class="img-responsive">
+                  <a href="/seguir">
+                    <figcaption>
+                      <h2>Dar seguimiento a un paciente activo</h2>
+                      <p>Elige esta opción solo si tu paciente ya a comprado una cuenta e Towi</p>
+                    </figcaption>
+                  </a>
+                </figure>
+              </div>
+              <div class="col-md-6 text-center">
+                <figure class="effect">
+                  <img src="{% static 'i/p-nuevo.jpg' %}" alt="" class="img-responsive">
+
+                  {% if request.user.available_kids.count > 0 %}
+                      <a href="/registro-nino/">
+                  {% else %}
+                      <a href="/subscripciones/">
+                  {% endif %}
+                    <figcaption>
+                      <h2>Registra un paciente nuevo</h2>
+                      <p>Elige esta opción si tu paciente aún no ha comprado una cuenta en Towi</p>
+                    </figcaption>
+                  </a>
+                </figure>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock content %}
+{% block extra_importation %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+{% endblock extra_importation %}

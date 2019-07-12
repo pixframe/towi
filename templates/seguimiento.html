@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load static %}
+{% block content %}
+
+{% if messages %}
+{% for message in messages %}
+{% if message.level == 25 %}
+    <div class="alert alert-success">
+    {{ message }}
+    </div>
+{% endif %}
+{% if message.level == 40 %}
+    <div class="alert alert-danger">
+    {{ message }}
+    </div>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+    <section>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="navbar">
+              <div class="dropdown pull-left">
+                <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Todos los niños
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dLabel">
+                    <li>
+                        <a class="selectedGroup" id="0">Todos los niños</a>
+                    </li>
+                    {% for group in groups %}
+                        <li>
+                          <a class="selectedGroup" id="{{group.id}}">{{group.name}}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+              </div>
+            </div>
+            <div class="lista-pacientes">
+              <ul class="panel-list">
+                  <h3>Selecciona el/los niño que quieres vincular:</h3>
+                  {% if childrens %}
+                  <form class="" action="." method="post">
+                    {% csrf_token %}
+                  {% for children in childrens %}
+                  <li>
+                    <div class="panel panel-default">
+                      <div class="panel-body" style="display: flex; justify-content: center; align-items: center;">
+                        <img src="{{children.picture.url}}" alt="" class="img-circle pull-left avatar80">
+                        <p class="pull-left" style="width: 100%">{{children}}</p>
+                        <div class="pull-right">
+                            <input type="checkbox" name="id" value="{{children.id}}">
+                            <input type="hidden" name="vinid" value="{{vinculation_id}}">
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  {% endfor %}
+                  <button class="pull-right" type="submit" name="button">Vincular</button>
+                  </form>
+
+                  {% else %}
+                  <p>No hay pacientes registrados</p>
+                  {% endif %}
+
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    {% for child in childrens %}
+        <div class="modal fade deleteChild" id="darBaja-{{child.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                  </button>
+                  <h3>¿Estás seguro que quieres eliminar este niño?</h3>
+                  <p>Si eliminas al niño no podras recuperar su información.</p>
+                </div>
+                <form method="post" class="form-agregar-paciente">
+                        {% csrf_token %}
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                      <button type="button" id="deleteChildren-{{child.id}}" class="btn btn-danger eliminarPaciente">Aceptar</button>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+    {% endfor %}
+    <form name="formulario" id="formi" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="groupId" class="groupSelected" value="">
+    </form>
+{% endblock content %}
+
+{% block extra_importation %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+{% endblock extra_importation %}

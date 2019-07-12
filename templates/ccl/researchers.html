@@ -1,0 +1,284 @@
+{% extends "ccl/base-lab.html" %}
+{% load staticfiles %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated %}
+<div class="bg-researchers"></div>
+<section class="researchers">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="v-title">Researchers</h2>
+            </div>
+            <div class="col-md-3">
+                <div class="card-flip">
+                    <div class="flip">
+                        <div class="front">
+                            <!-- front content -->
+                            <div class="card">
+                                <img class="card-img-top" src="{% static 'i-lab/rogelioapiquian.png' %}"
+                                     alt="Rogelio Apiquian">
+                                <div class="card-body">
+                                    <h5 class="card-title">Rogelio Apiquian</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">Profesor en Universidad Anáhuac
+                                        México</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="back">
+                            <!-- back content -->
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="card-text">Medical Doctor from the School of Medicine of the Anahuac
+                                        University. Residency in the National Institute of Psychiatry. Master Degree in
+                                        Medical Sciences, PhD with honors in Medical Sciences. Currently, investigator
+                                        and professor in Medical Sciences at the Universidad de las Américas A.C., and
+                                        appointment as Researcher in the National System of Researchers. He has
+                                        published 90 national and international scientific papers and has more than 180
+                                        presentations in scientific meetings.</p>
+                                    <a href="https://mx.linkedin.com/in/rogelioapiquian"><i class="fas fa-link"></i>
+                                        linkedin</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card-flip">
+                    <div class="flip">
+                        <div class="front">
+                            <!-- front content -->
+                            <div class="card">
+                                <img class="card-img-top" src="{% static 'i-lab/researchers2.png' %}"
+                                     alt="Marcos F. Rosetti Sciutto">
+                                <div class="card-body">
+                                    <h5 class="card-title">Marcos F. Rosetti Sciutto</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">RESEARCHER AT INSTITUTO DE INVESTIGACIONES
+                                        BIOMÉDICAS. UNAM</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="back">
+                            <!-- back content -->
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="card-text">PhD. University of Sussex (UK) <br/>
+                                        Research Associate at Department of Celular Biology and Phyisiology <br/>
+                                        Research areas: Search Behavior and Behavioral evaluation of human
+                                        psychopathology</p>
+                                    <a href="https://mx.linkedin.com/in/rogelioapiquian"><i class="fas fa-link"></i>
+                                        linkedin</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card-flip">
+                    <div class="flip">
+                        <div class="front">
+                            <!-- front content -->
+                            <div class="card">
+                                <img class="card-img-top" src="{% static 'i-lab/mariagomez.png' %}"
+                                     alt="María F. Gómez Tello">
+                                <div class="card-body">
+                                    <h5 class="card-title">María F. Gómez Tello</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">CLINICAL NEUROPSYCHOLOGIST</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="back">
+                            <!-- back content -->
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="card-text">Master's Degree in Professional Psychology, Residency in
+                                        Clinical Neuropsychology at UNAM.<br/> Psychopedagogical advisor at Towi.<br/>
+                                        Private practice as Psychologist/Neuropsychologist.</p>
+                                    <a href="https://mx.linkedin.com/in/rogelioapiquian"><i class="fas fa-link"></i>
+                                        linkedin</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card-flip">
+                    <div class="flip">
+                        <div class="front">
+                            <!-- front content -->
+                            <div class="card">
+                                <img class="card-img-top" src="{% static 'i-lab/mariavictoriacarreras.png' %}"
+                                     alt="María Victoria Carreras Cruz">
+                                <div class="card-body">
+                                    <h5 class="card-title">María Victoria Carreras Cruz</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">RESEARCH PROFESSOR AT ENGINEERING FACULTY.
+                                        UNIVERSIDAD PANAMERICANA</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="back">
+                            <!-- back content -->
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="card-text">Areas of Expertise: Analysis and Design of Algorithms, Object
+                                        Oriented Programming, Image Processing, Pattern Recognition. Director of the
+                                        degrees in Animation and Videogames Engineering and Engineering in IT and
+                                        Intelligent Systems, at Universidad Panamericana.</p>
+                                    <a href="https://mx.linkedin.com/in/rogelioapiquian"><i class="fas fa-link"></i>
+                                        linkedin</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="researchers university">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-5">
+                <h2>University</h2>
+            </div>
+        </div>
+        <div class="col UP school mb-5">
+            <div class="uni-img-movil">
+                <img src="{% static 'i-lab/UP.png' %}" class="imf-fluid" alt="">
+            </div>
+            <div class="uni-text">
+                <h5 class="mb-5">Universidad Panamericana</h5>
+                <p>The Universidad Panamericana has 111 members in the National System of Researchers and 60 research
+                    lines in all areas of knowledge and in all camp. The University currently collaborates with Towi
+                    through PhD. Victoria Carreras, cathedratic in the Faculty of Engineering.</p>
+                <ul>
+                    <li>Facultad de Ingeniería</li>
+                    <li>Escuela de Pedagogía</li>
+                    <li>Escuela de Psicología</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col UM school mb-5">
+            <div class="uni-img-movil">
+                <img src="{% static 'i-lab/UP.png' %}" class="imf-fluid" alt="">
+            </div>
+            <div class="uni-text">
+                <h5 class="mb-5">Universidad Michoacana</h5>
+                <p>The Universidad Michoacana has a Coordination of Scientific Research that brings together 35 offices and 268 researchers affiliated to the National System of Researchers (SIN). The University collaborates with Towi through the research of the Faculty of Psychology coordinated by Psic. Martha Camareno.</p>
+            </div>
+        </div>
+        <!-- <div class="row">
+          <div class="col-md-4 mb-5">
+            <img src="{% static 'i-lab/UM.jpg' %} class="imf-fluid" alt="">
+          </div>
+          <div class="col-md-8 mb-5">
+            <h5>Universidad de Michocan</h5>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+        </div> -->
+    </div>
+</section>
+{% else %}
+<section class="data">
+    <div class="container">
+        <div id="register-form" class="form-container" style="display:none;">
+            <div class="alert alert-info">
+                <strong>Info!</strong> You need to login to access this page.
+            </div>
+            <h2>Create an account</h2>
+            <form class="row" method="post" action="/ccl/login/">
+                {% csrf_token %}
+                <div class="form-group col-md-6">
+                    <label for="">Name</label>
+                    {{form.first_name}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Surname</label>
+                    {{form.last_name}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Profession</label>
+                    {{form.specialty}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Institution</label>
+                    <input type="text" class="form-control" name="center">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Country</label>
+                    {{form.country}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Email address</label>
+                    {{form.email}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Password</label>
+                    {{form.password}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Phone number</label>
+                    {{form.phone}}
+                </div>
+                <div class="col-md-6 offset-md-3">
+                    <input type="hidden" name="action" value="registro">
+                    <input type="submit" name="action" id="login-submit" tabindex="4"
+                           class="form-control btn btn-login" value="registro">
+                </div>
+                <p class="col-md-12">Already have an account? <a href="#" id="login-form-link">Log in</a></p>
+            </form>
+        </div>
+        <div id="login-form" class="form-container" style="display:block;">
+            <h2>Log in</h2>
+            <form class="row" method="post" action="/ccl/login/">
+                {% csrf_token %}
+                <div class="form-group col-md-6">
+                    <label for="">Email address</label>
+                    {{loginForm.email}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Password</label>
+                    {{loginForm.password}}
+                </div>
+                <div class="col-md-6 offset-md-3">
+                    <input type="hidden" name="action" value="login">
+                    <input type="submit" name="action" id="login-submit" tabindex="4"
+                           class="form-control btn btn-login" value="login">
+                </div>
+                <p class="col-md-12">Don't have an account? <a href="#" id="register-form-link">Register now</a></p>
+            </form>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock content%}
+{% block extra_importation %}
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script type="text/javascript" src="{% static 'js-lab/tilt.jquery.js'%}"></script>
+<script type="text/javascript" src="{% static 'js-lab/classie.js' %}"></script>
+<script type="text/javascript" src="{% static 'js-lab/clipboard.min.js'%}"></script>
+<script type="text/javascript" src="{% static 'js-lab/main.js'%}"></script>
+<script type="text/javascript">
+      $('.js-tilt').tilt({
+        maxTilt:        10,
+        perspective:    800
+      })
+
+
+</script>
+<script>
+    document.getElementById("researchers").className = "nav-item nav-item--current";
+
+
+</script>
+{% endblock extra_importation%}

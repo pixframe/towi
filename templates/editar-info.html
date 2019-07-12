@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load static %}
+{% block content %}
+    <section>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="edit-container">
+            <div class="col-md-12">
+              <div class="panel">
+                <div class="panel-body">
+                  <h1 class="text-center">Información del niño</h1><br>
+                  <form class="" action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                      <div class="col-md-4">
+                        <img src="{{children.picture.url}}" alt="" class="img-responsive img-circle">
+                        <label class="btn btn-default btn-file">
+                            Subir Imagen {{form.picture}}
+                        </label>
+                        <div class="form-avatares">
+                          <label>
+                            <img src="{% static 'i/girl-green.png'%}" alt="" class="img-circle avatar50">
+                            <input type="radio" id="radio5" class="hidden select-input" name="options", value="avatars/girl-green.png">
+                          </label>
+                          <label>
+                            <img src="{% static 'i/girl-pink.png' %}" alt="" class="img-circle avatar50">
+                            <input type="radio" id="radio6" class="hidden select-input" name="options" value="avatars/girl-pink.png">
+                          </label>
+                          <label>
+                            <img src="{% static 'i/girl-blue-2.png' %}" alt="" class="img-circle avatar50">
+                            <input type="radio" id="radio6" class="hidden select-input" name="options" value="avatars/girl-blue-2.png">
+                          </label>
+                        </div>
+                        <div class="form-avatares">
+                          <label>
+                            <img src="{% static 'i/boy-blue.png' %}" alt="" class="img-circle avatar50">
+                            <input type="radio" id="radio2" class="hidden select-input" name="options" value="avatars/boy-blue.png">
+                          </label>
+                          <label>
+                            <img src="{% static 'i/boy-green.png' %}" alt="" class="img-circle avatar50">
+                            <input type="radio" id="radio3" class="hidden select-input" name="options" value="avatars/boy-green.png">
+                          </label>
+                          <label>
+                            <img src="{% static 'i/boy-red.png' %}" alt="" class="img-circle avatar50">
+                            <input type="radio" id="radio3" class="hidden select-input" name="options" value="avatars/boy-red.png">
+                          </label>
+                      </div>
+                      </div>
+                      <div class="col-md-8">
+                        <div class="row">
+                          <p class="col-md-4 form-group">
+                            <label for="">Nombre:</label>
+                            {{form.first_name}}
+                          </p>
+                          <p class="col-md-4 form-group">
+                            <label for="">Apellidos:</label>
+                            {{form.last_name}}
+                          </p>
+                          <p class="col-md-4 form-group">
+                            <label for="">Fecha de nacimiento:</label>
+                            {{form.dob}}
+                          </p>
+                          <p class="col-md-4">
+                            <label for="">Género:</label>
+                            {{form.genre}}
+                          </p>
+                          <p class="col-md-4">
+                            <label for="">Lateralidad:</label>
+                            {{form.laterality}}
+                          </p>
+                          <p class="col-md-4">
+                            <label for="">Ciclo escolar:</label>
+                            {{form.grade}}
+                          </p>
+                          <p class="col-md-6">
+                            <label for="">Número de años reprobados:</label>
+                            {{form.failed_grades}}
+                          </p>
+                          <p class="col-md-6">
+                            <label for="">Uso de videojuegos:</label>
+                            {{form.videogames_usage}}
+                          </p>
+                          <p class="col-md-12 form-group">
+                            <label for="">Diagnóstico:</label>
+                            {{form.diagnostic}}
+                          </p>
+                        </div>
+                        <div class="form-btns">                            
+                            <button type="submit" name="button" class="btn-lg btn-action">
+                              <input type="hidden" name="action" value="update_child">
+                              Guardar cambios
+                            </button>
+                          <a class="btn-action btn-sm" href="{% url "invite-parent" id=children.id %}">Invitar a padre ó tutor</a>
+                          <button type="button" name="button" class="btn btn-danger" data-toggle="modal" data-target="#darBaja">
+                              Dar de baja al niño
+                          </button>
+                                                         
+                          {% if children.suscription.is_recurrent and children.suscription.type.name == 'monthly'%}                            
+                            <button type="button" name="button" class="btn btn-danger" data-toggle="modal" data-target="#cancelSubs">
+                              Cancelar  Suscripción
+                            </button>
+                          {% endif %}                            
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="modal fade deleteChild" id="darBaja" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+              </button>
+              <h3>¿Estás seguro que quieres eliminar a {{children.get_full_name}}?</h3>
+              <p>Si lo eliminas no podras recuperar su información.</p>
+            </div>
+            <form method="post" class="form-agregar-paciente">
+                    {% csrf_token %}
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                  <button type="submit" name="eliminarPaciente" value="{{children.id}}" class="btn btn-danger eliminarPaciente">Aceptar</button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!--Modal Cancel Subscription-->
+      <div class="modal fade deleteChild" id="cancelSubs" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+              </button>
+              <h3>¿Estás seguro que quieres cancelar  tu suscripción?</h3>
+              <p>Si cancelas tu suscripción, no tendras acceso a todas las funcionalidades de Towi.</p>
+              <p>Fecha de vencimiento: {{children.suscription.finished_date|date:"d/M/Y"}}</p>
+            </div>
+            <form method="post" class="form-agregar-paciente">
+                    {% csrf_token %}
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                  <button type="submit" name="CancelSubscription"  class="btn btn-danger ">Aceptar</button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+{% endblock content %}
+
+{% block extra_importation %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+{% endblock extra_importation %}

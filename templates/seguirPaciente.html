@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load static %}
+{% block content %}
+
+{% if messages %}
+{% for message in messages %}
+{% if message.level == 25 %}
+    <div class="alert alert-success">
+    {{ message }}
+    </div>
+{% endif %}
+{% if message.level == 40 %}
+    <div class="alert alert-danger">
+    {{ message }}
+    </div>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+    <section>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="edit-container">
+            <div class="col-md-8 col-md-offset-2">
+              <div class="panel registrar-paciente">
+                <div class="panel-body">
+                  <h4 class="text-center">Seguir <b>Niño</b></h4>
+                  <p class="first-p">Te recordamos que solo puedes seguir cuentas <b>ACTIVAS</b> y que éstas no tienen <b>ningun costo adicional</b> para ti.</p>
+                  {% if form %}
+                  <p>Por favor escribe los datos de la cuenta que quieres seguir a continuación</p>
+                  <form class="clearfix" action="" method="post">
+                      {% csrf_token %}
+                    <p class="form-group col-md-8">
+                      <label for="">E-mail</label>
+                      {{form.email}}
+                    </p>
+                    <p class="form-group col-md-4">
+                      <label for="">Clave de seguimiento</label>
+                      {{form.link_id}}
+                    </p>
+                    <div class="form-btns">
+                      <button type="submit" name="send-info" class="btn-action">
+                        Siguiente
+                      </button>
+                    </div>
+                  </form>
+                  {% endif %}
+                  {% if childs %}
+                    <h3>Selecciona a que niño quieres seguir:</h3>
+                    <div class="lista-pacientes">
+                    <ul class="panel-list">
+                      {% for cid in childs %}
+                        <li>
+                          <div class="panel panel-default">
+                            <div class="panel-body">
+                              <img src="{{cid.picture.url}}" alt="" class="img-circle pull-left avatar80">
+                              <p class="pull-left">{{cid.get_full_name}}</p>
+                              <div class="dropdown pull-right">
+                                <form action="" method="post">
+                                  {% csrf_token %}
+                                  <button type="submit" name="send-child" value="{{cid.id}}">
+                                    Seleccionar
+                                  </button>
+                                  <input type="hidden" name="owner_user" value="{{user}}">
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                    </div>
+                  {% endif %}
+                  <p class="last-p text-center">En caso de que la cuenta de tu niño no haya sido comprada, haz click en <a href="#">Registrar Niño</a></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock content %}
+
+{% block extra_importation %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+{% endblock extra_importation %}

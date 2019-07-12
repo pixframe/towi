@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load static %}
+{% block content %}
+    <section>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="text-center">¡Bienvenido a Towi!</h2>
+            <p class="text-center" style="font-size: 16px">Aquí podrás monitorear el entrenamiento de tus niños (hijos, estudiantes o pacientes) y </p>
+              <p class="text-center" style="font-size: 16px">asegurarte de que aprovechen al máximo este recurso de aprendizaje especialmente diseñado para ellos</p>
+            <div class="menu-inicio clearfix">
+              <div class="col-md-6 text-center">
+                <figure class="effect">
+                  <img src="{% static 'i/pacientes.jpg' %}" alt="" class="img-responsive">
+                  <a href="/ninos">
+                    <figcaption>
+                      <h2>Niños</h2>
+                      <p>Revisa los reportes de progreso de tus niños, edita la información de su cuenta, dalos de alta o baja</p>
+                    </figcaption>
+                  </a>
+                </figure>
+              </div>
+              <div class="col-md-6 text-center">
+                <figure class="effect">
+                  <img src="{% static 'i/reportes.jpg' %}" alt="" class="img-responsive">
+                  <a href="/grupos">
+                    <figcaption>
+                      <h2>Grupos</h2>
+                      <p>Agrupa a tus niños y consulta reportes comparativos de su progreso y evaluaciones</p>
+                    </figcaption>
+                  </a>
+                </figure>
+              </div>
+              <div class="col-md-6 text-center">
+                <figure class="effect">
+                  <img src="{% static 'i/admin-cuenta.jpg' %}" alt="" class="img-responsive">
+                  <a href="/cuenta">
+                    <figcaption>
+                      <h2>Administra tu cuenta</h2>
+                      <p>Actualiza la información de tu cuenta, de tu Centro y compra nuevas suscripciones</p>
+                    </figcaption>
+                  </a>
+                </figure>
+              </div>
+              <div class="col-md-6 text-center">
+                <figure class="effect">
+                  <img src="{% static 'i/acerca-de.jpg' %}" alt="" class="img-responsive">
+                  <a href="#">
+                    <figcaption>
+                      <h2>Acerca de TOWI</h2>
+                      <p>Consulta información de los ejercicios y descarga los manuales de uso de la plataforma</p>
+                    </figcaption>
+                  </a>
+                </figure>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock content %}
+{% block extra_importation %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+
+    <script type="text/javascript" src="{% static 'js/zabuto_calendar.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/calendario.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/diagramas.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    <script>
+      document.getElementById("home").className = "active open";
+    </script>
+{% endblock extra_importation %}

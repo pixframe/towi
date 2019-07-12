@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load static %}
+{% block content %}
+
+<section>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+          <h3>Niños Vinculados:</h3>
+          {% if shared_childs %}
+          <div class="lista-pacientes">
+          <ul class="panel-list">
+            {% for e in shared_childs %}
+              <li>
+                <div class="panel panel-default">
+                  <div class="panel-body">
+                    <img src="{{e.cid.picture.url}}" alt="" class="img-circle pull-left avatar80">
+                    <p class="pull-left">{{e.cid.get_full_name}} - Te lo comparte: {{e.linked_account.owner_user.display_name}}</p>
+                    <div class="dropdown pull-right">
+                      <form action="" method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="desvincular" value="{{e.id}}">
+                          Desvincular
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+          </div>
+          {% else %}
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <img src="{% static 'i/boy-red.png'%}" class="img-circle pull-left avatar80">
+              <h5 class="pull-left">0 niños vinculados</h5>
+            </div>
+          </div>
+          {% endif %}
+      </div>
+      <div class="col-md-12">
+          <h3>Niños Compartidos:</h3>
+          {% if my_childs %}
+          <div class="lista-pacientes">
+          <ul class="panel-list">
+          {% for m in my_childs %}
+          <li>
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <img src="{{m.cid.picture.url}}" alt="" class="img-circle pull-left avatar80">
+                <p class="pull-left">{{m.cid.get_full_name}} - Compartes con: {{m.linked_account.shared_user.display_name}}</p>
+                <div class="dropdown pull-right">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="desvincular" value="{{m.id}}">
+                          Dejar de compartir
+                        </button>
+                    </form>
+                </div>
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+          </ul>
+          </div>
+          {% else %}
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <img src="{% static 'i/girl-green.png'%}" class="img-circle pull-left avatar80">
+              <h5 class="pull-left">0 niños compartidos</h5>
+            </div>
+          </div>
+          {% endif %}
+      </div>
+      <div class="col-md-12">
+        <h3>Tus invitaciones enviadas por aprobar:</h3>
+          {% if owner_pending %}
+          <div class="lista-pacientes">
+          <ul class="panel-list">
+          {% for p in owner_pending %}
+            <li>
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <img src="{{p.cid.picture.url}}" alt="" class="img-circle pull-left avatar80">
+                  <p class="pull-left">{{p.cid.get_full_name}} - Compartiendo con: {{p.linked_account.shared_user.display_name}}</p>
+                  <div class="dropdown pull-right">
+                    <form action="" method="post">
+                      {% csrf_token %}
+                      <button type="submit" name="cancelar" value="{{p.id}}">
+                        Cancelar
+                      </button>
+                    </form>
+                   </div>
+                </div>
+              </div>
+            </li>
+          {% endfor %}
+          </ul>
+          </div>
+          {% else %}
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <img src="{% static 'i/boy-blue.png'%}" class="img-circle pull-left avatar80">
+              <h5 class="pull-left">0 invitaciones por aprobar</h5>
+            </div>
+          </div>
+          {% endif %}
+      </div>
+      <div class="col-md-12">
+            <div class="lista-pacientes">
+              <ul class="panel-list">
+                <h3>Invitaciones recibidas:</h3>
+                {% if shared_pending %}
+                  {% for s in shared_pending %}
+                    <li>
+                        <div class="panel panel-default">
+                          <div class="panel-body">
+                            <img src="{{s.cid.picture.url}}" alt="" class="img-circle pull-left avatar80">
+                            <p class="pull-left">{{s.cid.get_full_name}} - Enviada por: {{s.linked_account.owner_user.display_name}}</p>
+                            <div class="dropdown pull-right">
+                                <form action="" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" name="aceptar" value="{{s.id}}">
+                                      Aceptar
+                                    </button>
+                                    <button type="submit" name="rechazar" value="{{s.id}}">
+                                      Rechazar
+                                    </button>
+                                </form>
+                            </div>
+                          </div>
+                        </div>
+                    </li>
+                  {% endfor %}
+                {% else %}
+                  <div class="panel panel-default">
+                    <div class="panel-body">
+                      <img src="{% static 'i/girl-pink.png'%}" class="img-circle pull-left avatar80">
+                      <h5 class="pull-left">0 invitaciones recibidas</h5>
+                    </div>
+                  </div>
+                {% endif %}
+              </ul>
+            </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% endblock content %}
+
+{% block extra_importation %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    <script>
+      document.getElementById("top").innerHTML = "Invitaciones"
+      document.getElementById("invitaciones").className = "active open";
+    </script>
+{% endblock extra_importation %}

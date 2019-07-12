@@ -1,0 +1,266 @@
+{% extends "ccl/base-lab.html" %}
+{% load staticfiles %}
+{% load static %}
+{% block content %}
+<div id="site-wrapper">
+    <div id="site-canvas">
+        <div id="site-menu">
+            <a href="#" class="toggle-nav" style="color: #231f20; font-size: 20px;"><i
+                    class="fas fa-arrow-right"></i></a>
+            <div class="container">
+                <div id="register-form" class="form-container" style="display:none;">
+                    <h2>Create an account</h2>
+                    <form class="row" method="post" action="/ccl/login/">
+                        {% csrf_token %}
+                        <div class="form-group col-md-6">
+                            <label for="">Name</label>
+                            {{form.first_name}}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="">Surname</label>
+                            {{form.last_name}}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="">Profession</label>
+                            {{form.specialty}}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="">Institution</label>
+                            <input type="text" class="form-control" name="center">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="">Country</label>
+                            {{form.country}}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="">Email address</label>
+                            {{form.email}}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="">Password</label>
+                            {{form.password}}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="">Phone number</label>
+                            {{form.phone}}
+                        </div>
+                        <div class="col-md-6 offset-md-3">
+                            <input type="hidden" name="action" value="registro">
+                            <input type="submit" name="action" id="login-submit" tabindex="4"
+                                   class="form-control btn btn-login" value="registro">
+                        </div>
+                        <p>Already have an account? <a href="#" id="login-form-link">Log in</a></p>
+                    </form>
+                </div>
+                <div id="login-form" class="form-container" style="display:block;">
+                    <h2>Log in</h2>
+                    <form class="row" method="post" action="/ccl/login/">
+                        {% csrf_token %}
+                        <div class="form-group col-md-6">
+                            <label for="">Email address</label>
+                            {{loginForm.email}}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="">Password</label>
+                            {{loginForm.password}}
+                        </div>
+                        <div class="col-md-6 offset-md-3">
+                            <input type="hidden" name="action" value="login">
+                            <input type="submit" name="action" id="login-submit" tabindex="4"
+                                   class="form-control btn btn-login" value="login">
+                        </div>
+                        <p>Don't have an account? <a href="#" id="register-form-link">Register now</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <section class="container-uif">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="div-uif">
+                            <h3>
+                                <span>Towi gratefully acknowledges the financial support provided for this project by the UNICEF Innovation Fund</span>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="aboutUs">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <h2 class="mb-5">About us</h2><h5 class="mb-5">We are excited to present you Towi´s research
+                        portal!</h5>
+
+                        <p>Towi was born as a platform to evaluate and develop cognitive abilities in children between 6
+                            and 12 years old.</p>
+                        <p>Now, thanks to the support of the UNICEF INNOVATION FUND, it is also a research tool that
+                            incorporates elements of big data and artificial intelligence to obtain information about
+                            children´s cognitive abilities and the learning difficulties that they can present, among
+                            other topics of scientific, psychological and educative interest.</p>
+                        <p>Towi platform and its data base are available for research for free. To start using it you
+                            just have to <a href="javascript:" class="toggle-nav return-to-top" role="button">register
+                                here.</a></p>
+                    </div>
+                    <div class="col">
+                        <img data-tilt src="{% static 'i-lab/towi-nino-jugando.png' %}" class="img-fluid js-tilt"
+                             alt="">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="research">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="v-title">Research projects</h2>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <div class="col mb-5">
+                                <div class="card">
+                                    <img class="card-img-top" src="{% static 'i-lab/videogame.jpg' %}" alt="">
+                                    <div class="card-body">
+                                        <h5 class="card-title">A videogame for the neuropsychological screening of
+                                            children</h5>
+                                        <ul>
+                                            <li>
+                                                Status: <span> published / released on 2017</span>
+                                            </li>
+                                            <li>
+                                                <ul>
+                                                    <li>Rogelio Apiquian</li>
+                                                    <li>Gamaliel Victoria</li>
+                                                    <li>Marcos F. Rosetti</li>
+                                                    <li>Maria F. Gómez</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col mb-5">
+                                <div class="card">
+                                    <img class="card-img-top" src="{% static 'i-lab/adult-boy-break.jpg' %}" alt="">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Effects of a computarized cognitive training over the
+                                            efficacy of attentional networks in children</h5>
+                                        <ul>
+                                            <li>
+                                                Status: <span>  In course</span>
+                                            </li>
+                                            <li>
+                                                <ul>
+                                                    <li>Martha Camarero</li>
+                                                    <li>Erwin Rogelio Villuendas González</li>
++                                                   <li>Esteve Gudayol Ferré</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col mb-5">
+                                <div class="card">
+                                    <img class="card-img-top" src="{% static 'i-lab/action-activity-boy.jpg' %}" alt="">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Eficacy of the cognitive training system towi in the
+                                            cognitive performance of a school population between 6 and 12 years old</h5>
+                                        <ul>
+                                            <li>
+                                                Status: <span>  In course</span>
+                                            </li>
+                                            <li>
+                                                <ul>
+                                                    <li>Rogelio Apiquian</li>
+                                                    <li>Marcos F. Rosetti</li>
+                                                    <li>María F. Gómez</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="joinUS">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5">
+                        <h2 class="mb-5">Join us</h2>
+                        <div class="row">
+                            <div class="col">
+                                <p>To learn about or different labs, click on one of the boxes above. Help us learn more
+                                    about how children develop while having a fun day with your child. Enter your name
+                                    into our database to be invited!</p>
+                                <ul class="s-joinUs">
+                                    <li>
+                                        <a href="#" id="return-to-top" class="toggle-nav">Register</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Load project</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 offset-md-2">
+                        <h2 class="mb-5">Contact us</h2>
+                        <div class="row">
+                            <div class="col">
+                                <ul class="s-contactUs">
+                                    <li>
+                                        <a href="mailto:research@towi.com.mx">
+                                            <i class="fas fa-envelope"></i> research@towi.com.mx
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fas fa-mobile-alt"></i> +52 55 6389 5300
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock content %}
+{% block extra_importation %}
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script type="text/javascript" src="{% static 'js-lab/tilt.jquery.js'%}"></script>
+<script type="text/javascript" src="{% static 'js-lab/classie.js' %}"></script>
+<script type="text/javascript" src="{% static 'js-lab/clipboard.min.js'%}"></script>
+<script type="text/javascript" src="{% static 'js-lab/main.js'%}"></script>
+<script type="text/javascript">
+    $('.js-tilt').tilt({
+      maxTilt:        10,
+      perspective:    800
+    })
+
+</script>
+<script type="text/javascript">
+    $('#return-to-top').click(function() {      // When arrow is clicked
+      $('#site-wrapper').scrollTop(0);
+    });
+
+</script>
+<script>
+  document.getElementById("home").className = "nav-item nav-item--current";
+
+</script>
+{% endblock extra_importation %}

@@ -1,0 +1,190 @@
+{% extends "ccl/base-lab.html" %}
+{% load staticfiles %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated %}
+<div class="bg-resources"></div>
+<section class="resources guides">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="v-title">Towi Guides</h2>
+                <p class="mb-5">Consult and download here the manuals on the foundation and use of Towi as a cognitive
+                    skills development tool.</p>
+            </div>
+            <div class="col-md-4 mb-5">
+                <div class="card card-bg-neuro">
+                    <div class="card-body">
+                        <h5 class="card-title">Neuropsychological foundation</h5>
+                        <p class="card-text">Learn about the neuropsychological foundations on which Towi works.</p>
+                        <div class="card-dbtn">
+                            <a href="https://drive.google.com/open?id=1YMMQQu71dnbhBF4yJ5hdYvrqCK8Aruep" class="btn-warning">Download
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-5">
+                <div class="card card-bg-evaluation">
+                    <div class="card-body">
+                        <h5 class="card-title">Evaluation manual</h5>
+                        <p class="card-text">Learn how the Towi evaluation test works: what it is based on, how to apply
+                            it and how to interpret the results.</p>
+                        <div class="card-dbtn">
+                            <a href="https://drive.google.com/open?id=1F_egDuSHskJTOqEPSmy5VaiFLDGQ4MzR" class="btn-warning">Download
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-5">
+                <div class="card card-bg-training">
+                    <div class="card-body">
+                        <h5 class="card-title">Training manual</h5>
+                        <p class="card-text">Learn about the Towi training manual: what the training activities consist
+                            of, what skills they develop and how to follow up the training.</p>
+                        <div class="card-dbtn">
+                            <a href="https://drive.google.com/open?id=1TXG_0OXh3j_Frybx67zpBT2vJT3oWssu" class="btn-warning">Download
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="resources">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="v-title">Towi research resources</h2>
+                <p class="mb-5">Check and download some support resources for the development of your research with
+                    Towi</p>
+            </div>
+            <div class="col-md-6 mb-5">
+                <div class="card card-bg-schools">
+                    <div class="card-body">
+                        <h5 class="card-title">Guide for the implementation of Towi evaluation in schools</h5>
+                        <p class="card-text">If your research requires applying the Towi evaluation in schools, this
+                            guide can help you define the steps to follow for this.</p>
+                        <div class="card-dbtn">
+                            <a href="https://drive.google.com/open?id=15_SnZhzb77Fh-UfB_0fmCvTjcKKBK_a_" class="btn-warning">Download
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-5">
+                <div class="card card-bg-letter">
+                    <div class="card-body">
+                        <h5 class="card-title">Informed consent letter</h5>
+                        <p class="card-text">Download here a model of informed consent letter that you can adapt to the
+                            needs of your research.</p>
+                        <div class="card-dbtn">
+                            <a href="https://drive.google.com/open?id=13scNdeJhFbT5_47bUwEsRHOyi7bi4EYi" class="btn-warning">Download
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% else %}
+<section class="data">
+    <div class="container">
+        <div id="register-form" class="form-container" style="display:none;">
+            <div class="alert alert-info">
+                <strong>Info!</strong> You need to login to access this page.
+            </div>
+            <h2>Create an account</h2>
+            <form class="row" method="post" action="/ccl/login/">
+                {% csrf_token %}
+                <div class="form-group col-md-6">
+                    <label for="">Name</label>
+                    {{form.first_name}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Surname</label>
+                    {{form.last_name}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Profession</label>
+                    {{form.specialty}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Institution</label>
+                    <input type="text" class="form-control" name="center">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Country</label>
+                    {{form.country}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Email address</label>
+                    {{form.email}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Password</label>
+                    {{form.password}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Phone number</label>
+                    {{form.phone}}
+                </div>
+                <div class="col-md-6 offset-md-3">
+                    <input type="hidden" name="action" value="registro">
+                    <input type="submit" name="action" id="login-submit" tabindex="4"
+                           class="form-control btn btn-login" value="registro">
+                </div>
+                <p class="col-md-12">Already have an account? <a href="#" id="login-form-link">Log in</a></p>
+            </form>
+        </div>
+        <div id="login-form" class="form-container" style="display:block;">
+            <h2>Log in</h2>
+            <form class="row" method="post" action="/ccl/login/">
+                {% csrf_token %}
+                <div class="form-group col-md-6">
+                    <label for="">Email address</label>
+                    {{loginForm.email}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Password</label>
+                    {{loginForm.password}}
+                </div>
+                <div class="col-md-6 offset-md-3">
+                    <input type="hidden" name="action" value="login">
+                    <input type="submit" name="action" id="login-submit" tabindex="4"
+                           class="form-control btn btn-login" value="login">
+                </div>
+                <p class="col-md-12">Don't have an account? <a href="#" id="register-form-link">Register now</a></p>
+            </form>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock content %}
+{% block extra_importation %}
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script type="text/javascript" src="{% static 'js-lab/tilt.jquery.js'%}"></script>
+<script type="text/javascript" src="{% static 'js-lab/classie.js' %}"></script>
+<script type="text/javascript" src="{% static 'js-lab/clipboard.min.js'%}"></script>
+<script type="text/javascript" src="{% static 'js-lab/main.js'%}"></script>
+<script type="text/javascript">
+      $('.js-tilt').tilt({
+        maxTilt:        10,
+        perspective:    800
+      })
+
+</script>
+<script>
+    document.getElementById("resources").className = "nav-item nav-item--current";
+
+</script>
+{% endblock extra_importation %}

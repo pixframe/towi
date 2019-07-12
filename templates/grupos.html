@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load static %}
+{% block content %}
+    <section>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="navbar">
+              <div class="dropdown pull-left">
+                  {% if groups %}
+                    <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Elige un grupo
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dLabel">
+                        <li>
+                            <a class="selectedGroup" id="0">Mostrar todo</a>
+                        </li>
+                        {% for group in groups %}
+                        <li>
+                          <a class="selectedGroup" id="{{group.id}}">{{group.name}}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+              </div>
+              <div class="pull-right">
+                <button type="button" data-toggle="modal" data-target="#modalGrupo">
+                  <i class="fa fa-plus-circle"></i> Nuevo grupo
+                </button>
+              </div>
+            </div>
+            <div class="lista-grupos">
+                    {% for group in groups %}
+                    <div class="panel-group accordionGroup" id="accordion-{{group.id}}" role="tablist" aria-multiselectable="true">
+                      <div class="panel panel-default">
+                        <div class="panel-heading clearfix" role="tab" id="groupOne">
+                          <h4 class="panel-title pull-left">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion-{{group.id}}" href="#collapseOne-{{group.name|slugify}}" aria-expanded="true" aria-controls="collapseOne">
+                              <i class="fa fa-caret-up"></i>  {{group.name}} <span>{{group.children.count}} miembros</span>
+                            </a>
+                          </h4>
+                          <div class="dropdown pull-right">
+                            <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Editar grupo
+                              <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dLabel">
+                              <li>
+                                <a href="#" data-toggle="modal" data-target="#modalAgregarPacientes-{{group.id}}">Agregar niño</a>
+                              </li>
+                              <li>
+                                <a href="#">Ver reportes grupales</a>
+                              </li>
+                              <li>
+                                <a href="#" data-toggle="modal" data-target="#modalCambiarNombre-{{group.id}}">Cambiar nombre del grupo</a>
+                              </li>
+                              <li>
+                                <a href="#" data-toggle="modal" data-target="#modalEliminarGrupo-{{group.id}}">Eliminar grupo</a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div id="collapseOne-{{group.name|slugify}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="groupOne">
+                          <div class="panel-body">
+                            <div class="row">
+                              <div class="">
+                                {% for child in group.children.all %}
+                                <div class="col-md-4 col-sm-4">
+                                    {% if child.picture.url %}
+                                        <img src="{{child.picture.url}}" alt="" class="img-responsive avatar80 img-circle">
+                                    {% else %}
+                                        <img src="{% static 'i/avatar-2-g-80.png' %}" alt="" class="img-responsive img-circle">
+                                    {% endif %}
+                                    <p>{{child.name}} {{child.lastname}}</p>
+                                </div>
+
+                                {% endfor %}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODAL -->
+    <div class="modal fade" id="modalGrupo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Agregar nuevo grupo</h4>
+          </div>
+          <form method="post">
+              <div class="modal-body">
+                    {% csrf_token %}
+                    <p class="form-group">
+                        <label for="">Nombre del grupo</label>
+                        <input type="text" name="name" value="" class="form-control">
+                        <input type="hidden" name="registro" value="registro">
+                    </p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-modal-cancelar" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-modal-aceptar">Aceptar</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    {% for group in groups %}
+        <div class="modal fade changeName" id="modalCambiarNombre-{{group.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog modal-sm" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Cambiar nombre del grupo</h4>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                          {% csrf_token %}
+                          <p class="form-group">
+                              <label for="">Nuevo nombre del grupo</label>
+                              <input type="text" name="groupName" id="groupName-{{group.id}}" value="{{group.name}}" class="form-control">
+                          </p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-modal-cancelar" data-dismiss="modal">Cancelar</button>
+                      <button type="submit" class="btn btn-modal-aceptar modificacionNombreGrupo" name="modificacionNombreGrupo" value="{{group.id}}">Aceptar</button>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        <div class="modal fade changeName" id="modalEliminarGrupo-{{group.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Eliminar Grupo</h4>
+                  </div>
+                  <form method="post">
+                      <div class="modal-body">
+                            {% csrf_token %}
+                            <p class="form-group">
+                                <label for="">Seguro que desea eliminar el grupo:</label>
+                                <p>{{group.name}}</p>
+                            </p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-modal-cancelar" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" name="eliminarGrupoButton" value="{{group.id}}" class="btn btn-modal-aceptar eliminarGrupoButton">Aceptar</button>
+                      </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+        <div class="modal fade changeName" id="modalAgregarPacientes-{{group.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Agregar Pacientes</h4>
+                </div>
+                <form method="post" class="form-agregar-paciente">
+                    <div class="modal-body">
+                      {% csrf_token %}
+                      <div class="row">
+                          {% for child in childs %}
+                              <div class="col-md-6 col-sm-6">
+                                  <label class="">
+                                    <img class="avatar50" src="{{child.picture.url}}" alt="">
+                                    <input type="checkbox" style="opacity: 0" id="pacient-{{child.id}}" value="{{child.id}}" name="options">
+                                    <label for="pacient-{{child.id}}" onclick><span>{{child.name}} {{child.lastname}}</span></label>
+                                  </label>
+                              </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-modal-cancelar" data-dismiss="modal">Cancelar</button>
+                      <button type="submit" name="agregarPaciente" value="{{group.id}}" class="btn btn-modal-aceptar agregarPaciente">Aceptar</button>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+    {% endfor %}
+{% endblock content %}
+
+{% block extra_importation %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+{% endblock extra_importation %}

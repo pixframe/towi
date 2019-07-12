@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load static %}
+{% block content %}
+    <section>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="edit-container">
+            <div class="col-md-8 col-md-offset-2">
+              <div class="panel registrar-paciente">
+                <div class="panel-body">
+                  <h4 class="text-center">Registrar <b>Paciente</b></h4>
+                  <p class="first-p">El niño que registrarás a continuación, ocupará durante <b>el resto del mes una de las suscripciones</b> que adquiriste. Puedes darlo de baja el próximo mes.</p>
+                  <p>Por favor escribe los datos de tu niño a continuación</p>
+                  <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-datos clearfix">
+                      <p class="form-group col-md-6">
+                        <label for="">Nombre(s)*</label>
+                        {{form.first_name}}
+                      </p>
+                      <p class="form-group col-md-6">
+                        <label for="">Apellidos*</label>
+                        {{form.last_name}}
+                      </p>
+                      <p class="form-group col-md-6">
+                        <label for="DD/MM/YYYY">Fecha de nacimiento *</label>
+                        {{form.dob}}
+                      </p>
+                      <p class="form-group col-md-3">
+                        <label for="">Género</label>
+                        {{form.genre}}
+                      </p>
+                      <p class="form-group col-md-3">
+                        <label for="">Grado Escolar</label>
+                        {{form.grade}}
+                      </p>
+                    </div>
+                    <div class="form-imagen clearfix">
+                      <p>Sube una imagen ó selecciona uno de los siguientes avatares:</p>
+                      <label class="btn btn-default btn-file">
+                        Subir una imagen {{form.picture}}
+                      </label>
+                      <div class="form-avatares">
+                        <label>
+                          <img src="{% static 'i/girl-green.png'%}" alt="" class="img-circle avatar50">
+                          <input type="radio" id="radio5" class="select-input hidden" name="options", value="avatars/girl-green.png">
+                        </label>
+                        <label>
+                          <img src="{% static 'i/girl-pink.png' %}" alt="" class="img-circle avatar50">
+                          <input type="radio" id="radio6" class="select-input hidden" name="options" value="avatars/girl-pink.png">
+                        </label>
+                        <label>
+                          <img src="{% static 'i/girl-blue-2.png' %}" alt="" class="img-circle avatar50">
+                          <input type="radio" id="radio6" class="select-input hidden" name="options" value="avatars/girl-blue-2.png">
+                        </label>
+                      </div>
+                      <div class="form-avatares">
+                        <label>
+                          <img src="{% static 'i/boy-blue.png' %}" alt="" class="img-circle avatar50">
+                          <input type="radio" id="radio2" class="select-input hidden" name="options" value="avatars/boy-blue.png">
+                        </label>
+                        <label>
+                          <img src="{% static 'i/boy-green.png' %}" alt="" class="img-circle avatar50">
+                          <input type="radio" id="radio3" class="select-input hidden" name="options" value="avatars/boy-green.png">
+                        </label>
+                        <label>
+                          <img src="{% static 'i/boy-red.png' %}" alt="" class="img-circle avatar50">
+                          <input type="radio" id="radio3" class="select-input hidden" name="options" value="avatars/boy-red.png">
+                        </label>
+                      </div>
+                    </div>
+                    <div class="form-btns">
+                      <button type="submit" name="button" class="btn-action">
+                        Registrar niño
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock content %}
+
+{% block extra_importation %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+{% endblock extra_importation %}
