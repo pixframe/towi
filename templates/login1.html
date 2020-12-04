@@ -39,7 +39,13 @@
       {% endfor %}
     {% endif %}
   	<section>
-      <div class="registro-bienvenida">
+      <div class="container-fluid text-center" style="background-color: #28929a">
+        <div class="alert-covid">
+          <h1 style="color: white; font-size: 25px; font-weight: bold;">Apoyo COVID-19: Acceso gratuito a Towi. </h1>
+          <a style="font-size: 16px; font-weight: bold; background-color: #EE4373;" href="https://towi.com.mx/covid19/" class="btn-action" target="_blank">Leer más</a>
+        </div>
+      </div>
+      <div class="registro-bienvenida registro-bienvenida-n">
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
           viewBox="0 0 1218.9 446.5" style="enable-background:new 0 0 1218.9 446.5;" xml:space="preserve">
         <style type="text/css">
@@ -125,7 +131,7 @@
          </g>
         </g>
         </svg>
-          <p style="color: white;">¡Descubre todo lo que los niños pueden lograr con Towi!</p>
+          <p style="color: white; font-size: 24px;">Regístrate a ti y a tu hijo para comenzar tu aventura towi.</p>
           <h2>
             <button type="button" name="button" class="btn" id="registro-btn">Regístrate ahora</button>
             <button type="button" name="button" class="btn" id="form-menu">Iniciar Sesión</button>
@@ -177,7 +183,7 @@
         <div class="container">
           <div class="row">
             <div class="col-md-8 col-md-offset-2">
-              <div class="mainbox">
+              <div class="mainbox mainbox-n">
                 <h3>¿Cúal es tu perfil?</h3>
                 <!-- Nav tabs -->
                 <ul class="" role="tablist">
@@ -205,7 +211,7 @@
                 <div class="tab-content">
                   <div role="tabpanel" class="tab-pane fade" id="familiar">
                     <form class="form-horizontal" role="form"  method="POST">
-                      <div style="height: 450px; overflow-y: auto;">
+                      <div>
                         <input type="hidden" name="action" value="registro_familiar">
                         {% csrf_token %}
                         <div class="col-md-6">
@@ -252,15 +258,18 @@
                           </p>
                         </div>
                         <div class="col-md-6">
-                          <p>
-                              {% for error in registerForm.child_dob.errors %}
-                                  <label style="color: red;">{{error}}</label>
-                              {% endfor %}
-                            <label for="password">Fecha de nacimiento del niño *</label>
-                            {{registerForm.child_dob}}
-                          </p>
+                          <div class="row">
+                            <p style="margin:0;">
+  {#                              {% for error in registerForm.child_dob.errors %}#}
+  {#                                  <label style="color: red;">{{error}}</label>#}
+  {#                              {% endfor %}#}
+  {#                            <label for="password">Fecha de nacimiento del niño *</label>#}
+                              {{registerForm.child_dob}}
+                              {% include "select_date.html" %}
+                            </p>
+                          </div>
                         </div>
-                      <p class="btn-container">
+                      <p class="btn-container col-md-12">
                         <!-- Button -->
                         <button id="btn-signup" type="submit" class="btn">Registrarse</button>
                       </p>
@@ -315,15 +324,18 @@
                             </p>
                           </div>
                           <div class="col-md-6">
-                            <p>
-                                {% for error in registerForm.child_dob.errors %}
-                                    <label style="color: red;">{{error}}</label>
-                                {% endfor %}
-                              <label for="password">Fecha de nacimiento del niño *</label>
-                              {{registerForm.child_dob}}
-                            </p>
+                            <div class="row">
+                              <p style="margin:0;">
+  {#                                {% for error in registerForm.child_dob.errors %}#}
+  {#                                    <label style="color: red;">{{error}}</label>#}
+  {#                                {% endfor %}#}
+  {#                              <label for="password">Fecha de nacimiento del niño *</label>#}
+                                {{registerForm.child_dob}}
+                                {% include "select_date.html" %}
+                              </p>
+                            </div>
                           </div>
-                        <p class="btn-container">
+                        <p class="btn-container col-md-12">
                           <!-- Button -->
                           <button id="btn-signup" type="submit" class="btn">Registrarse</button>
                         </p>
@@ -377,17 +389,20 @@
                             </p>
                           </div>
                           <div class="col-md-6">
-                            <p>
-                                {% for error in registerForm.child_dob.errors %}
-                                    <label style="color: red;">{{error}}</label>
-                                {% endfor %}
-                              <label for="password">Fecha de nacimiento del niño *</label>
-                              {{registerForm.child_dob}}
-                            </p>
+                            <div class="row">
+                              <p style="margin:0;">
+  {#                                {% for error in registerForm.child_dob.errors %}#}
+  {#                                    <label style="color: red;">{{error}}</label>#}
+  {#                                {% endfor %}#}
+  {#                              <label for="password">Fecha de nacimiento del niño *</label>#}
+                                {{registerForm.child_dob}}
+                                {% include "select_date.html" %}
+                              </p>
+                            </div>
                           </div>
-                        <p class="btn-container">
+                        <p class="btn-container col-md-12">
                           <!-- Button -->
-                          <button id="btn-signup" type="submit" class="btn">Registrarse</button>
+                          <button id="btn-signup" type="submit" class="btn register_alumn">Registrarse</button>
                         </p>
                     </form>
                   </div>
@@ -432,6 +447,13 @@
       $('#form-close-id').click(function(){
         $('.registro-bienvenida').removeClass('active');
       });
+    </script>
+    <script text="text/javascript">
+        $('#btn-signup').click(function () {
+            let dob_day = $('.dob_day option:selected').text();
+            let dob_month = $('#dob_month option:selected').val();
+            let dob_year = $('#dob_year option:selected').text();
+        });
     </script>
   </body>
 </html>

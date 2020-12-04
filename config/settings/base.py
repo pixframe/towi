@@ -6,10 +6,14 @@ from unipath import Path
 BASE_DIR = Path(__file__).ancestor(3)
 sys.path.append(BASE_DIR.child('apps'))
 
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = ''
 
 # Application definition
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -28,6 +32,7 @@ INSTALLED_APPS = [
     'import_export',
     'drf_yasg',
     'raven.contrib.django.raven_compat',
+    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -109,13 +114,19 @@ USE_TZ = True
 AUTH_USER_MODEL = 'accounts.User'
 
 # GOOGLE CLOUD STORAGE CONFIG(2018)
-BLOB_URL = os.environ.get('BLOB_URL')
-DEFAULT_FILE_STORAGE = os.environ.get('BLOB_URL')
-GS_BUCKET_NAME = os.environ.get('GS_BUCKET_NAME')
+BLOB_URL = ''
+DEFAULT_FILE_STORAGE = ''
+GS_BUCKET_NAME = ''
 
 # MALING SETTINGS
-SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY')
-
+SENDGRID_API_KEY = ''
+# EMAIL_HOST = ''
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = ''
+# EMAIL_HOST_PASSWORD = ''
+# EMAIL_USE_TLS = True
+# DEFAULT_FROM_EMAIL = ''
+# EMAIL_USE_SSL = False
 
 # ROUTERS (TO IMPORT OLD DATABASE)
 DATABASE_ROUTERS = ['reusable.routers.UsersRouter', ]
@@ -124,29 +135,34 @@ DATABASE_ROUTERS = ['reusable.routers.UsersRouter', ]
 CORS_ORIGIN_ALLOW_ALL = True
 
 # CELERY SETTINGS
-CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
+CELERY_BROKER_URL = 'redis://localhost:6379'
 
 # OPENPAY SETTINGS
-OPENPAY_API_KEY_SANDBOX = os.environ.get('OPENPAY_API_KEY_SANDBOX')
-OPENPAY_API_KEY_PUBLIC_SANDBOX = os.environ.get('OPENPAY_API_KEY_PUBLIC_SANDBOX')
-OPENPAY_MERCHANT_ID_SANDBOX = os.environ.get('OPENPAY_MERCHANT_ID_SANDBOX')
+OPENPAY_API_KEY_SANDBOX = ''
+OPENPAY_API_KEY_PUBLIC_SANDBOX = ''
+OPENPAY_MERCHANT_ID_SANDBOX = ''
 
 # SANDBOX PLANS
-OPENPAY_PLAN_1_SANDBOX = os.environ.get('OPENPAY_PLAN_1_SANDBOX')
-OPENPAY_PLAN_2_SANDBOX = os.environ.get('OPENPAY_MERCHANT_ID')
-OPENPAY_PLAN_3_SANDBOX = os.environ.get('OPENPAY_MERCHANT_ID')
+OPENPAY_PLAN_1_SANDBOX = ''
+OPENPAY_PLAN_2_SANDBOX = ''
+OPENPAY_PLAN_3_SANDBOX = ''
 
-OPENPAY_API_KEY = os.environ.get('OPENPAY_API_KEY')
-OPENPAY_MERCHANT_ID = os.environ.get('OPENPAY_MERCHANT_ID')
-OPENPAY_API_KEY_PUBLIC = os.environ.get('OPENPAY_API_KEY_PUBLIC')
+OPENPAY_API_KEY = ''
+OPENPAY_MERCHANT_ID = ''
+OPENPAY_API_KEY_PUBLIC = ''
 
-OPENPAY_PLAN_1 = os.environ.get('OPENPAY_PLAN_1')
-OPENPAY_PLAN_2 = os.environ.get('OPENPAY_PLAN_2')
-OPENPAY_PLAN_3 = os.environ.get('OPENPAY_PLAN_3')
-OPENPAY_PLAN_4 = os.environ.get('OPENPAY_PLAN_4')
-OPENPAY_PLAN_5 = os.environ.get('OPENPAY_PLAN_5')
-OPENPAY_PLAN_6 = os.environ.get('OPENPAY_PLAN_6')
-OPENPAY_PLAN_7 = os.environ.get('OPENPAY_PLAN_7')
-OPENPAY_PLAN_8 = os.environ.get('OPENPAY_PLAN_8')
-OPENPAY_PLAN_9 = os.environ.get('OPENPAY_PLAN_9')
-OPENPAY_PLAN_10 = os.environ.get('OPENPAY_PLAN_10')
+OPENPAY_PLAN_1 = ''
+OPENPAY_PLAN_2 = ''
+OPENPAY_PLAN_3 = ''
+OPENPAY_PLAN_4 = ''
+OPENPAY_PLAN_5 = ''
+OPENPAY_PLAN_6 = ''
+OPENPAY_PLAN_7 = ''
+OPENPAY_PLAN_8 = ''
+OPENPAY_PLAN_9 = ''
+OPENPAY_PLAN_10 = ''
+
+
+CRONJOBS = [
+    ('10 1 * * *', 'levels.cron.restart_active_missions', '>> /tmp/cron_active_missions.log')
+]

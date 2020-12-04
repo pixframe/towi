@@ -11,8 +11,8 @@
               <div class="panel registrar-paciente">
                 <div class="panel-body">
                   <h4 class="text-center">Invitar a <b>padre o tutor</b></h4>
-                  <p class="first-p">Si tu paciente llevará a cabo el entrenamiento fuera del consultorio, añade el correo de su padre ó tutor para que pueda iniciar sesión en la aplicación</p>
-                  <p>Escribe el mail del padre ó tutor de tu paciente y asígnale una contraseña</p>
+                  <p class="first-p">Si el niño llevará a cabo el entrenamiento fuera de la escuela o el consultorio, añade el correo de su padre o tutor para que pueda iniciar sesión en la aplicación</p>
+                  <p>Escribe el mail del padre o tutor de tu paciente y asígnale una contraseña</p>
                   <form class="clearfix" action="" method="post">
                     {% csrf_token %}
                     <h5 hidden class="email-true " style="color:#EB4674;">El correo ingresado ya esta registrado en Towi, enviale la invitación.</h5>
@@ -39,7 +39,7 @@
                     </p>
                     <div class="form-btns">
                         <button type="submit" name="inviteParent" class="btn-action">
-                         Invitar padre ó tutor
+                         Invitar padre o tutor
                         </button>
                     </div>
                   </form>

@@ -13,6 +13,7 @@ class TowiIslandInline(admin.TabularInline):
     model = ChildrenTowiIsland
     extra = 0
 
+
 @admin.register(Session)
 class SessionAdmin(admin.ModelAdmin):
     list_display = ['name', 'games', 'order']

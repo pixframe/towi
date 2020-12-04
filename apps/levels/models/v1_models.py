@@ -245,9 +245,9 @@ class Prueba(models.Model):
     lab1_changeofroutes = models.IntegerField(**BLANK)
     lab2_changeofroutes = models.IntegerField(**BLANK)
     lab3_changeofroutes = models.IntegerField(**BLANK)
-    lab_mhits = models.DecimalField(db_column='labXHits', max_digits=6, decimal_places=2, **BLANK)
-    lab_mcrosses = models.DecimalField(db_column='labXCrosses', max_digits=6, decimal_places=2, **BLANK)
-    lab_mdeadends = models.DecimalField(db_column='labXDeadEnds', max_digits=6, decimal_places=2, **BLANK)
+    lab_mhits = models.DecimalField(db_column='labXHits', max_digits=10, decimal_places=4, **BLANK)
+    lab_mcrosses = models.DecimalField(db_column='labXCrosses', max_digits=10, decimal_places=4, **BLANK)
+    lab_mdeadends = models.DecimalField(db_column='labXDeadEnds', max_digits=10, decimal_places=4, **BLANK)
     lab_time = models.IntegerField(db_column='labTimeOfComp')
     # WAITROOM MINI GAME
     waitroom_correct = models.IntegerField(db_column='waitRoomCorrect')
@@ -313,7 +313,7 @@ class Prueba(models.Model):
     arrange_correct_mlatency = models.DecimalField(max_digits=10, decimal_places=4, **BLANK)
     arrange_incorrect_mlatency = models.DecimalField(max_digits=10, decimal_places=4, **BLANK)
     arrange_time = models.IntegerField(db_column='unPackTimeOfComp')
-    arrange_perc_correct = models.DecimalField(db_column='unPackPercTotalCorrect', max_digits=6, decimal_places=2, **BLANK)
+    arrange_perc_correct = models.DecimalField(db_column='unPackPercTotalCorrect', max_digits=10, decimal_places=4, **BLANK)
     total_time = models.DecimalField(max_digits=10, decimal_places=4, **BLANK)
 
     class Meta:

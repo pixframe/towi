@@ -3,9 +3,26 @@
 {% load static %}
 {% block content %}
     <section>
+      <div class="container-fluid text-center" style="background-color: #34bfca">
+        <div class="panel-body">
+          <h4 style="color: #ffffff;">Para ayudar a que el desarrollo de los niños continúe durante estos tiempos, ofrecemos a todos
+            nuestros usuarios acceso gratuito a la evaluación y entrenamiento de habilidades cognitivas con Towi durante 3 meses.
+            Utiliza el cupón COVID19 y da clic en Canjear para activar tu cuenta.
+          </h4>
+        </div>
+      </div>
       <div class="container-fluid">
         <div class="row">
           <div class="edit-container">
+            <div class="col-md-12 offset-md-3 text-center cupon">
+              <form action="." method="POST">
+                {% csrf_token %}
+                <h4>¿Tienes un código prepago?</h4>
+                <label class="text-center">Ingrésalo ahora:</label>
+                <input type="text" name="pre-code" value="COVID19" class="text-center" size="60">
+                <button  style=" margin-left:5px"class="btn text-center btn-yellow" type="submit">Canjear</button>
+              </form>
+            </div>
             <div class="col-md-12">
               <div class="panel licencias">
                 <div class="panel-body">
@@ -42,22 +59,10 @@
                     </div>
                   </div>
                   <hr>
-                  <div class="row clearfix">
-
-                  <div class="col-md-12 offset-md-3 text-center">
-                      <form action="." method="POST">
-                        {% csrf_token %}
-                        <h4>¿Tienes un código prepago?</h4>
-                        <label class="text-center">Ingrésalo ahora:</label>
-                        <input type="text" name="pre-code" value="" class="text-center" size="60">
-                        <button  style=" margin-left:5px"class="btn text-center btn-yellow" type="submit">Canjear</button>
-                      </form>
-                    </div>
-                  </div>
                   <br>
                   <form class="clearfix" action="." method="post">
                     {% csrf_token %}
-                    <h4>o elige el plan que más te conviene:</h4>
+                    <h4>Elige el plan que más te conviene:</h4>
                     <p class="descuento">
                         Si necesitas 10 cuentas o más, envíanos un correo a <a href="mailto:subscripciones@towi.com.mx">subscripciones@towi.com.mx</a>
                       </p>
@@ -130,7 +135,7 @@
                 <p>¿Tienes dudas? Contáctanos a <a href="mailto:soporte@towi.com.mx">soporte@towi.com.mx</a> o envíanos un whatsapp al +52 1 55 2108 9945</p>
                 <p>Río Duero 48 Col. Cuauhtémoc Del. Cuauhtémoc 06500 Ciudad de México</p>
                 <a href="http://www.towi.com.mx/terminos-y-condiciones/">Términos y condiciones    </a>
-                <a href="http://www.towi.com.mx/aviso-de-privacidad/">Aviso de privacidad</p>
+                <a href="http://www.towi.com.mx/aviso-de-privacidad/">Aviso de privacidad</a>
               </div>
           </div>
         </div>

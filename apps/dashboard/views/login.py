@@ -123,13 +123,13 @@ class Login(View):
                 )    
                 if user is None:
                     messages.error(request, 'Tu correo ó contraseña son incorrectos, inténtalo de nuevo.')  # NOQA
-                elif user.confirmed_email is False:
-                    messages.error(request, 'Por favor verifica tu correo')  # NOQA
-                    return redirect('activation-sent', user.id)
+                # elif user.confirmed_email is False:
+                #     messages.error(request, 'Por favor verifica tu correo')  # NOQA
+                #     return redirect('activation-sent', user.id)
                 else:
                     login(request, user)
                     deactivate_childs.apply_async((user.id, ))
-                    return redirect('/portal/')
+                    return redirect('/subscripciones/')
             else:
                 if form.errors:
                     for field in form:
@@ -139,7 +139,9 @@ class Login(View):
             form = RegisterForm(request.POST)
             if form.is_valid():
                 cd = form.cleaned_data
+                dob = request.POST['year'] + '-' + request.POST['month'] + '-' + request.POST['day']
                 picture = ''
+                cd['child_dob'] = dob
                 if action == 'registro_familiar':
                     user_type = 'familiar'
                     picture = 'avatars/male.png'
@@ -173,7 +175,8 @@ class Login(View):
                         'token': account_activation_token.make_token(user),
                     }
                     send_email.apply_async(('activation', email_context))
-                    return redirect('activation-sent', user.id)
+                    login(request, user)
+                    return redirect('/subscripciones/')
                 except Exception as e:
                     if user:
                         user.delete()

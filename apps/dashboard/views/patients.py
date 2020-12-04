@@ -16,6 +16,14 @@ from accounts.models import (
     LinkedAccounts,
     LinkedAccountsChildrens
 )
+from ..helpers import (
+    total_sessions,
+    total_time_sessions,
+    last_date_session,
+    get_porcentage_correct,
+    get_porcentage_errors,
+    first_session,
+)
 from suscriptions.openpay import OpenPayManager
 from suscriptions.models import Order
 from accounts.forms import ChildrenForm, AddPatientForm
@@ -191,7 +199,7 @@ class followPatient(View):
                     request,
                     'Ya te estan compartiendo a {}\
                     acepta la invitación'.format(
-                        childre.cid.get_full_name
+                        children.cid.get_full_name
                     )
                 )
             return redirect('/vinculaciones/')
@@ -203,7 +211,7 @@ class EditInfoPacient(View):
     def get(self, request, id):
         template_name = 'editar-info.html'
         try:
-            child = request.user.childrens.get(pk=id)            
+            child = request.user.childrens.get(pk=id)
         except ObjectDoesNotExist as e:
             return redirect('/ninos/')
         form = ChildrenForm(instance=child)
@@ -247,7 +255,7 @@ class EditInfoPacient(View):
                 return redirect('/ninos/')   
             except Exception as e:
                 messages.add_message(request, ERROR, '¡Algo inesperado ocurrio, vuelve a intentarlo más tarde!')  # NOQA
-                return redirect('/ninos/')   
+                return redirect('/ninos/')
         elif action == 'update_child' and form.is_valid():
             cd = form.cleaned_data
             picture = cd.pop('picture')
@@ -313,6 +321,12 @@ class Reports(View):
             key=attrgetter('date'),
             reverse=False
         )
+        sessions = total_sessions(headers)
+        total_time = total_time_sessions(headers)
+        last_dates = last_date_session(headers)
+        total_correct_porcentage = get_porcentage_correct(headers)
+        total_errors_porcentage = get_porcentage_errors(headers)
+        first_sessions = first_session(headers)
         dates = set(obj.date.date() for obj in result_list if obj.date)
         days_list = []        
         count = 0        
@@ -346,6 +360,12 @@ class Reports(View):
             'days': days,
             'pruebas': pruebas,
             'shared_child': shared_child,
+            'sessions': sessions,
+            'total_time': total_time,
+            'last_dates': last_dates,
+            'total_correct_porcentage': total_correct_porcentage,
+            'total_errors_porcentage': total_errors_porcentage,
+            'firts_sessions': first_sessions
         }
         return render(request, template_name, ctx)
 

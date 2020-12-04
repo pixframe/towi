@@ -13,7 +13,6 @@ from django.http import HttpResponse
 from accounts.forms import RegisterLabForm, LoginForm
 from accounts.models import User, Center
 from accounts.decorators import login_required
-<<<<<<< HEAD
 from levels.models import (
     Prueba,
     ArbolMusical,
@@ -32,10 +31,6 @@ from levels.models import (
 )
 from levels.resources import *
 from ..helpers import activity_to_english
-=======
-from levels.models import Prueba
-from levels.resources import PruebasDefaultResource, PruebasFullResource
->>>>>>> b73160256df8149226bd351346cbad2821dc5817
 
 
 ERROR = 40

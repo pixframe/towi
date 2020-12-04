@@ -1,0 +1,183 @@
+<h3 class="p-title">Métricas Globales</h3>
+<table class="table table-bordered">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col"></th>
+        <th scope="col">Sesiones totales</th>
+        <th scope="col">Porcentaje de aciertos</th>
+        <th scope="col">Porcentajes de errores</th>
+        <th scope="col">Nivel actual</th>
+        <th scope="col">Fecha de última sesión</th>
+        <th scope="col">Tiempo total en segundos</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th scope="row">Árbol Musical</th>
+        <td>
+        {% if sessions.total_sessions_am %}
+            {{sessions.total_sessions_am}}
+        {% else %}
+            0
+        {% endif %}
+        </td>
+        <td>{% if total_correct_porcentage.total_correct_am %}{{total_correct_porcentage.total_correct_am|floatformat:-2}}%{% else %}0%{% endif %}</td>
+        <td>{% if total_errors_porcentage.total_errors_am %}{{total_errors_porcentage.total_errors_am|floatformat:-2}}%{% else %}0%{% endif %}</td>
+        {% if last_dates.last_date_am.arbolMusicalv2.all %}
+            {% for level in last_dates.last_date_am.arbolMusicalv2.all %}
+                <td>{{level.current_level}}</td>
+            {% endfor %}
+                <td>{{last_dates.last_date_am.date|date:"SHORT_DATE_FORMAT"}}</td>
+        {% else %}
+            <td>No Aplica</td>
+            <td>No Aplica</td>
+        {% endif %}
+        <td>
+        {% if total_time.total_time_am.total %}
+            {{total_time.total_time_am.total}}
+        {%else%}
+            0
+        {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">Arena Mágica</th>
+        <td>
+        {% if sessions.total_sessions_arm %}
+            {{sessions.total_sessions_arm}}
+        {% else %}
+            0
+        {% endif %}
+        </td>
+        <td>{% if total_correct_porcentage.total_correct_arm %}{{total_correct_porcentage.total_correct_arm|floatformat:-2}}%{% else %}0%{% endif %}</td>
+        <td>{% if total_errors_porcentage.total_errors_arm %}{{total_errors_porcentage.total_errors_arm|floatformat:-2}}%{% else %}0%{% endif %}</td>
+        {% if last_dates.last_date_arm.arenaMagicav2.all %}
+            {% for level in last_dates.last_date_arm.arenaMagicav2.all %}
+            <td>{{level.current_level}}</td>
+            {% endfor %}
+            <td>{{last_dates.last_date_arm.date|date:"SHORT_DATE_FORMAT"}}</td>
+        {% else %}
+            <td>No Aplica</td>
+            <td>No Aplica</td>
+        {% endif %}
+        <td>
+        {% if total_time.total_time_arm.total %}
+            {{total_time.total_time_arm.total}}
+        {%else%}
+            0
+        {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">Monos Traviesos</th>
+        <td>
+        {% if sessions.total_sessions_dqlb %}
+            {{sessions.total_sessions_dqlb}}
+        {% else %}
+            0
+        {% endif %}
+        </td>
+        <td>{% if total_correct_porcentage.total_correct_dqlb %}{{total_correct_porcentage.total_correct_dqlb}} % {%else%} 0% {%endif%}</td>
+        <td>{% if total_errors_porcentage.total_errors_dqlb %}{{total_errors_porcentage.total_errors_dqlb}} % {% else %} 0% {%endif%}</td>
+        {% if last_dates.last_date_dqlb.bolitav2.all %}
+            {% for level in last_dates.last_date_dqlb.bolitav2.all %}
+            <td>{{level.current_level}}</td>
+            {% endfor %}
+            <td>{{last_dates.last_date_dqlb.date|date:"SHORT_DATE_FORMAT"}}</td>
+        {%else%}
+            <td>No Aplica</td>
+            <td>No Aplica</td>
+        {% endif %}
+        <td>
+        {% if total_time.total_time_dqlb.total %}
+            {{total_time.total_time_dqlb.total}}
+        {%else%}
+            0
+        {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">Recolección del Tesoro</th>
+        <td>
+        {% if sessions.total_sessions_te %}
+            {{sessions.total_sessions_te}}
+        {% else %}
+            0
+        {% endif %}
+        </td>
+        <td>{% if total_correct_porcentage.total_correct_te %}{{total_correct_porcentage.total_correct_te|floatformat:-2}} % {% else %} 0% {% endif %}</td>
+        <td>{% if total_errors_porcentage.total_errors_te %}{{total_errors_porcentage.total_errors_te|floatformat:-2}} % {% else %} 0% {% endif %}</td>
+        {% if last_dates.last_date_te.tesorov2.all %}
+            {% for level in last_dates.last_date_te.tesorov2.all %}
+            <td>{{level.current_level}}</td>
+            {% endfor %}
+            <td>{{last_dates.last_date_te.date|date:"SHORT_DATE_FORMAT"}}</td>
+        {%else%}
+            <td>No Aplica</td>
+            <td>No Aplica</td>
+        {% endif %}
+        <td>
+        {% if total_time.total_time_te.total %}
+            {{total_time.total_time_te.total}}
+        {%else%}
+            0
+        {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">Río Tropical</th>
+        <td>
+        {% if sessions.total_sessions_rio %}
+            {{sessions.total_sessions_rio}}
+        {% else %}
+            0
+        {% endif %}</td>
+        <td>{% if total_correct_porcentage.total_correct_rio %}{{total_correct_porcentage.total_correct_rio|floatformat:-2}} % {% else %} 0%{% endif %}</td>
+        <td>{% if total_errors_porcentage.total_errors_rio %}{{total_errors_porcentage.total_errors_rio|floatformat:-2}} % {% else %} 0%{% endif %}</td>
+        {% if last_dates.last_date_rio.riov2.all %}
+            {% for level in last_dates.last_date_rio.riov2.all %}
+            <td>{{level.current_level}}</td>
+            {% endfor %}
+            <td>{{last_dates.last_date_rio.date|date:"SHORT_DATE_FORMAT"}}</td>
+        {% else %}
+            <td>No Aplica</td>
+            <td>No Aplica</td>
+        {% endif %}
+        <td>
+        {% if total_time.total_time_rio.total %}
+            {{total_time.total_time_rio.total}}
+        {%else%}
+            0
+        {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">Show de las Sombras</th>
+        <td>
+        {% if sessions.total_sessions_jds %}
+            {{sessions.total_sessions_jds}}
+        {% else %}
+            0
+        {% endif %}
+        </td>
+        <td> {% if total_correct_porcentage.total_correct_jds %} {{total_correct_porcentage.total_correct_jds|floatformat:-2}} % {% else %} 0% {% endif %}</td>
+        <td>{% if total_errors_porcentage.total_errors_jds %}{{total_errors_porcentage.total_errors_jds|floatformat:-2}}% {% else %} 0% {% endif %}</td>
+        {% if last_dates.last_date_jds.sombrasv2.all %}
+            {% for level in last_dates.last_date_jds.sombrasv2.all %}
+            <td>{{level.current_level}}</td>
+            {% endfor %}
+            <td>{{last_dates.last_date_jds.date|date:"SHORT_DATE_FORMAT"}}</td>
+        {% else %}
+            <td>No Aplica</td>
+            <td>No Aplica</td>
+        {% endif %}
+        <td>
+        {% if total_time.total_time_jds.total %}
+            {{total_time.total_time_jds.total}}
+        {%else%}
+            0
+        {% endif %}
+        </td>
+    </tr>
+    </tbody>
+</table>

@@ -15,6 +15,7 @@ def assign_games():
     daily
     :return: None
     """
+    print("iniciado tarea de assing_games ...")
     session = Session.objects.exclude(order=0).order_by('?').first()
     ChildrenTowiIsland.objects.filter(
         Q(activemissions__isnull=True) |
@@ -23,6 +24,7 @@ def assign_games():
         activemissions=str(session.games),
         date=timezone.now()
     )
+    print("finalizando tarea de assing_games ...")
     return
 
 @shared_task

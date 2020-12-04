@@ -10,7 +10,7 @@ from django.utils import timezone
 from rest_framework import serializers
 
 # TOWI IMPORTS
-from ..models import Children, User
+from ..models import Children, User, LinkedAccountsChildrens
 from levels.models import ChildrenTowiIsland
 
 
@@ -41,7 +41,17 @@ class LoginSerializer(serializers.Serializer):
         return True
 
     def get_children(self, obj):
-        return ChildrenLoginSerializer(obj.childrens.all(), many=True).data
+        my_children = obj.childrens.all()
+        list_linked = obj.shared_linked_accounts.all()
+        children = []
+        for child in my_children:
+            children.append(ChildrenLoginSerializer(child).data)
+        for linked in list_linked:
+            if LinkedAccountsChildrens.objects.filter(linked_account=linked).exists():
+                lac = LinkedAccountsChildrens.objects.get(linked_account=linked)
+                children.append(ChildrenLoginSerializer(lac.cid).data)
+        # return ChildrenLoginSerializer(obj.childrens.all(), many=True).data
+        return children
 
     def get_suscriptionsAvailables(self, obj):
         return obj.suscriptions.availables().count()
@@ -142,7 +152,11 @@ class ProfilesSerializer(serializers.ModelSerializer):
             if obj.session_date == timezone.now().date():
                 return []
             else:
-                return obj.activemissions.split(', ')
+                #print("object active missions: ", obj.activemissions)
+                if obj.activemissions:
+                    return obj.activemissions.split(', ')
+                else:
+                    return None
         else:
             return obj.activemissions.split(', ')
 

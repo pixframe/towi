@@ -154,7 +154,6 @@ section .navbar button,
 	padding: 10px;
 	color: #fff;
 }
-<<<<<<< HEAD
 
 .btn-yellow{
 	background: #FEC838;
@@ -166,8 +165,6 @@ section .navbar button,
 }
 
 
-=======
->>>>>>> b73160256df8149226bd351346cbad2821dc5817
 #number-suscriptions{
 	padding: 10px;
 	width:370px;
@@ -212,12 +209,15 @@ figure.effect figcaption::before {
 }
 figure.effect h2{
 	position: absolute;
-	bottom:0;
-	left:0;
-	font-size: 30px;
-	color: #454444;
-	background-color: rgba(255, 255, 255, 0.6);
-	width: 100%;
+  top: 45%;
+  left: 0;
+  width: 100%;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(0,0,0,0.5);
+  transition: transform 0.35s, color 0.35s;
+  transform: translate3d(0,-50%,0);
+  font-weight: 800;
+  font-size: 30px;
 }
 figure.effect figcaption::before,
 figure.effect p {
@@ -386,6 +386,8 @@ figure.effect:hover p{
 	font-weight: bold;
 	font-size: 20px;
 	text-align: center;
+	border-top: 1px solid #ddd;
+	padding-top: 20px;
 }
 .edit-container .form-btns{
 	margin-top: 30px;
@@ -865,15 +867,15 @@ color: #34bfca;
 
 }
 #overlay-back {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background: #000;
-  opacity: 0.8;
-  filter: alpha(opacity=80);
-  z-index: 5;
+  opacity: 0.92;
+  filter: alpha(opacity=92);
+  /* z-index: 5; */
   display: none;
 }
 #overlay {
@@ -1000,6 +1002,7 @@ color: #34bfca;
 .mainbox ul{
 	list-style-type: none;
 	padding: 0;
+	margin-bottom: 50px;
 }
 .mainbox ul li{
 	display: inline-block;
@@ -1046,10 +1049,11 @@ color: #34bfca;
 .mainbox label{
 	font-weight: normal;
 	width: 100%;
-	text-align: left;
+	/* text-align: left; */
 	color: #fff;
 }
-.mainbox input{
+.mainbox input,
+.mainbox select{
   border-radius: 2px;
 }
 .mainbox .btn-container{
@@ -1093,6 +1097,44 @@ color: #34bfca;
 .btn-modal-aceptar:focus{
 	color: #fff;
 }
+
+#login-wrapper header.header-login{
+	height: 0;
+}
+.alert-covid{
+	padding: 15px;
+}
+.alert-covid a{
+	display: inline-block;
+}
+.alert-covid a:hover,
+.alert-covid a:focus{
+	color: #fff;
+	text-decoration: none;
+}
+.registro-bienvenida.registro-bienvenida-n{
+	position: inherit;
+  top: inherit;
+  left: inherit;
+  transform: inherit;
+	margin: 40px auto;
+	width: 50%;
+}
+.mainbox.mainbox-n{
+	position: inherit;
+  top: inherit;
+  left: inherit;
+  transform: inherit;
+	margin-top: 100px;
+}
+/* nuevos estilos */
+.cupon form{
+	background: #fff;
+	padding: 20px 15px;
+	margin-bottom: 0;
+}
+
+
 /*MEDIAQUERIES*/
 @media (min-width: 768px) {
   .container-main{
@@ -1168,6 +1210,11 @@ color: #34bfca;
   	opacity: 1;
   }
 }
+@media (min-width:320px) and (max-width: 568px){
+	.registro-bienvenida svg{
+		width: 160px;
+	}
+}
 .clickeable {
 	cursor: pointer;
 	color:  #34bfca;
@@ -1207,13 +1254,10 @@ color: #34bfca;
 .panel-body .p-title{
 	height: 10px;
 }
-<<<<<<< HEAD
 .btn-yellow{
 	background-color: #FFC917;
 	color: #747474
 }
-=======
->>>>>>> b73160256df8149226bd351346cbad2821dc5817
 .coupon-success {
 	display: none;
 	font-size: 14px;
@@ -1294,7 +1338,7 @@ color: #34bfca;
 	padding-left: 10px;
 	color: black;
 }
-  
+
 .tabla {
 	width: 100%;
 	border-collapse: collapse;
@@ -1346,4 +1390,29 @@ td{
 
 .inverso{
 	color: #34bfca;
+}
+
+.alert-aventura{
+	text-align: center;
+	background: #FDE281;
+}
+.alert-aventura p{
+	font-weight: bold;
+	font-size: 18px;
+	color: #595959;
+}
+.alert-aventura p.text-descarga{
+	font-weight: normal;
+	font-size: 14px;
+	color: #595959;
+}
+.alert-aventura .fa-android{
+	margin-left: 10px;
+}
+.alert-aventura a{
+	background: #F19833;
+	padding: 15px 20px;
+	color: #fff;
+	display: inline-block;
+	margin-top: 20px;
 }

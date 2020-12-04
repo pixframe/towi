@@ -19,7 +19,7 @@ from rest_framework.decorators import api_view
 from drf_yasg.utils import swagger_auto_schema
 
 # TOWI IMPORTS
-from ..models import User, Children, FreeTrial, UserType
+from ..models import User, Children, FreeTrial, UserType, LinkedAccounts, LinkedAccountsChildrens
 from ..helpers import deactivate_childrens
 from .serializers import LoginSerializer, ProfilesSerializer
 from levels.models import Session, ChildrenTowiIsland
@@ -62,11 +62,40 @@ def login(request):
 )
 @api_view(['POST'])
 def sync_profiles(request):
+    print("entro post sync profiles ")
     key = request.POST.get('userKey', None)
     if key is not None:
         try:
             user = User.objects.get(key=key)
-            profiles = ProfilesSerializer(user.towiIsland.all(), many=True)
+            print("profiles: ", user.towiIsland.all())
+            print("nombre padre especialista: ", user.first_name)
+            children_invitations = []
+            child_user = user.towiIsland.all()
+            child_own = []
+            for child in child_user:
+                print("id nino own: ", child.id, "nombre nino", child.cid.first_name, " status: ", child.cid.status)
+                if child.cid.status == 'active':
+                    child_own.append(child)
+
+            #conseguimos las invitaciones que le han enviado al usuario
+            invitations = LinkedAccounts.objects.filter(shared_user=user)
+
+            #obtenemos los registros de los niños de dichas invitaciones
+            print("antes del for invitations")
+            for invitation in invitations:
+                if LinkedAccountsChildrens.objects.filter(linked_account=invitation).exists():
+                    child = LinkedAccountsChildrens.objects.get(linked_account=invitation).cid
+                    child_towi = ChildrenTowiIsland.objects.get(cid=child)
+                    children_invitations.append(child_towi)
+            list_children = []
+            list_children.extend(child_own)
+            list_children.extend(children_invitations)
+            print("despues de exted children_invitations")
+            for child in list_children:
+               print("id nino: ", child.id,"nombre nino", child.cid.first_name)
+            #profiles = ProfilesSerializer(user.towiIsland.all(), many=True)
+            profiles = ProfilesSerializer(list_children, many=True)
+            print("despues de profilesserialiezers")
             return Response(profiles.data)
         except User.DoesNotExist:
             return Response(USER_NOT_FOUND, status=status.HTTP_404_NOT_FOUND)  # NOQA

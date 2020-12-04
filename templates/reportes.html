@@ -57,177 +57,8 @@
                 <div role="tabpanel" class="tab-pane active" id="progreso">
                   <div class="panel">
                     <div class="panel-body">
-                        <canvas id="progresoChart"></canvas>
-                        <h3 class="p-title">Métricas Globales</h3>                                                            
-                        <table class="table table-bordered">
-                          <thead class="thead-dark">
-                            <tr>
-                              <th scope="col"></th>
-                              <th scope="col">Sesiones totales</th>
-                              <th scope="col">Porcentaje de aciertos</th>
-                              <th scope="col">Porcentajes de errores</th>
-                              <th scope="col">Nivel actual</th>
-                              <th scope="col">Fecha de última sesión</th>
-                              <th scope="col">Tiempo total</th>
-                              
-                            </tr>
-                          </thead> 
-                          <tbody>                                        
-                            <tr>  
-                              <th scope="row">Árbol Musical</th>
-                              <td>{{am}}</td>
-                              <td>{{pc_am|floatformat:4}}</td>
-                              <td>{{pe_am|floatformat:4}}</td>
-                              <td>
-                              {% for ds in days %}  
-                                {% for game in ds.games %} 
-                                  {% if game.gamekey == 'ArbolMusical' %}                                                                        
-                                    {% if game.arbolMusicalv2.all %}                                        
-                                      {% for level in game.arbolMusicalv2.all %}
-                                        {% if level.current_level is None or level.current_level == '' %}
-                                          0
-                                        {% else %}                                      
-                                          {{level.current_level}}
-                                        {%endif%}
-                                      {% endfor %}
-                                    {%endif%}
-                                  {% endif %}
-                                {%endfor%}
-                              {% endfor %}
-                              </td>
-                              <td>{{session_u.date}}</td>
-                              <td>
-                                {{tam}} seg.
-                              </td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Arena Mágica</th>
-                              <td>{{amg}}</td>
-                              <td>{{pc_arm|floatformat:4}}</td>
-                              <td>{{pe_arm|floatformat:4}}</td>
-                              <td> 
-                              {% for game in session_u.games %} 
-                                {% if game.gamekey == 'ArenaMagica' %}                                                                        
-                                  {% if game.arenaMagicav2.all %}                                        
-                                    {% for level in game.arenaMagicav2.all %}                                                                       
-                                      {% if level.current_level is None or level.current_level == '' %}
-                                        0
-                                      {% else %}                                      
-                                        {{level.current_level}}
-                                      {%endif%}                                    
-                                    {% endfor %}
-                                  {%endif%}
-                                {% endif %}
-                              {%endfor%}
-                              </td>
-                              <td>{{session_u.date}}</td>
-                              <td>
-                                {{tarm}} seg.
-                              </td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Monos Traviesos</th>
-                              <td>{{dqlb}}</td>
-                              <td>{{pc_dqlb|floatformat:4}}</td>
-                              <td>{{pe_dqlb|floatformat:4}}</td>
-                              <td>
-                              {% for game in session_u.games %} 
-                                {% if game.gamekey == 'DondeQuedoLaBolita' %}                                                                        
-                                  {% if game.bolitav2.all %}                                        
-                                    {% for level in game.bolitav2.all %}
-                                      {% if level.current_level is None or level.current_level == '' %}
-                                          0
-                                      {% else %}                                      
-                                          {{level.current_level}}
-                                      {%endif%} 
-                                    {% endfor %}
-                                  {%endif%}
-                                {% endif %}
-                              {%endfor%}
-                              </td>
-                              <td>{{session_u.date}}</td>
-                              <td>
-                                {{tdqlb}} seg.
-                              </td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Recolección del Tesoro</th>
-                              <td>{{te}}</td>
-                              <td>{{pc_tesoro|floatformat:4}}</td>
-                              <td>{{pe_tesoro|floatformat:4}}</td>
-                              <td>
-                              {% for game in session_u.games %} 
-                                {% if game.gamekey == 'Tesoro' %}                                                                        
-                                  {% if game.tesorov2.all %}                                        
-                                    {% for level in game.tesorov2.all %}
-                                      {% if level.current_level is None or level.current_level == '' %}
-                                        0
-                                      {% else %}                                      
-                                        {{level.current_level}}
-                                      {%endif%} 
-                                    {% endfor %}
-                                  {%endif%}
-                                {% endif %}
-                              {%endfor%}
-                              </td>
-                              <td>{{session_u.date}}</td>
-                              <td>
-                                {{ttesoro}} seg.
-                              </td>
-                            </tr>                      
-                            <tr>
-                              <th scope="row">Río Tropical</th>
-                              <td>{{rio}}</td>
-                              <td>{{pc_rio|floatformat:4}}</td>
-                              <td>{{pe_rio|floatformat:4}}</td>
-                              <td>
-                              {% for game in session_u.games %} 
-                                {% if game.gamekey == 'Rio' %}                                                                        
-                                  {% if game.riov2.all %}                                        
-                                    {% for level in game.riov2.all %}
-                                      {% if level.current_level is None or level.current_level == '' %}
-                                        0
-                                      {% else %}                                      
-                                        {{level.current_level}}
-                                      {%endif%} 
-                                    {% endfor %}
-                                  {%endif%}
-                                {% endif %}
-                              {%endfor%}
-                              </td>
-                              <td>{{session_u.date}}</td>
-                              <td>
-                                {{trio}} seg.
-                              </td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Show de las Sombras</th>
-                              <td>{{js}}</td>
-                              <td>{{porcentage_correct_sombras|floatformat:4}}</td>
-                              <td>{{porcentage_error_sombras|floatformat:4}}</td>
-                              <td>
-                              {% for game in session_u.games %} 
-                                {% if game.gamekey == 'JuegoDeSombras' %}                                                                        
-                                  {% if game.sombrasv2.all %}                                        
-                                  {% for level in game.sombrasv2.all %}
-                                    {% if level.current_level is None or level.current_level == '' %}
-                                      0
-                                    {% else %}                                      
-                                      {{level.current_level}}
-                                    {%endif%}
-                                  {% endfor %}
-                                  {%endif%}
-                                {% endif %}
-                              {%endfor%}
-                              </td>
-                              <td>{{session_u.date}}</td>
-                              <td>
-                                {{tjs}} seg.
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        
+<!--                        <canvas id="progresoChart"></canvas>-->
+                        {% include 'metricas_globales.html'%}
                         <h3 class="p-title">Detalle de las sesiones</h3>
 
                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -248,57 +79,26 @@
                               {% if game.arbolMusicalv2.all %}
                                 <div class="well well-sm arbol">
                                     {% for level in game.arbolMusicalv2.all%}
-                                    <p class="text-right"><span>No. sesión: Pendiente</span></p>
-                                  {% endfor%}
                                     <p class="text-center"><span>Árbol Musical</span></p>
-                                    <p class="text-center">% aciertos: {{game.totalcorrect_percentage}} | % errores: {{game.totalerrors_average}}  | Tiempo: {{game.gametime}} seg.</p>
+                                    <p class="text-center">
+                                        % aciertos: {% if level.session_correct_percentage %}{{level.session_correct_percentage}}{% else %} - {% endif %}|
+                                        % errores: {% if level.session_errors_percentage %}{{level.session_errors_percentage}}{% else %} - {% endif %} |
+                                        Tiempo: {% if level.header.gametime %}{{level.header.gametime}} seg. {% else %} - {% endif %}</p>
+                                    {% endfor%}
                                 </div>
                                 <div class="table-responsive" id="arbol">
                                 <table class="table">
                                   <thead>
-                                    <tr>                                  
+                                    <tr>
                                       <th>Nivel Inicial</th>
                                       <th>Nivel Final</th>
                                     </tr>
                                   </thead>
                                   <tbody>
-                                      {% for level in game.arbolMusicalv2.all %}
-                                      <!-- Modal -->
-                                      <div class="modal fade" id="{{level.id}}" tabindex="-1" role="dialog" aria-labelledby="detallesNivel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                          <div class="modal-content">
-                                            <div class="modal-header" style="height: 60px">
-                                              <p class="modal-title" id="detallesNivel">Detalles de la Sesión</p>
-                                            </div>
-                                            <div class="modal-body">
-                                              <ul style="font-size:16px; padding:10px">
-                                                <li>Número de sesión: Pendiente</li>
-                                                <li>Niveles jugados en la sesión: {{level.played_levels}} </li>
-                                                <li>Dificultades jugadas: {{level.played_difficulty}}</li>
-                                                <li>Aciertos por ensayo: {{level.total_correct}}</li>
-                                                <li>Errores por ensayo: {{level.total_errors}}</li>
-                                                <li>Latencia por ensayo: {{level.essay_time}} </li>
-                                                <li>Claves proporcionadas: {{level.total_clues}} </li>
-                                                <li>Aciertos antes de la clave: {{level.correct_before_clue}} </li>
-                                                <li>Errores antes de la clave: {{level.errors_before_clue}} </li>
-                                                <li>Aciertos después de la clave: {{level.correct_after_clue}} </li>
-                                                <li>Errores después de la clave: {{level.errors_after_clue}} </li>                  
-                                              </ul>
-                                            </div>
-                                            <div class="modal-footer">
-                                              <button type="button" class="btn btn-modal" data-dismiss="modal">Cerrar</button>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
+                                    {% for level in game.arbolMusicalv2.all %}
                                     <tr>
-                                      <td>{{level.initial_level}}</td>
-                                      <td>{{level.current_level}}</td>
-                                      <td>
-                                        <button type="button" class="btn" data-toggle="modal" data-target="#{{level.id}}" style="background-color: rgba(255, 105, 180, 0.4); border-color: rgba(255, 105, 180, 1);">
-                                          Ver más
-                                        </button>
-                                      </td>
+                                      <td>{% if level.initial_level %}{{level.initial_level}}{% else %} - {% endif %}</td>
+                                      <td>{% if level.current_level %}{{level.current_level}}{% else %} - {% endif %}</td>
                                     {% endfor %}
                                   </tbody>
                                 </table>
@@ -308,63 +108,38 @@
                               {% if game.arenaMagicav2.all %}
                                   <div class="well well-sm arena">
                                     {% for level in game.arenaMagicav2.all%}
-                                      <p class="text-right"><span>No. sesión: {{ level.session_number}}</span></p>
-                                    {% endfor%}
                                       <p class="text-center"><span>Arena Mágica</span></p>
-                                      <p class="text-center">% aciertos: {{game.totalcorrect_percentage}} | % errores: {{game.totalerrors_average}}  | Tiempo: {{game.gametime}} seg.</p>
+                                      <p class="text-center">
+                                          % aciertos: {% if level.session_accuracy_percentage %}{{level.session_accuracy_percentage|floatformat:2}}{% else %} - {% endif %}|
+                                          % errores: {% if level.session_overdraw_percentage %}{{level.session_overdraw_percentage|floatformat:2}}{% else %} - {% endif %}|
+                                          Tiempo: {% if level.header.gametime %}{{level.header.gametime}} seg. {% else %} - {% endif %}</p>
+                                    {% endfor%}
                                   </div>
                                   <div class="table-responsive" id="arena">
                                   <table class="table">
                                     <thead>
                                       <tr>
-                                        <th>Eje Motor</th>                                      
+                                        <th>Eje Motor</th>
                                         <th>Eje análisis y síntesis visual (superposición)</th>
-                                        <th>Eje análisis y síntesis visual (cierre)</th>                                        
+                                        <th>Eje análisis y síntesis visual (cierre)</th>
                                       </tr>
                                     </thead>
                                     <tbody>
                                     {% for level in game.arenaMagicav2.all %}
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="{{level.id}}" tabindex="-1" role="dialog" aria-labelledby="detallesNivel" aria-hidden="true">
-                                      <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                          <div class="modal-header" style="height: 60px">
-                                            <p class="modal-title" id="detallesNivel">Detalles de la Sesión</p>
-                                          </div>
-                                          <div class="modal-body">
-                                            <ul style="font-size:16px; padding:10px">
-                                              <li>Número de sesión: {{level.session_number}}</li>
-                                              <li>Niveles jugados en la sesión: {{level.played_levels}}</li>
-                                              <li>Dificultades jugadas: pendiente</li>
-                                              <li>Tipo de juego (motor, superposición, cierre): {{level.types_levels}}</li>
-                                              <li>Aciertos por ensayo: {{level.accuracy}}</li>
-                                              <li>Errores por ensayo: {{level.overdraw}}</li>
-                                              <li>Tiempo por ensayo: {{level.time_percentage}}</li>                                              
-                                            </ul>
-                                          </div>
-                                          <div class="modal-footer">
-                                            <button type="button" class="btn btn-modal" data-dismiss="modal">Cerrar</button>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
                                       <tr>
                                         <td>
-                                          Nivel Inicial: {{level.initial_level_motor}} <br>
-                                          Nivel Final: {{level.current_level_motor}}
+                                          Nivel Inicial: {% if level.initial_level_motor %}{{level.initial_level_motor}}{% else %} - {% endif %}                                            <br>
+                                          Nivel Final: {% if level.current_level_motor %}{{level.current_level_motor}}{% else %}- {% endif %}
                                         </td>
                                         <td>
-                                          Nivel Inicial: {{level.initial_level_overlapping}} <br>
-                                          Nivel Final: {{level.current_level_overlapping}}
+                                          Nivel Inicial: {% if level.initial_level_overlapping %}{{level.initial_level_overlapping}}{% else %} - {% endif %}
+                                            <br>
+                                          Nivel Final: {% if level.current_level_overlapping %}{{level.current_level_overlapping}}{% else %} - {% endif %}
                                         </td>
                                         <td>
-                                          Nivel Inicial: {{level.initial_level_clousre}} <br>
-                                          Nivel Final: {{level.current_level_clousre}}
-                                        </td>
-                                        <td>
-                                          <button type="button" class="btn" data-toggle="modal" data-target="#{{level.id}}" style="background: rgba(204, 153, 255, 0.4); border-color: rgba(204, 153, 255,1);">
-                                            Ver más
-                                          </button>
+                                          Nivel Inicial: {% if level.initial_level_clousre %}{{level.initial_level_clousre}}{% else %} - {% endif %}
+                                            <br>
+                                          Nivel Final: {% if level.current_level_clousre %}{{level.current_level_clousre}}{% else %} - {% endif %}
                                         </td>
                                       </tr>
                                     {% endfor %}
@@ -376,10 +151,13 @@
                               {% if game.bolitav2.all %}
                                   <div class="well well-sm bolita">
                                     {% for level in game.bolitav2.all%}
-                                      <p class="text-right"><span>No. sesión: {{ level.session_number}}</span></p>
-                                    {% endfor%}
                                       <p class="text-center"><span>Monos Traviesos</span></p>
-                                      <p class="text-center">% aciertos: {{game.totalcorrect_percentage}} | % errores: {{game.totalerrors_average}}  | Tiempo: {{game.gametime}} seg.</p>
+                                      <p class="text-center">
+                                          % aciertos: {% if level.session_correct_percentage %}{{level.session_correct_percentage}}{% else %} - {% endif %}|
+                                          % errores: {% if level.session_errors_percentage %}{{level.session_errors_percentage}}{% else %} - {% endif %} |
+                                          Tiempo: {% if level.session_time %}{{level.session_time}} seg.{% else %} - {% endif %}
+                                      </p>
+                                    {% endfor%}
                                   </div>
                                 <div class="table-responsive">
                                   <table class="table">
@@ -391,38 +169,10 @@
                                     </thead>
                                     <tbody>
                                     {% for level in game.bolitav2.all %}
-                                    <!--MODAL -->
-                                    <div class="modal fade" id="{{level.id}}" tabindex="-1" role="dialog" aria-labelledby="detallesNivel" aria-hidden="true">
-                                      <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                          <div class="modal-header" style="height: 60px">
-                                            <p class="modal-title" id="detallesNivel">Detalles de la Sesión</p>
-                                          </div>
-                                          <div class="modal-body">
-                                            <ul style="font-size:16px; padding:10px">
-                                              <li>Número de sesión: {{level.session_number}}</li>
-                                              <li>Niveles jugados en la sesión: {{level.played_levels}}</li>
-                                              <li>Dificultades jugadas: {{level.played_difficulty}}</li>
-                                              <li>Aciertos por ensayo: {{level.correct_monkeys}}</li>
-                                              <li>Errores por ensayo: {{level.errors_monkeys}}</li>
-                                              <li>Latencia por ensayo: {{level.latency}}</li>                                              
-                                            </ul>
-                                          </div>
-                                          <div class="modal-footer">
-                                            <button type="button" class="btn btn-modal" data-dismiss="modal">Cerrar</button>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
                                       <tr>
-                                        <td>{{level.initial_level}}</td>
-                                        <td>{{level.current_level}}</td>
-                                        <!--<td>{{level.session_time|floatformat:-2}} seg.</td>-->
-                                        <td>
-                                          <button type="button" class="btn" data-toggle="modal" data-target="#{{level.id}}" style="background: rgba(173, 255, 47, 0.4); border-color: rgba(173, 255, 47, 1);">
-                                            Ver más
-                                          </button>
-                                        </td>
+                                        <td>{% if level.initial_level %}{{level.initial_level}}{% else %} - {% endif %}</td>
+                                        <td>{% if level.current_level %}{{level.current_level}}{% else %} - {% endif %}</td>
+                                        <!--<td>{% if level.session_time %}{{level.session_time|floatformat:-2}} seg. else - {% endif %}</td>-->
                                       </tr>
                                     {% endfor %}
                                   </tbody>
@@ -433,10 +183,12 @@
                               {% if game.tesorov2.all %}
                                   <div class="well well-sm tesoro">
                                     {% for level in game.tesorov2.all%}
-                                    <p class="text-right"><span>No. sesión: Pendiente</span></p>
-                                    {% endfor%}
                                     <p class="text-center"><span>Recolección del Tesoro</span></p>
-                                    <p class="text-center">% aciertos: {{game.totalcorrect_percentage}} | % errores: {{game.totalerrors_average}}  | Tiempo: {{game.gametime}} seg.</p>
+                                    <p class="text-center">
+                                        % aciertos: {% if level.session_correct_total %}{{level.session_correct_total}} {% else %} - {% endif %} |
+                                        % errores: {% if level.session_errors_total %}{{level.session_errors_total}} {% else %} - {% endif %}  |
+                                        Tiempo: {% if level.header.gametime %}{{level.header.gametime}} seg. {% else %} - {% endif %}</p>
+                                    {% endfor%}
                                   </div>
                                   <div class="table-responsive">
                                   <table class="table">
@@ -448,38 +200,9 @@
                                     </thead>
                                     <tbody>
                                     {% for level in game.tesorov2.all %}
-                                    <!--MODAL -->
-                                    <div class="modal fade" id="{{level.id}}" tabindex="-1" role="dialog" aria-labelledby="detallesNivel" aria-hidden="true">
-                                      <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                          <div class="modal-header" style="height: 60px">
-                                            <p class="modal-title" id="detallesNivel">Detalles de la Sesión</p>
-                                          </div>
-                                          <div class="modal-body">
-                                            <ul style="font-size:16px; padding:10px">
-                                              <li>Número de sesión: Pendiente</li>
-                                              <li>Niveles jugados en la sesión: {{level.played_difficulty}}</li>
-                                              <li>Dificultades jugadas: {{level.played_difficulty}}</li>
-                                              <li>Aciertos por ensayo*: {{level.session_correct_total}}</li>
-                                              <li>Errores por ensayo*: {{level.session_errors_total}}</li>
-                                              <li>Número mínimo de objetos solicitados: {{level.session_minobjects}}</li>
-                                              <li>Numero máximo de objetos solicitado: {{level.session_maxobjects}}</li>                                              
-                                            </ul>
-                                          </div>
-                                          <div class="modal-footer">
-                                            <button type="button" class="btn btn-modal" data-dismiss="modal">Cerrar</button>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
                                       <tr>
-                                        <td>{{level.initial_level}}</td>
-                                        <td>{{level.current_level}}</td>
-                                        <td>
-                                          <button type="button" class="btn" data-toggle="modal" data-target="#{{level.id}}" style="background: rgba(255, 215, 0, 0.4); border-color: rgba(255, 215, 0,1);">
-                                            Ver más
-                                          </button>
-                                        </td>
+                                        <td>{% if level.initial_level %}{{level.initial_level}}{% else %} - {% endif %}</td>
+                                        <td>{% if level.current_level %}{{level.current_level}}{% else %} - {% endif %}</td>
                                       </tr>
                                     {% endfor %}
                                   </tbody>
@@ -490,10 +213,12 @@
                               {% if game.riov2.all %}
                                   <div class="well well-sm rio">
                                       {% for level in game.riov2.all%}
-                                      <p class="text-right"><span>No. sesión: Pendiente</span></p>
-                                      {% endfor%}
                                       <p class="text-center"><span>Rio Trópical</span></p>
-                                      <p class="text-center">% aciertos: {{game.totalcorrect_percentage}} | % errores: {{game.totalerrors_average}}  | Tiempo: {{game.gametime}} seg.</p>
+                                      <p class="text-center">
+                                          % aciertos: {% if level.session_correct_total %}{{level.session_correct_total}} {% else %} - {% endif %} |
+                                          % errores: {% if level.session_errors_total %}{{level.session_errors_total}} {% else %} - {% endif %}  |
+                                          Tiempo: {% if level.header.gametime %}{{level.header.gametime}} seg. {% else %} - {% endif %}</p>
+                                      {% endfor%}
                                   </div>
                                   <div class="table-responsive">
                                   <table class="table">
@@ -505,36 +230,9 @@
                                     </thead>
                                     <tbody>
                                     {% for level in game.riov2.all %}
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="{{level.id}}" tabindex="-1" role="dialog" aria-labelledby="detallesNivel" aria-hidden="true">
-                                      <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                          <div class="modal-header" style="height: 60px">
-                                            <p class="modal-title" id="detallesNivel">Detalles de la Sesión</p>
-                                          </div>
-                                          <div class="modal-body">
-                                            <ul style="font-size:16px; padding:10px">
-                                              <li>Número de sesión: Pendiente</li>
-                                              <li>Niveles jugados en la sesión: {{level.played_levels}}</li>
-                                              <li>Dificultades jugadas: {{level.played_difficulty}}</li>
-                                              <li>Aciertos por ensayo: {{level.target_correct}}</li>
-                                              <li>Errores por ensayo: {{level.target_errors}}</li>                                              
-                                            </ul>
-                                          </div>
-                                          <div class="modal-footer">
-                                            <button type="button" class="btn btn-modal" data-dismiss="modal">Cerrar</button>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
                                       <tr>
-                                        <td>{{level.initial_level}}</td>
-                                        <td>{{level.current_level}}</td>
-                                        <td>
-                                          <button type="button" class="btn" data-toggle="modal" data-target="#{{level.id}}" style="background: rgba(255, 156, 51, 0.4); border-color: rgba(255, 156, 51, 1);">
-                                            Ver más
-                                          </button>
-                                        </td>
+                                        <td>{% if level.initial_level %}{{level.initial_level}}{% else %} - {% endif %}</td>
+                                        <td>{% if level.current_level %}{{level.current_level}}{% else %} - {% endif %}</td>
                                       </tr>
                                     {% endfor %}
                                   </tbody>
@@ -545,10 +243,12 @@
                               {% if game.sombrasv2.all %}
                                   <div class="well well-sm silueta">
                                       {% for level in game.sombrasv2.all%}
-                                      <p class="text-right"><span>No. sesión: Pendiente</span></p>
-                                      {% endfor%}
                                       <p class="text-center"><span>Show de la Silueta</span></p>
-                                      <p class="text-center">% aciertos: {{game.totalcorrect_percentage}} | % errores: {{game.totalerrors_average}}  | Tiempo: {{game.gametime}} seg.</p>
+                                      <p class="text-center">
+                                          % aciertos: {% if level.session_correct_percentage %}{{level.session_correct_percentage}}{% else %} - {% endif %}|
+                                          % errores: {% if level.session_errors_percentage %}{{level.session_errors_percentage}}{% else %} - {% endif %} |
+                                          Tiempo: {% if level.session_time %}{{level.session_time|floatformat:-2}} seg. {% else %} - {% endif %}</p>
+                                      {% endfor%}
                                   </div>
                                   <div class="table-responsive">
                                   <table class="table">
@@ -560,37 +260,9 @@
                                     </thead>
                                     <tbody>
                                     {% for level in game.sombrasv2.all %}
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="{{level.id}}" tabindex="-1" role="dialog" aria-labelledby="detallesNivel" aria-hidden="true">
-                                      <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                          <div class="modal-header" style="height: 60px">
-                                            <p class="modal-title" id="detallesNivel">Detalles de la Sesión</p>
-                                          </div>
-                                          <div class="modal-body">
-                                            <ul style="font-size:16px; padding:10px">
-                                              <li>Número de sesión: </li>
-                                              <li>Niveles jugados en la sesión: {{level.played_levels}}</li>
-                                              <li>Dificultades jugadas:Pendiente</li>
-                                              <li>Aciertos totales:{{level.session_correct_percentage}}</li>
-                                              <li>Errores totales:{{level.session_errors_percentage}}</li>
-                                              <li>Latencia por ensayo:{{level.latencies}}</li>
-                                            </ul>
-                                          </div>
-                                          <div class="modal-footer">
-                                            <button type="button" class="btn btn-modal" data-dismiss="modal">Cerrar</button>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
                                       <tr>
-                                        <td>{{level.initial_level}}</td>
-                                        <td>{{level.current_level}}</td>
-                                        <td>
-                                          <button type="button" class="btn" data-toggle="modal" data-target="#{{level.id}}" style="background: rgba(0, 191, 255, 0.4); border-color: rgba(0, 191, 255, 1);">
-                                            Ver más
-                                          </button>
-                                        </td>
+                                        <td>{% if level.initial_level %}{{level.initial_level}}{% else %} - {% endif %}</td>
+                                        <td>{% if level.current_level %}{{level.current_level}}{% else %} - {% endif %}</td>
                                       </tr>
                                     {% endfor %}
                                   </tbody>

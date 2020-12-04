@@ -7,7 +7,6 @@ from django.conf import settings
 from accounts.api.serializers import UserSerializer
 import calendar
 
-
 class EmailSendgrid(object):
 
     sg = sendgrid.SendGridAPIClient(apikey=settings.SENDGRID_API_KEY)

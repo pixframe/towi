@@ -54,9 +54,9 @@ class ArenaMagicaV2(models.Model):
     time_percentage = models.CharField(max_length=500, **BLANK)
     accuracy = models.CharField(max_length=500, **BLANK)
     overdraw = models.CharField(max_length=500, **BLANK)
-    change_level_motor = models.PositiveSmallIntegerField(**BLANK)
-    change_level_overlapping = models.PositiveSmallIntegerField(**BLANK)
-    change_level_clousure = models.PositiveSmallIntegerField(**BLANK)
+    change_level_motor = models.IntegerField(**BLANK)
+    change_level_overlapping = models.IntegerField(**BLANK)
+    change_level_clousure = models.IntegerField(**BLANK)
 
     class Meta:
         verbose_name = 'Arena Mágica'

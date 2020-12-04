@@ -1,0 +1,26 @@
+{% extends "admin/base_site.html" %}
+{% load staticfiles %}
+{% load static %}
+{% block extrahead %}{{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'admin/css/base.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'admin/css/widgets.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'admin/css/forms.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'admin/css/global.css'%}">
+    <script type="text/javascript" src="/admin/jsi18n/"></script>
+    <script type="text/javascript" src="/static/admin/js/core.js"></script>
+    <script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+    <script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.js"></script>
+    <script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+    <script type="text/javascript" src="/static/admin/js/actions.min.js"></script>
+    <script type="text/javascript" src="/static/admin/js/calendar.js"></script>
+    <script type="text/javascript" src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
+    {{ media }}
+{% endblock %}
+
+{% block content %}
+    <form action="." method="POST">
+        {% csrf_token %}
+        {{ form.as_p}}
+        <input type="submit" name="submit" value="Add Subscriptions">
+    </form>
+{% endblock %}

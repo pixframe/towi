@@ -6,6 +6,13 @@
     <section>
       <div class="container-fluid">
         <div class="row">
+          <div class="alert alert-aventura alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <p>¡Comienza la aventura!</p>
+            <p class="text-descarga">Descarga la aplicación en tu dispositivo preferido y accede a tus juegos.<br>
+            No olvides que la evaluación sólo está disponible para <b>tableta</b> y <b>computadora</b></p>
+            <a href="#">Descargar <i class="fa fa-android" aria-hidden="true"></i> <i class="fa fa-apple" aria-hidden="true"></i> <i class="fa fa-windows" aria-hidden="true"></i></a>
+          </div>
           <div class="col-md-12">
             <div class="navbar" style="position: relative">
                 <div class="pull-left" id="number-suscriptions">
@@ -107,10 +114,16 @@
                           </button>
                           <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li>
-                              <a href="{% url "reports" id=c.cid.id %}">Ver reportes</a>
+                              <a href="{% url 'reports' id=c.cid.id %}">Ver reportes</a>
                             </li>
                             <li>
-                              <a href="/invitaciones">Desvincular</a>
+                             <form hidden action="/vinculaciones/" method="post">
+                                {% csrf_token %}
+                                <button id="desvincular"type="submit" name="desvincular" value="{{c.id}}">
+                                  Desvincular
+                                </button>
+                              </form>
+                              <a id="a_desvincular">Desvincular</a>
                             </li>
                         </ul>
                         </div>
@@ -158,7 +171,15 @@
     <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
     <script>
-      document.getElementById("top").innerHTML = "Niños"
+      document.getElementById("top").innerHTML = "Niños";
       document.getElementById("patients").className = "active open";
     </script>
 {% endblock extra_importation %}
+
+{% block javascript %}
+    <script type="text/javascript">
+        $('#a_desvincular').click(function(e){
+            $('#desvincular').trigger('click');
+        });
+    </script>
+{% endblock javascript %}

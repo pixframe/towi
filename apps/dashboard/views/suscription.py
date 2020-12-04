@@ -320,7 +320,8 @@ class AssignSuscription(View):
                 type__name=_type
             ).first()
             if suscription:
-                children.suscription.remove_children()
+                if suscription.objects.filter(user=user, children=children).exists():#agregue if aqui 04-11-2020
+                    children.suscription.remove_children()
                 suscription.add_children(children)
                 messages.success(
                     request,

@@ -13,6 +13,9 @@ body{
   color: #231f20;
   font-weight: 300;
 }
+.mb-30{
+  margin-bottom: 30px;
+}
 #site-wrapper {
   position: relative;
   overflow-x: hidden;
@@ -582,7 +585,8 @@ h2{
   padding-bottom: 0;
 }
 #projects .read-more,
-.card-body a{
+.card-body a,
+.btn-warning.btn-project{
   text-decoration: none;
   font-weight: 500;
   text-transform: uppercase;
@@ -596,7 +600,8 @@ h2{
   bottom: 25px;
   right: 15px;
 }
-.card-dbtn a.btn-warning{
+.card-dbtn a.btn-warning,
+.btn-warning.btn-project{
   border-radius: 3px;
   padding: 12px 10px;
 }

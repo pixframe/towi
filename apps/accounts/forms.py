@@ -119,9 +119,7 @@ class RegisterForm(forms.ModelForm):
     child_dob = forms.DateField(
         required=False,
         input_formats=['%Y-%m-%d', '%Y/%m/%d', '%d-%m-%Y', '%d/%m/%Y'],
-        widget=forms.DateInput(
-            attrs={'class': 'form-control', 'placeholder': "YYYY/MM/DD"}
-        )
+        widget=forms.HiddenInput()
     )
 
     class Meta:

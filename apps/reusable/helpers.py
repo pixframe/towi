@@ -2,6 +2,7 @@ import pytz
 from datetime import datetime
 from django.utils import timezone
 
+
 def str_to_date(str):
     date = datetime.strptime(str, "%Y-%m-%d").date()
     return date
