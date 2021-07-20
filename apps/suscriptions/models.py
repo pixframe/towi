@@ -136,7 +136,7 @@ class Suscription(models.Model):
         self.delete()
 
     def can_view_test(self):
-        if self.type.name == 'quarterly' and self.active():
+        if (self.type.name == 'quarterly' or self.type.name == 'quarterly_inApp') and self.active():
             return True
         else:
             return False

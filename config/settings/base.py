@@ -10,7 +10,7 @@ sys.path.append(BASE_DIR.child('apps'))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ''
+SECRET_KEY = 'replace_with_your_own'
 
 # Application definition
 
@@ -114,19 +114,13 @@ USE_TZ = True
 AUTH_USER_MODEL = 'accounts.User'
 
 # GOOGLE CLOUD STORAGE CONFIG(2018)
-BLOB_URL = ''
-DEFAULT_FILE_STORAGE = ''
-GS_BUCKET_NAME = ''
+BLOB_URL = 'https://storage.googleapis.com/replace_with_your_own/'
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+GS_BUCKET_NAME = 'replace_with_your_own'
 
 # MALING SETTINGS
-SENDGRID_API_KEY = ''
-# EMAIL_HOST = ''
-# EMAIL_PORT = 587
-# EMAIL_HOST_USER = ''
-# EMAIL_HOST_PASSWORD = ''
-# EMAIL_USE_TLS = True
-# DEFAULT_FROM_EMAIL = ''
-# EMAIL_USE_SSL = False
+SENDGRID_API_KEY = 'replace_with_your_own'
+
 
 # ROUTERS (TO IMPORT OLD DATABASE)
 DATABASE_ROUTERS = ['reusable.routers.UsersRouter', ]
@@ -138,29 +132,29 @@ CORS_ORIGIN_ALLOW_ALL = True
 CELERY_BROKER_URL = 'redis://localhost:6379'
 
 # OPENPAY SETTINGS
-OPENPAY_API_KEY_SANDBOX = ''
-OPENPAY_API_KEY_PUBLIC_SANDBOX = ''
-OPENPAY_MERCHANT_ID_SANDBOX = ''
+OPENPAY_API_KEY_SANDBOX = 'replace_with_your_own'
+OPENPAY_API_KEY_PUBLIC_SANDBOX = 'replace_with_your_own'
+OPENPAY_MERCHANT_ID_SANDBOX = 'replace_with_your_own'
 
 # SANDBOX PLANS
-OPENPAY_PLAN_1_SANDBOX = ''
-OPENPAY_PLAN_2_SANDBOX = ''
-OPENPAY_PLAN_3_SANDBOX = ''
+OPENPAY_PLAN_1_SANDBOX = 'replace_with_your_own'
+OPENPAY_PLAN_2_SANDBOX = 'replace_with_your_own'
+OPENPAY_PLAN_3_SANDBOX = 'replace_with_your_own'
 
-OPENPAY_API_KEY = ''
-OPENPAY_MERCHANT_ID = ''
-OPENPAY_API_KEY_PUBLIC = ''
+OPENPAY_API_KEY = 'replace_with_your_own'
+OPENPAY_MERCHANT_ID = 'replace_with_your_own'
+OPENPAY_API_KEY_PUBLIC = 'replace_with_your_own'
 
-OPENPAY_PLAN_1 = ''
-OPENPAY_PLAN_2 = ''
-OPENPAY_PLAN_3 = ''
-OPENPAY_PLAN_4 = ''
-OPENPAY_PLAN_5 = ''
-OPENPAY_PLAN_6 = ''
-OPENPAY_PLAN_7 = ''
-OPENPAY_PLAN_8 = ''
-OPENPAY_PLAN_9 = ''
-OPENPAY_PLAN_10 = ''
+OPENPAY_PLAN_1 = 'replace_with_your_own'
+OPENPAY_PLAN_2 = 'replace_with_your_own'
+OPENPAY_PLAN_3 = 'replace_with_your_own'
+OPENPAY_PLAN_4 = 'replace_with_your_own'
+OPENPAY_PLAN_5 = 'replace_with_your_own'
+OPENPAY_PLAN_6 = 'replace_with_your_own'
+OPENPAY_PLAN_7 = 'replace_with_your_own'
+OPENPAY_PLAN_8 = 'replace_with_your_own'
+OPENPAY_PLAN_9 = 'replace_with_your_own'
+OPENPAY_PLAN_10 = 'replace_with_your_own'
 
 
 CRONJOBS = [

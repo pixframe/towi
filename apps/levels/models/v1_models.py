@@ -12,7 +12,6 @@ from multiselectfield import MultiSelectField
 from reusable.constants import BLANK, BLANK_NOT_NULL, REQUIRED, BLANK_FALSE
 from accounts.models import User, Children
 
-
 GAME_KEYS = (
     ('ArbolMusical', 'ArbolMusical'),
     ('Rio', 'Rio'),
@@ -578,6 +577,9 @@ class ChildrenTowiIsland(models.Model):
             pass
         return instance
 
+    def has_suscription(self):
+        from suscriptions.models import Suscription
+        return Suscription.objects.filter(children=self.cid).exists()
 
 class TowiIndex(models.Model):
     parent = models.ForeignKey(User, related_name='towiIndex')

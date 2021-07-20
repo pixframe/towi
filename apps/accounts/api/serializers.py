@@ -1,17 +1,18 @@
 # STDLIB IMPORTS
-import json
-from datetime import timedelta, datetime
+from datetime import timedelta
 
 # DJANGO CORE IMPORTS
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
-
 # THIRD PARTY IMPORTS
 from rest_framework import serializers
 
 # TOWI IMPORTS
 from ..models import Children, User, LinkedAccountsChildrens
 from levels.models import ChildrenTowiIsland
+
+
 
 
 class LoginSerializer(serializers.Serializer):
@@ -145,7 +146,14 @@ class ProfilesSerializer(serializers.ModelSerializer):
         )
 
     def get_active(self, obj):
-        return obj.cid.suscription.active()
+        #return obj.cid.suscription.active()
+        print("************+  entro en get active ", obj," fin par obj ********")
+        if obj.has_suscription():
+            print("true")
+            return obj.cid.suscription.active()
+        else:
+            print("false")
+            return 'No suscription'
 
     def get_activeMissions(self, obj):
         if obj.session_date:
@@ -164,7 +172,12 @@ class ProfilesSerializer(serializers.ModelSerializer):
         return obj.cid.age
 
     def get_suscriptionType(self, obj):
-        return obj.cid.suscription.type.name
+        if obj.has_suscription():
+            print("true")
+            return obj.cid.suscription.type.name
+        else:
+            print("false")
+            return 'No suscription type'
 
     def get_testAvailable(self, obj):
         header = obj.cid.headers.filter(gamekey='PruebaEcologica').last()

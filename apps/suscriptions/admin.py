@@ -35,9 +35,9 @@ class SuscriptionTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Suscription)
 class SuscriptionAdmin(ImportExportModelAdmin):
-    list_display = ['children', 'id']
+    list_display = ['children', 'id', 'finished_date']
     search_fields = ['user__email', ]
-    list_filter = ['type', 'is_recurrent', 'trial']
+    list_filter = ['type', 'is_recurrent', 'trial', 'finished_date']
     resource_class = SuscriptionResource
     #change_list_template = 'admin/change_list.html'
 
